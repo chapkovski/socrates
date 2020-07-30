@@ -4,8 +4,16 @@
     <count-down></count-down>
     <v-main>
       <v-container class="fill-height main-container" fluid>
-        <v-row align="center" justify="center" no-gutters>
-          <v-col sm="12" class="chat-col">
+        <v-row align="center" justify="center" no-gutters class="">
+          <v-col sm="6" class="content-col fill-height">
+            <v-card class="m-3" outlined>
+              <div>content here</div>
+              <v-card-actions>
+                <v-btn color="primary" @click="formSubmit">Next</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col sm="6" class="chat-col">
             <chat></chat>
           </v-col>
         </v-row>
@@ -26,7 +34,7 @@ export default {
   components: {
     chat: Chat,
     EndChat,
-    CountDown
+    CountDown,
   },
   data() {
     return {
@@ -44,6 +52,10 @@ export default {
         this.content = "";
       }
     },
+    formSubmit() {
+      console.debug("new form");
+      document.getElementById("form").submit();
+    },
   },
 };
 </script>
@@ -56,5 +68,10 @@ export default {
   border-left-color: black;
   border-left-width: 1px;
   border-left-style: solid;
+}
+.content-col {
+  height:calc(100vh)!important;
+  display:flex;
+  flex-direction:column;
 }
 </style>

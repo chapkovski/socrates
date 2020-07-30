@@ -1,5 +1,5 @@
 # gettierfront
- 
+ __
 ## Project setup
 ```
 npm install

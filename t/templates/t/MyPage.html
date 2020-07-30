@@ -13,21 +13,11 @@
         window.socket_path = "{{ view.live_url }}";
         window.id_in_group = {{ player.id_in_group }};
     </script>
-    <div class="container-fluid h-100">
-        <div class="row h-100">
-            <div class="col-6 m-0 p-0">
-                <div class="card m-3">
-                    <div class="card-body">
-                        <div>Gettier Vignette goes here</div>
-                        <div class="my-3">{% next_button %}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 m-0 p-0">
-                <div id="app"></div>
-            </div>
-        </div>
-    </div>
+
+
+    <div id="app"></div>
+
+
 
     {% render_bundle 'chunk-vendors' 'js' %}
     {% render_bundle 'main' 'js' %}
