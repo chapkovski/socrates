@@ -6,7 +6,7 @@
       <v-container class="fill-height main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="">
           <v-col sm="6" class="content-col fill-height">
-            <v-card class="m-3" outlined>
+            <v-card class="m-3 content-card" outlined >
               <div>content here</div>
               <v-card-actions>
                 <v-btn color="primary" @click="formSubmit">Next</v-btn>
@@ -73,5 +73,9 @@ export default {
   height:calc(100vh)!important;
   display:flex;
   flex-direction:column;
+}
+.content-card{
+  flex-grow:1;
+
 }
 </style>
