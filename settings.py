@@ -35,7 +35,14 @@ DEMO_PAGE_INTRO_HTML = """ """
 SECRET_KEY = '017x2njo5bj4r7)4gd9(wrg(b%v$@@9*0hsss3_&0r*ku(t9bs'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
-INSTALLED_APPS = ['otree', 'webpack_loader', ]
+APPEND_SLASH = True
+EXTENSION_APPS = ['t']
+INSTALLED_APPS = [
+    'otree',
+    'webpack_loader',
+    'rest_framework',
+    'rest_framework.authtoken'
+]
 
 WEBPACK_LOADER = {
     'DEFAULT': {

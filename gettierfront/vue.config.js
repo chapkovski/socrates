@@ -6,16 +6,21 @@ const pages = {
     'main': {
         entry: './src/main.js',
         chunks: ['chunk-vendors']
-    }
+    },
+    'vignette': {
+        entry: './src/vignette.js',
+        chunks: ['chunk-vendors']
+    },
 };
 
 module.exports = {
+    runtimeCompiler: true, 
     "transpileDependencies": [
         "vuetify"
     ],
     pages: pages,
     filenameHashing: false,
-
+    productionSourceMap: false,
     publicPath: process.env.NODE_ENV === 'production'
         ? '/static/vue'
         : 'http://localhost:8080/',

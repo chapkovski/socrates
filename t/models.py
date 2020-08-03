@@ -57,3 +57,7 @@ class Chat(djmodels.Model):
     body = models.StringField()
     owner = djmodels.ForeignKey(to=Player, related_name='chats', on_delete=djmodels.CASCADE)
     group = djmodels.ForeignKey(to=Group, related_name='chats', on_delete=djmodels.CASCADE)
+
+
+class Vignette(djmodels.Model):
+    body = models.StringField()
