@@ -4,25 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-      {% render_bundle 'vignette' 'css' %}
-    {% render_bundle 'chunk-vendors' 'css' %}
+
+
 </head>
 <body>
-hellow
-
-    <div id="app"></div>
 
 
+<div id="app"></div>
 
-    {% render_bundle 'chunk-vendors' 'js' %}
-    {% render_bundle 'vignette' 'js' %}
+
+{% render_bundle 'chunk-vendors' 'js' %}
+{% render_bundle 'vignette' 'js' %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"
         integrity="sha512-VZ6m0F78+yo3sbu48gElK4irv2dzPoep8oo9LEjxviigcnnnNvnTOJRSrIhuFk68FMLOpiNz+T77nNY89rnWDg=="
         crossorigin="anonymous"></script>
-<script>
-    {#axios.get('/ax',).then(r=>console.debug(r.data));#}
-    console.debug('ax done')
-</script>
+
 </body>
 </html>

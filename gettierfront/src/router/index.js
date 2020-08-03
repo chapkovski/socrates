@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import SingleVignette from '@/components/Vignette'
+import CreateVignette from '@/components/CreateVignette'
 
 
 Vue.use(Router)
@@ -10,7 +11,7 @@ Vue.use(Router)
 
 export default new Router({
     mode: 'history',
-    base: '/t',
+    base: '/vignettemanager',
     routes: [
         {
             path: '/',
@@ -22,6 +23,11 @@ export default new Router({
             name: 'vignette',
             component: SingleVignette,
             props: true,
+        },
+        {
+            path: '/create/vignette/',
+            name: 'create_vignette',
+            component: CreateVignette,
         },
 
     ]

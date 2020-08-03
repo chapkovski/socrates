@@ -1,14 +1,19 @@
 <template>
-  <div>
+  <v-app>
     <h1>Basic</h1>
     <ul>
       <li>
         <router-link :to="{ name: 'home' }">HOME</router-link>
       </li>
+      <li>
+        <router-link :to="{ name: 'create_vignette' }"
+          >CREATE VIGNETTE</router-link
+        >
+      </li>
     </ul>
 
     <router-view class="view"></router-view>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -18,15 +23,6 @@ export default {
   data() {
     return {};
   },
-  methods: {
-    navigateAndIncrement() {
-      const increment = () => this.n++;
-      if (this.$route.path === "/") {
-        this.$router.push("/foo", increment);
-      } else {
-        this.$router.push("/", increment);
-      }
-    },
-  },
+  methods: {},
 };
 </script>

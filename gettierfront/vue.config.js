@@ -14,7 +14,8 @@ const pages = {
 };
 
 module.exports = {
-    runtimeCompiler: true, 
+    
+    runtimeCompiler: true,
     "transpileDependencies": [
         "vuetify"
     ],
@@ -53,7 +54,7 @@ module.exports = {
 
         config
             .plugin('BundleTracker')
-            .use(BundleTracker, [{filename: './webpack-stats.json'}]);
+            .use(BundleTracker, [{ filename: './webpack-stats.json' }]);
 
         // Uncomment below to analyze bundle sizes
         // config.plugin("BundleAnalyzerPlugin").use(BundleAnalyzerPlugin);
@@ -66,9 +67,9 @@ module.exports = {
             .host('localhost')
             .port(8080)
             .hotOnly(true)
-            .watchOptions({poll: 1000})
+            .watchOptions({ poll: 1000 })
             .https(false)
-            .headers({"Access-Control-Allow-Origin": ["*"]});
+            .headers({ "Access-Control-Allow-Origin": ["*"] });
         config.module.rules.delete('eslint');
 
     }

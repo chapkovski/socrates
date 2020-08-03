@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 
 
 class TestView(TemplateView):
-    url_pattern = r't/.*$'
+    url_pattern = r'vignettemanager/.*$'
     url_name = 'TTT'
     template_name = 't/admin/create_vignette.html'
 

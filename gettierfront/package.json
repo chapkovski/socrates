@@ -12,6 +12,7 @@
     "core-js": "^3.6.5",
     "reconnecting-websocket": "^4.4.0",
     "vue": "^2.6.11",
+    "vue-cookies": "^1.7.3",
     "vue-native-websocket": "^2.0.14",
     "vue-router": "^3.3.4",
     "vuetify": "^2.3.6",
