@@ -9,7 +9,7 @@
             :counter="10"
             label="Vignette text"
             required
-            @keydown.enter="validate"
+            @keydown.enter="saveVignette"
           />
         </v-col>
       </v-row>
@@ -19,9 +19,9 @@
             :disabled="!valid"
             color="success"
             class="mr-4"
-            @click="validate"
+            @click="saveVignette"
           >
-            Validate
+            Save
           </v-btn>
         </v-col>
       </v-row>
@@ -31,9 +31,13 @@
 
 <script>
 export default {
+  props: ["id"],
+  mounted() {
+    this.$http
+      .get(`/api/vignettes/${this.id}`)
+      .then((response) => (this.body = response.data.body));
+  },
   created() {
-    console.debug(this.$cookies.get("csrftoken"));
-
     this.$http.defaults.xsrfHeaderName = "X-CSRFToken";
     this.$http.defaults.xsrfCookieName = "csrftoken";
   },
@@ -47,15 +51,14 @@ export default {
     ],
   }),
   methods: {
-    validate() {
+    saveVignette() {
       console.debug("validation");
       const val = this.$refs.form.validate();
       const payload = { body: this.body };
       if (val) {
         this.$http
-          .post("/api/vignettes/", payload)
+          .patch(`/api/vignettes/${this.id}/`, payload)
           .then((r) => {
-            console.debug(r.data, r.data.id, "asdf");
             if (r.data && r.data.id) {
               this.$router.push({
                 name: "vignette",

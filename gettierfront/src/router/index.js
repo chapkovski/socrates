@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import SingleVignette from '@/components/Vignette'
 import CreateVignette from '@/components/CreateVignette'
+import EditVignette from '@/components/EditVignette'
 
 
 Vue.use(Router)
@@ -28,6 +29,12 @@ export default new Router({
             path: '/create/vignette/',
             name: 'create_vignette',
             component: CreateVignette,
+        },
+        {
+            path: '/edit/vignette/:id',
+            name: 'edit_vignette',
+            component: EditVignette,
+            props: true,
         },
 
     ]

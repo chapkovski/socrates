@@ -9,6 +9,9 @@ import VueCookies from 'vue-cookies'
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
 
 import router from './router'
+import axios from 'axios'
+
+Vue.prototype.$http = axios; //making axios globally available via http method
 Vue.use(Vuetify)
 Vue.use(Vuex);
 Vue.use(VueCookies)
