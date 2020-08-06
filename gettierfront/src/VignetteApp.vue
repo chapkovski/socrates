@@ -1,8 +1,9 @@
 <template>
   <v-app>
-    <h1>Basic</h1>
+    <h1>Vignette manager</h1>
+  
     <ul>
-      <li>
+      <li v-if='currentRouteName!=="home"'>
         <router-link :to="{ name: 'home' }">HOME</router-link>
       </li>
       <li>
@@ -24,5 +25,10 @@ export default {
     return {};
   },
   methods: {},
+  computed: {
+    currentRouteName() {
+        return this.$route.name;
+    }
+}
 };
 </script>

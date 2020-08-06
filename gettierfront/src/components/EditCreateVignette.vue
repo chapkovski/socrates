@@ -9,7 +9,7 @@
             :counter="10"
             label="Vignette text"
             required
-            @keydown.enter="validate"
+            @keydown.enter="saveVignette"
           />
         </v-col>
       </v-row>
@@ -19,9 +19,9 @@
             :disabled="!valid"
             color="success"
             class="mr-4"
-            @click="validate"
+            @click="saveVignette"
           >
-            Validate
+            Save
           </v-btn>
         </v-col>
       </v-row>
@@ -31,31 +31,39 @@
 
 <script>
 export default {
-  created() {
-    console.debug(this.$cookies.get("csrftoken"));
-
-    this.$http.defaults.xsrfHeaderName = "X-CSRFToken";
-    this.$http.defaults.xsrfCookieName = "csrftoken";
-  },
+  props: { id: { type: [String, Number], default: null, required: false } },
   data: () => ({
     valid: false,
     body: "",
-
+    url: `/api/vignettes/`,
+    axiosType: "post",
     nameRules: [
       (v) => !!v || "Vignette body is required",
       (v) => v.length >= 10 || "Vignette text must be at least  10 characters",
     ],
   }),
+  mounted() {
+    if (this.id) {
+      this.url = `/api/vignettes/${this.id}/`;
+      this.axiosType = "patch";
+      this.$http
+        .get(`/api/vignettes/${this.id}`)
+        .then((response) => (this.body = response.data.body));
+    }
+  },
+
+  created() {
+    this.$http.defaults.xsrfHeaderName = "X-CSRFToken";
+    this.$http.defaults.xsrfCookieName = "csrftoken";
+  },
+
   methods: {
-    validate() {
-      console.debug("validation");
+    saveVignette() {
       const val = this.$refs.form.validate();
       const payload = { body: this.body };
       if (val) {
-        this.$http
-          .post("/api/vignettes/", payload)
+        this.$http[this.axiosType](this.url, payload)
           .then((r) => {
-            console.debug(r.data, r.data.id, "asdf");
             if (r.data && r.data.id) {
               this.$router.push({
                 name: "vignette",

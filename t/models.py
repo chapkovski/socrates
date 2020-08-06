@@ -60,4 +60,4 @@ class Chat(djmodels.Model):
 
 
 class Vignette(djmodels.Model):
-    body = models.StringField()
+    body = models.LongStringField()
