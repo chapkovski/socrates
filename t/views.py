@@ -1,7 +1,19 @@
 from django.views.generic import TemplateView, View
 from django.http import HttpResponse, JsonResponse
-
+from .models import Vignette
 from rest_framework.authtoken.models import Token
+from django.utils.safestring import mark_safe
+
+
+class GetCurrentVignette(View):
+    url_pattern = 'vignette/<str:participant_code>'
+    url_name = 'get_current_vignette'
+
+    def get(self, request, *args, **kwargs):
+        """Here we'll return a vignette based on participant code and player id"""
+        """Lets firrst return a first vignette"""
+        v = Vignette.objects.all().first()
+        return JsonResponse(dict(body=mark_safe(v.body)))
 
 
 class TestView(TemplateView):

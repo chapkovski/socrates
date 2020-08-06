@@ -7,8 +7,10 @@ import Vuetify from 'vuetify'
 
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
+import axios from 'axios'
 
 import store from './store'
+Vue.prototype.$http = axios; //making axios globally available via http method
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 

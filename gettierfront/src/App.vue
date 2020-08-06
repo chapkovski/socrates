@@ -7,7 +7,7 @@
         <v-row align="center" justify="center" no-gutters class="">
           <v-col sm="6" class="content-col fill-height">
             <v-card class="m-3 content-card" outlined >
-              <div>content here</div>
+              <div v-html='vignette'></div>
               <v-card-actions>
                 <v-btn color="primary" @click="formSubmit">Next</v-btn>
               </v-card-actions>
@@ -43,7 +43,13 @@ export default {
       currentRef: {},
       loading: false,
       totalChatHeight: 0,
+      vignette:'VIGNETTE'
     };
+  },
+   mounted() {
+    this.$http
+      .get(`/vignette/jopa`)
+      .then((response) => (this.vignette = response.data.body));
   },
   methods: {
     sendMessage() {
