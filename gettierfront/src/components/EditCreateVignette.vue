@@ -7,18 +7,22 @@
             label="Title"
             placeholder="Title"
             outlined
+            required
             v-model="title"
+            @input="resetError('title')"
+            :error-messages="(errorMessages && errorMessages.title) || ''"
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="12">
           <editor
             apiKey="dd5t8ihbpp4aoey9nk77duse46qy5wjekpnb87wdivh44fw5"
             v-model="body"
             :init="{
               plugins: 'image',
               height: 300,
+              width: '100%',
               menubar: 'file edit view insert format tools table tc help',
               toolbar:
                 'undo redo | image | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment',
@@ -29,24 +33,28 @@
           />
         </v-col>
       </v-row>
-      <var>
+      <v-row>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
             label="Option for 'yes'"
             placeholder="Option for 'Yes'"
             outlined
             v-model="yesOption"
+            @input="resetError('yes_option')"
+            :error-messages="(errorMessages && errorMessages.yes_option) || ''"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
             label="Option for 'No'"
             placeholder="Option for 'No'"
+            @input="resetError('no_option')"
             outlined
             v-model="noOption"
+            :error-messages="(errorMessages && errorMessages.no_option) || ''"
           ></v-text-field>
         </v-col>
-      </var>
+      </v-row>
       <v-row>
         <v-col>
           <v-btn
@@ -73,6 +81,8 @@ export default {
   data: () => ({
     valid: false,
     body: "",
+
+    errorMessages: "",
     title: "",
     yesOption: "",
     noOption: "",
@@ -90,8 +100,8 @@ export default {
       this.$http.get(`/api/vignettes/${this.id}`).then((response) => {
         this.body = response.data.body;
         this.title = response.data.title;
-        this.yesOption = response.data.yesOption;
-        this.noOption = response.data.noOption;
+        this.yesOption = response.data.yes_option;
+        this.noOption = response.data.no_option;
       });
     }
   },
@@ -102,6 +112,14 @@ export default {
   },
 
   methods: {
+    resetError(fieldName) {
+      if (
+        typeof this.errorMessages === "object" &&
+        this.errorMessages !== null
+      ) {
+        this.errorMessages[fieldName] = "";
+      }
+    },
     saveVignette() {
       const val = this.$refs.form.validate();
       const payload = {
@@ -111,6 +129,7 @@ export default {
         no_option: this.noOption,
       };
       if (val) {
+        this.valid = true;
         this.$http[this.axiosType](this.url, payload)
           .then((r) => {
             if (r.data && r.data.id) {
@@ -121,9 +140,11 @@ export default {
             }
           })
           .catch((error) => {
-            console.debug(error.response.data);
-            console.debug(error.response.status);
-            console.debug(error.response.headers);
+            const { data, status } = error.response;
+            if (status >= 300) {
+              this.valid = false;
+              this.errorMessages = data;
+            }
           });
       }
     },

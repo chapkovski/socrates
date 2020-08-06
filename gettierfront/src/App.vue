@@ -6,8 +6,19 @@
       <v-container class="fill-height main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="">
           <v-col sm="6" class="content-col fill-height">
-            <v-card class="m-3 content-card" outlined >
-              <div v-html='vignette'></div>
+            <v-card class="m-3 content-card" outlined>
+              <div v-html="vignette && vignette.body"></div>
+              <v-container fluid>
+                <p>{{ (radios && radios.text) || "" }}</p>
+                <v-radio-group v-model="radios" :mandatory="false">
+                  <v-radio
+                    v-for="(choice, ind) in choices"
+                    :label="choice.text"
+                    :value="choice"
+                    :key="ind"
+                  ></v-radio>
+                </v-radio-group>
+              </v-container>
               <v-card-actions>
                 <v-btn color="primary" @click="formSubmit">Next</v-btn>
               </v-card-actions>
@@ -39,17 +50,24 @@ export default {
   data() {
     return {
       content: "",
+      radios: "",
+      choices: [],
       chatMessages: [],
       currentRef: {},
       loading: false,
       totalChatHeight: 0,
-      vignette:'VIGNETTE'
+      vignette: "",
     };
   },
-   mounted() {
-    this.$http
-      .get(`/vignette/jopa`)
-      .then((response) => (this.vignette = response.data.body));
+  mounted() {
+    const vignette_id = window.vignette_id;
+    this.$http.get(`/api/vignettes/${vignette_id}`).then((response) => {
+      this.vignette = response.data;
+      this.choices = [
+        { value: true, text: this.vignette.yes_option },
+        { value: false, text: this.vignette.no_option },
+      ];
+    });
   },
   methods: {
     sendMessage() {
@@ -76,12 +94,11 @@ export default {
   border-left-style: solid;
 }
 .content-col {
-  height:calc(100vh)!important;
-  display:flex;
-  flex-direction:column;
+  height: calc(100vh) !important;
+  display: flex;
+  flex-direction: column;
 }
-.content-card{
-  flex-grow:1;
-
+.content-card {
+  flex-grow: 1;
 }
 </style>

@@ -8,7 +8,8 @@ SESSION_CONFIGS = [
         name='t',
         display_name="t",
         num_demo_participants=2,
-        app_sequence=['t']
+        app_sequence=['t'],
+        vignette='asdf'
     ),
 ]
 

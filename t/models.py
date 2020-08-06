@@ -9,6 +9,7 @@ from otree.api import (
     currency_range,
 )
 from django.db import models as djmodels
+from operator import itemgetter
 
 author = 'Your name here'
 
@@ -24,7 +25,24 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
+    body = models.LongStringField()
+    yes_option = models.LongStringField()
+    no_option = models.LongStringField()
+    vignette = djmodels.ForeignKey(to='Vignette', on_delete=djmodels.CASCADE, blank=True, null=True)
+
     def creating_session(self):
+        vignette_title = self.session.config.get('vignette')
+        if not vignette_title:
+            raise Exception('Vignette title is necessary')
+        try:
+            v = Vignette.objects.get(title=vignette_title)
+            self.vignette = v
+            self.body = v.body
+            self.yes_option = v.yes_option
+            self.no_option = v.no_option
+        except Vignette.DoesNotExist:
+            raise Exception('Cannot find the vignette')
+
         for g in self.get_groups():
             for p in g.get_players():
                 Chat.objects.create(group=g, owner=p, body=f'1st message from {p.id_in_group}')
@@ -50,7 +68,14 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    answer = models.BooleanField()
+
+    def vignette_json(self):
+        return dict(
+            body=self.subsession.body,
+            yes_option=self.subsession.yes_option,
+            no_option=self.subsession.no_option,
+        )
 
 
 class Chat(djmodels.Model):
@@ -60,7 +85,7 @@ class Chat(djmodels.Model):
 
 
 class Vignette(djmodels.Model):
-    title = models.StringField()
+    title = djmodels.CharField(unique=True, max_length=100)
     body = models.LongStringField()
     yes_option = models.LongStringField()
     no_option = models.LongStringField()
