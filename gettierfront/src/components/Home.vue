@@ -2,7 +2,7 @@
   <ul>
     <li v-for="(item, index) in info" :key="index" v-if="item.body">
       <router-link :to="{ name: 'vignette', params: { id: item.id } }">
-        VIGNETTE {{ item.body }}
+        VIGNETTE <span v-html="item.title"></span>
       </router-link>
     </li>
   </ul>

@@ -60,4 +60,7 @@ class Chat(djmodels.Model):
 
 
 class Vignette(djmodels.Model):
+    title = models.StringField()
     body = models.LongStringField()
+    yes_option = models.LongStringField()
+    no_option = models.LongStringField()

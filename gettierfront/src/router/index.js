@@ -20,7 +20,7 @@ export default new Router({
             component: Home
         },
         {
-            path: 'view/vignette/:id',
+            path: '/view/vignette/:id',
             name: 'vignette',
             component: SingleVignette,
             props: true,
