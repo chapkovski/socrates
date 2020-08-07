@@ -1,26 +1,47 @@
 <template>
   <v-app id="inspire">
     <end-chat></end-chat>
-    <count-down></count-down>
+
     <v-main>
       <v-container class="fill-height main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="">
           <v-col sm="6" class="content-col fill-height">
             <v-card class="m-3 content-card" outlined>
-              <div v-html="vignette && vignette.body"></div>
-              <v-container fluid>
-                <p>{{ (radios && radios.text) || "" }}</p>
-                <v-radio-group v-model="radios" :mandatory="false">
-                  <v-radio
-                    v-for="(choice, ind) in choices"
-                    :label="choice.text"
-                    :value="choice"
-                    :key="ind"
-                  ></v-radio>
-                </v-radio-group>
-              </v-container>
-              <v-card-actions>
-                <v-btn color="primary" @click="formSubmit">Next</v-btn>
+              <v-card-text class="content-text">
+                <v-alert
+                  v-if="!nextAvailable"
+                  border="bottom"
+                  colored-border
+                  type="warning"
+                  elevation="2"
+                >
+                  <countdown :time="secondsForTimer" @end="chatEnded">
+                    <template slot-scope="props"
+                      >Time Remaining till the end of chat：{{
+                        props.minutes
+                      }}
+                      minutes, {{ props.seconds }} seconds.</template
+                    >
+                  </countdown>
+                </v-alert>
+
+                <div v-html="vignette && vignette.body"></div>
+                <v-container fluid>
+                  <p>{{ (radios && radios.text) || "" }}</p>
+                  <v-radio-group v-model="radios" :mandatory="false">
+                    <v-radio
+                      v-for="(choice, ind) in choices"
+                      :label="choice.text"
+                      :value="choice"
+                      :key="ind"
+                    ></v-radio>
+                  </v-radio-group>
+                </v-container>
+              </v-card-text>
+              <v-card-actions class="next_btn_wrapper">
+                <v-btn color="primary" @click="formSubmit" v-if="nextAvailable"
+                  >Next</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-col>
@@ -36,7 +57,8 @@
 <script>
 import Chat from "./components/Chat.vue";
 import EndChat from "./components/EndChatModal.vue";
-import CountDown from "./components/CountDown.vue";
+import VueCountdown from "@chenfengyuan/vue-countdown";
+
 export default {
   name: "LayoutsDemosBaselineFlipped",
   props: {
@@ -45,10 +67,11 @@ export default {
   components: {
     chat: Chat,
     EndChat,
-    CountDown,
+    countdown: VueCountdown,
   },
   data() {
     return {
+      secondsToEnd: window.secondsToEnd,
       content: "",
       radios: "",
       choices: [],
@@ -57,6 +80,7 @@ export default {
       loading: false,
       totalChatHeight: 0,
       vignette: "",
+      nextAvailable: secondsToEnd <= 0,
     };
   },
   mounted() {
@@ -69,7 +93,16 @@ export default {
       ];
     });
   },
+  computed: {
+    secondsForTimer() {
+      return Math.max(0, this.secondsToEnd);
+    },
+  },
   methods: {
+    chatEnded() {
+      console.debug("ChAT ENDED", this.secondsToEnd);
+      this.nextAvailable = true;
+    },
     sendMessage() {
       if (this.content !== "") {
         console.debug("new message:", this.content);
@@ -83,7 +116,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .main-container {
   margin: 0px !important;
   padding: 0px !important;
@@ -100,5 +133,15 @@ export default {
 }
 .content-card {
   flex-grow: 1;
+}
+.next-btn-wrapper {
+  justify-self: flex-end;
+}
+.content-text {
+  flex-grow: 1;
+}
+.content-card {
+  display: flex;
+  flex-direction: column;
 }
 </style>

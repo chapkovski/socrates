@@ -8,6 +8,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
+from datetime import datetime, timedelta,timezone
 from django.db import models as djmodels
 from operator import itemgetter
 
@@ -22,6 +23,7 @@ class Constants(BaseConstants):
     name_in_url = 't'
     players_per_group = 2
     num_rounds = 1
+    seconds_to_chat = 10
 
 
 class Subsession(BaseSubsession):
@@ -50,6 +52,17 @@ class Subsession(BaseSubsession):
 
 
 class Group(BaseGroup):
+    time_chat_start = djmodels.DateTimeField(blank=True, null=True)
+    time_chat_end = djmodels.DateTimeField(blank=True, null=True)
+
+    def set_timer(self):
+        self.time_chat_start = datetime.now(timezone.utc)
+        self.time_chat_end = self.time_chat_start + timedelta(seconds=Constants.seconds_to_chat)
+
+    def time_to_chat_over(self):
+        if self.time_chat_end:
+            return (self.time_chat_end - datetime.now(timezone.utc)).total_seconds() * 1000
+
     def chat(self, id_in_group, payload, **kwargs):
         text = payload.get('text', )
         if text:

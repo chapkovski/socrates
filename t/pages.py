@@ -3,16 +3,14 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
-class MyPage(Page):
+class FirstWP(WaitPage):
+    group_by_arrival_time = True
+    after_all_players_arrive = 'set_timer'
+
+class DiscussionPage(Page):
     live_method = 'chat'
 
 
-class ResultsWaitPage(WaitPage):
-    pass
-
-
-class Results(Page):
-    pass
-
-
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [
+    FirstWP,
+    DiscussionPage, ]
