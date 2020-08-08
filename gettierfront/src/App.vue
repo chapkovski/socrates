@@ -14,7 +14,7 @@
             class="content-col fill-height"
           >
             <v-card class="m-3 content-card d-flex flex-column" outlined>
-              <v-card-text class="content-text">
+              <v-card-text class="content-text d-flex flex-column">
                 <v-alert
                   v-if="!nextAvailable"
                   border="bottom"
@@ -45,9 +45,29 @@
                       :label="choice.text"
                       :value="choice.value"
                       :key="ind"
-                      name="jjjjjs"
                     ></v-radio>
                   </v-radio-group>
+                  <v-card flat class="">
+                    <v-card-text>
+                      <v-row align="center" justify="center">
+                        <v-col cols="12">
+                          <h5 class="text-center">
+                            How confident you are in your answer at the scale
+                            from 0 to 10
+                          </h5>
+                        </v-col>
+                        <v-btn-toggle v-model="confidence">
+                          <v-btn
+                            v-for="(i, ind) in confidenceLevels"
+                            :key="ind"
+                            :value="i"
+                          >
+                            {{ i }}
+                          </v-btn>
+                        </v-btn-toggle>
+                      </v-row>
+                    </v-card-text>
+                  </v-card>
                 </div>
               </v-card-text>
               <v-card-actions class="next_btn_wrapper">
@@ -95,12 +115,15 @@ export default {
     EndChat,
     countdown: VueCountdown,
   },
+
   data() {
     return {
       secondsToEnd: window.secondsToEnd,
       content: "",
       radios: "",
       choices: [],
+      confidenceLevels: [1, 2, 3, 4],
+      confidence: "",
       chatMessages: [],
       currentRef: {},
       loading: false,
@@ -108,6 +131,12 @@ export default {
       vignette: "",
       nextAvailable: secondsToEnd <= 0,
     };
+  },
+  watch: {
+    confidence(newVal, oldVal) {
+      console.debug(`old value ${oldVal}`);
+      console.debug(`new value ${newVal}`);
+    },
   },
   mounted() {
     const vignette_id = window.vignette_id;
