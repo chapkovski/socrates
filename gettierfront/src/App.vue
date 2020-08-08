@@ -33,7 +33,10 @@
                 </v-alert>
                 <v-card shaped min-height="300px" elevation="24">
                   <v-card-text class="m-3">
-                    <div v-html="vignette && vignette.body"></div>
+                    <div
+                      v-html="vignette && vignette.body"
+                      class="vignette-body light"
+                    ></div>
                   </v-card-text>
                 </v-card>
                 <div class="question-wrapper mt-auto">
@@ -122,7 +125,7 @@ export default {
       content: "",
       radios: "",
       choices: [],
-      confidenceLevels: [1, 2, 3, 4],
+      confidenceLevels:[... Array(11).keys()],
       confidence: "",
       chatMessages: [],
       currentRef: {},
@@ -198,5 +201,29 @@ export default {
 .content-card {
   display: flex;
   flex-direction: column;
+}
+
+.light::-webkit-scrollbar {
+  width: 15px;
+}
+
+.light::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-left: 1px solid #dadada;
+}
+
+.light::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border: solid 3px #e6e6e6;
+  border-radius: 7px;
+}
+
+.light::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+
+.vignette-body {
+  max-height: 500px;
+  overflow: auto;
 }
 </style>
