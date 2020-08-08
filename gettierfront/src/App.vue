@@ -5,7 +5,7 @@
     <v-main>
       <v-container class="fill-height main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="">
-          <v-col sm="6" class="content-col fill-height">
+          <v-col xl="10" lg='9' md='8'  sm='6' xs='12' class="content-col fill-height">
             <v-card class="m-3 content-card" outlined>
               <v-card-text class="content-text">
                 <v-alert
@@ -33,8 +33,9 @@
                     <v-radio
                       v-for="(choice, ind) in choices"
                       :label="choice.text"
-                      :value="choice"
+                      :value="choice.value"
                       :key="ind"
+                      name='jjjjjs'
                     ></v-radio>
                   </v-radio-group>
                 </v-container>
@@ -46,7 +47,7 @@
               </v-card-actions>
             </v-card>
           </v-col>
-          <v-col sm="6" class="chat-col">
+          <v-col xl="2" lg='3' md='4'  sm='6' xs='12' class="chat-col">
             <chat></chat>
           </v-col>
         </v-row>
