@@ -26,8 +26,9 @@
                 </v-alert>
 
                 <div v-html="vignette && vignette.body"></div>
+                <h5>{{ vignette.question }}</h5>
                 <v-container fluid>
-                  <p>{{ (radios && radios.text) || "" }}</p>
+                  
                   <v-radio-group v-model="radios" :mandatory="false">
                     <v-radio
                       v-for="(choice, ind) in choices"
