@@ -5,8 +5,15 @@
     <v-main>
       <v-container class="fill-height main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="">
-          <v-col xl="10" lg='9' md='8'  sm='6' xs='12' class="content-col fill-height">
-            <v-card class="m-3 content-card" outlined>
+          <v-col
+            xl="10"
+            lg="9"
+            md="8"
+            sm="6"
+            xs="12"
+            class="content-col fill-height"
+          >
+            <v-card class="m-3 content-card d-flex flex-column" outlined>
               <v-card-text class="content-text">
                 <v-alert
                   v-if="!nextAvailable"
@@ -24,21 +31,24 @@
                     >
                   </countdown>
                 </v-alert>
+                <v-card shaped min-height="300px" elevation="24">
+                  <v-card-text class="m-3">
+                    <div v-html="vignette && vignette.body"></div>
+                  </v-card-text>
+                </v-card>
+                <div class="question-wrapper mt-auto">
+                  <h5>{{ vignette.question }}</h5>
 
-                <div v-html="vignette && vignette.body"></div>
-                <h5>{{ vignette.question }}</h5>
-                <v-container fluid>
-                  
                   <v-radio-group v-model="radios" :mandatory="false">
                     <v-radio
                       v-for="(choice, ind) in choices"
                       :label="choice.text"
                       :value="choice.value"
                       :key="ind"
-                      name='jjjjjs'
+                      name="jjjjjs"
                     ></v-radio>
                   </v-radio-group>
-                </v-container>
+                </div>
               </v-card-text>
               <v-card-actions class="next_btn_wrapper">
                 <v-btn color="primary" @click="formSubmit" v-if="nextAvailable"
@@ -47,12 +57,21 @@
               </v-card-actions>
             </v-card>
           </v-col>
-          <v-col xl="2" lg='3' md='4'  sm='6' xs='12' class="chat-col fill-height">
-            <v-card class="m-3 content-card d-flex flex-grow-1 flex-column" outlined  >
-               <v-card-text class='d-flex flex-grow-1 flex-column'>
-                 <chat></chat>
-               </v-card-text>
-              
+          <v-col
+            xl="2"
+            lg="3"
+            md="4"
+            sm="6"
+            xs="12"
+            class="chat-col fill-height"
+          >
+            <v-card
+              class="m-3 content-card d-flex flex-grow-1 flex-column"
+              outlined
+            >
+              <v-card-text class="d-flex flex-grow-1 flex-column">
+                <chat></chat>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
@@ -129,9 +148,8 @@ export default {
   padding: 0px !important;
 }
 .chat-col {
-  
-   height: calc(100vh) !important;
-   display: flex;
+  height: calc(100vh) !important;
+  display: flex;
   flex-direction: column;
 }
 .content-col {
