@@ -1,13 +1,26 @@
 <template>
-  <div>
-    <div>VIGNETTE {{ id }}:</div>
-    <div v-if="info">
-      <div>Title: {{info.title}} </div>
-      <div v-html='info.body'></div>
-    </div>
-    <v-btn color="primary" class="mr-4" :to="{ name: 'edit_vignette', params: { id } }">EDIT</v-btn>
-    <v-btn color="success" class="mr-4" @click="deleteVignette">DELETE</v-btn>
-  </div>
+  <v-app>
+    <v-container>
+      <v-row>
+        <v-col>
+          <div>VIGNETTE {{ id }}:</div>
+          <div v-if="info">
+            <div>Title: {{ info.title }}</div>
+            <div v-html="info.body"></div>
+          </div>
+          <v-btn
+            color="primary"
+            class="mr-4"
+            :to="{ name: 'edit_vignette', params: { id } }"
+            >EDIT</v-btn
+          >
+          <v-btn color="success" class="mr-4" @click="deleteVignette"
+            >DELETE</v-btn
+          >
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-app>
 </template>
 
 <script>

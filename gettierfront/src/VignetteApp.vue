@@ -1,34 +1,41 @@
 <template>
-  <v-app>
-    <h1>Vignette manager</h1>
-  
-    <ul>
-      <li v-if='currentRouteName!=="home"'>
-        <router-link :to="{ name: 'home' }">HOME</router-link>
-      </li>
-      <li>
-        <router-link :to="{ name: 'create_vignette' }"
-          >CREATE VIGNETTE</router-link
-        >
-      </li>
-    </ul>
+  <v-app id="inspire">
+    <v-app-bar app clipped-right color="blue" dark>
+      <v-toolbar-title>
+        <v-btn text outlined :to="{ name: 'home' }"> Vignette Manager</v-btn>
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn
+        :to="{ name: 'create_vignette' }"
+        v-if="currentRouteName !== 'create_vignette'"
+      >
+        Create
+      </v-btn>
+    </v-app-bar>
 
-    <router-view class="view"></router-view>
+    <v-main dark>
+      <v-container class="fill-height" >
+        <v-row justify="center" align="center">
+          <v-col>
+            <router-view></router-view>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
 <script>
 export default {
   name: "Vignette",
-
   data() {
     return {};
   },
-  methods: {},
   computed: {
     currentRouteName() {
-        return this.$route.name;
-    }
-}
+      return this.$route.name;
+    },
+  },
+  methods: {},
 };
 </script>

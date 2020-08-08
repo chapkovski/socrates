@@ -100,5 +100,6 @@ class Chat(djmodels.Model):
 class Vignette(djmodels.Model):
     title = djmodels.CharField(unique=True, max_length=100)
     body = models.LongStringField()
-    yes_option = models.LongStringField()
-    no_option = models.LongStringField()
+    question = models.StringField()
+    yes_option = models.StringField()
+    no_option = models.StringField()

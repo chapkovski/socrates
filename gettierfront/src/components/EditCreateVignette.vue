@@ -8,7 +8,7 @@
             placeholder="Title"
             outlined
             required
-            v-model="title"
+            v-model="vignette.title"
             @input="resetError('title')"
             :error-messages="(errorMessages && errorMessages.title) || ''"
           ></v-text-field>
@@ -18,7 +18,7 @@
         <v-col cols="12" md="12">
           <editor
             apiKey="dd5t8ihbpp4aoey9nk77duse46qy5wjekpnb87wdivh44fw5"
-            v-model="body"
+            v-model="vignette.body"
             :init="{
               plugins: 'image',
               height: 300,
@@ -36,10 +36,21 @@
       <v-row>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
+            label="Question"
+            placeholder="Type question text here"
+            required
+            outlined
+            v-model="vignette.question"
+            @input="resetError('question')"
+            :error-messages="(errorMessages && errorMessages.question) || ''"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <v-text-field
             label="Option for 'yes'"
             placeholder="Option for 'Yes'"
             outlined
-            v-model="yesOption"
+            v-model="vignette.yes_option"
             @input="resetError('yes_option')"
             :error-messages="(errorMessages && errorMessages.yes_option) || ''"
           ></v-text-field>
@@ -50,7 +61,7 @@
             placeholder="Option for 'No'"
             @input="resetError('no_option')"
             outlined
-            v-model="noOption"
+            v-model="vignette.no_option"
             :error-messages="(errorMessages && errorMessages.no_option) || ''"
           ></v-text-field>
         </v-col>
@@ -81,7 +92,13 @@ export default {
   data: () => ({
     valid: false,
     body: "",
-
+    vignette: {
+      body: "",
+      title: "",
+      question: "",
+      yes_option: "",
+      no_option: "",
+    },
     errorMessages: "",
     title: "",
     yesOption: "",
@@ -98,10 +115,7 @@ export default {
       this.url = `/api/vignettes/${this.id}/`;
       this.axiosType = "patch";
       this.$http.get(`/api/vignettes/${this.id}`).then((response) => {
-        this.body = response.data.body;
-        this.title = response.data.title;
-        this.yesOption = response.data.yes_option;
-        this.noOption = response.data.no_option;
+        this.vignette = response.data;
       });
     }
   },
@@ -122,15 +136,10 @@ export default {
     },
     saveVignette() {
       const val = this.$refs.form.validate();
-      const payload = {
-        body: this.body,
-        title: this.title,
-        yes_option: this.yesOption,
-        no_option: this.noOption,
-      };
+
       if (val) {
         this.valid = true;
-        this.$http[this.axiosType](this.url, payload)
+        this.$http[this.axiosType](this.url, this.vignette)
           .then((r) => {
             if (r.data && r.data.id) {
               this.$router.push({
