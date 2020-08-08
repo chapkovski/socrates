@@ -47,8 +47,13 @@
               </v-card-actions>
             </v-card>
           </v-col>
-          <v-col xl="2" lg='3' md='4'  sm='6' xs='12' class="chat-col">
-            <chat></chat>
+          <v-col xl="2" lg='3' md='4'  sm='6' xs='12' class="chat-col fill-height">
+            <v-card class="m-3 content-card d-flex flex-grow-1 flex-column" outlined  >
+               <v-card-text class='d-flex flex-grow-1 flex-column'>
+                 <chat></chat>
+               </v-card-text>
+              
+            </v-card>
           </v-col>
         </v-row>
       </v-container>
@@ -124,9 +129,10 @@ export default {
   padding: 0px !important;
 }
 .chat-col {
-  border-left-color: black;
-  border-left-width: 1px;
-  border-left-style: solid;
+  
+   height: calc(100vh) !important;
+   display: flex;
+  flex-direction: column;
 }
 .content-col {
   height: calc(100vh) !important;

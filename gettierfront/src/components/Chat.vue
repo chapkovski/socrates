@@ -102,9 +102,10 @@ export default {
 }
 .chat-container {
   width: 100%;
-  height: calc(100vh);
+  /* height: calc(100vh); */
   /* background: lightyellow; */
   display: flex;
+  flex-grow:1;
   flex-direction: column;
 }
 .send-btn {
