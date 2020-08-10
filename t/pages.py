@@ -10,7 +10,7 @@ class FirstWP(WaitPage):
 class DiscussionPage(Page):
     live_method = 'chat'
     def post(self):
-        
+
         return super().post()
 
 page_sequence = [

@@ -2,12 +2,8 @@
   <v-app>
     <v-container>
       <v-row>
-        <v-col>
-          <div>VIGNETTE {{ id }}:</div>
-          <div v-if="info">
-            <div>Title: {{ info.title }}</div>
-            <div v-html="info.body"></div>
-          </div>
+        <v-col sm="12">
+          <formatted-vignette :vignette="vignette"></formatted-vignette>
           <v-btn
             color="primary"
             class="mr-4"
@@ -24,17 +20,28 @@
 </template>
 
 <script>
+import FormattedVignette from "./FormattedVignette";
 export default {
   props: ["id"],
+  components: { FormattedVignette },
   data() {
     return {
-      info: null,
+      vignette: null,
     };
   },
   mounted() {
     this.$http
       .get(`/api/vignettes/${this.id}`)
-      .then((response) => (this.info = response.data));
+
+      .then((response) => {
+        const vig = response.data;
+        vig.choices = [
+          { text: vig.yes_option, value: true },
+          { text: vig.no_option, value: false },
+        ];
+        console.debug("VIG", vig);
+        this.vignette = vig;
+      });
   },
   methods: {
     deleteVignette() {

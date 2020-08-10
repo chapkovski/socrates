@@ -31,7 +31,7 @@
                     >
                   </countdown>
                 </v-alert>
-                <v-card shaped min-height="300px" elevation="24">
+                <v-card shaped min-height="300px" elevation="24" class='mb-5'>
                   <v-card-text class="m-3">
                     <div
                       v-html="vignette && vignette.body"
