@@ -83,7 +83,7 @@ export default {
     },
   },
   mounted() {
-    console.debug("HOPA", this.confidenceLevels);
+    
   },
   methods: {},
 };

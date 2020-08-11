@@ -12,12 +12,20 @@ const store = new Vuex.Store({
             reconnectError: false,
         },
         chatOver: false,
+        saving: false,
     },
     getters: {
         status: (state) => { console.debug('jopa', state.socket.isConnected); return state.socket.isConnected },
         isChatOver: (state) => state.chatOver,
+        savingStatus: (state) => state.saving,
     },
     mutations: {
+        SAVING_INITIATED(state) {
+            state.saving = true
+        },
+        SAVING_DONE(state) {
+            state.saving = false
+        },
         addMessage(state, message) {
             const { owner } = message;
             const lastone = state.messages[state.messages.length - 1]
@@ -92,6 +100,16 @@ const store = new Vuex.Store({
                 });
 
             }
+        },
+        savingRequested: function ({ commit }
+        ) {
+            console.debug('saving request initiated');
+            commit('SAVING_INITIATED')
+        },
+        savingStopRequested: function ({ commit }
+        ) {
+            console.debug('saving STOP request initiated');
+            commit('SAVING_DONE')
         }
 
     }

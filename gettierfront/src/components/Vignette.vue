@@ -1,22 +1,20 @@
 <template>
-  <v-app>
-    <v-container>
-      <v-row>
-        <v-col sm="12">
-          <formatted-vignette :vignette="vignette"></formatted-vignette>
-          <v-btn
-            color="primary"
-            class="mr-4"
-            :to="{ name: 'edit_vignette', params: { id } }"
-            >EDIT</v-btn
-          >
-          <v-btn color="success" class="mr-4" @click="deleteVignette"
-            >DELETE</v-btn
-          >
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-app>
+  <v-container>
+    <v-row>
+      <v-col sm="12">
+        <formatted-vignette :vignette="vignette" v-if='vignette'></formatted-vignette>
+        <v-btn
+          color="primary"
+          class="mr-4"
+          :to="{ name: 'edit_vignette', params: { id } }"
+          >EDIT</v-btn
+        >
+        <v-btn color="success" class="mr-4" @click="deleteVignette"
+          >DELETE</v-btn
+        >
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

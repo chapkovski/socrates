@@ -11,6 +11,7 @@
       >
         Create
       </v-btn>
+      <router-view name='extrabtns'></router-view>
     </v-app-bar>
 
     <v-main dark>

@@ -7,7 +7,7 @@ import Vuetify from 'vuetify'
 import VueCookies from 'vue-cookies'
 // index.js or main.js
 import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
-
+import store from './editor_store'
 import router from './router'
 import axios from 'axios'
 
@@ -23,6 +23,7 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   vuetify: new Vuetify(
     {
       defaultAssets: {
