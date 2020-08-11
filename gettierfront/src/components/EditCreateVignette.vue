@@ -84,7 +84,7 @@
 
 <script>
 import Editor from "@tinymce/tinymce-vue";
-import { mapState , mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 export default {
   components: {
     editor: Editor,
@@ -111,7 +111,7 @@ export default {
       (v) => v.length >= 10 || "Vignette text must be at least  10 characters",
     ],
   }),
-  computed: { ...mapState(["saving"]) },
+  computed: { ...mapState(["saving", "bufferForNew"]) },
   watch: {
     saving(newVal, oldVal) {
       console.debug("SAVING INNITATED - CHECKING WITHING!!");
@@ -126,6 +126,12 @@ export default {
       this.$http.get(`/api/vignettes/${this.id}`).then((response) => {
         this.vignette = response.data;
       });
+    } else {
+      if (this.bufferForNew) {
+        this.vignette = this.bufferForNew;
+        this.vignette.title += " 1";
+        this.emptyBuffer();
+      }
     }
   },
 
@@ -135,7 +141,7 @@ export default {
   },
 
   methods: {
-     ...mapActions(["savingStopRequested",  ]),
+    ...mapActions(["savingStopRequested", "emptyBuffer"]),
     resetError(fieldName) {
       if (
         typeof this.errorMessages === "object" &&
