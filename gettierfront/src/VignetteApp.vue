@@ -2,7 +2,10 @@
   <v-app id="inspire">
     <v-app-bar app clipped-right color="blue" dark>
       <v-toolbar-title>
+        <v-btn-toggle>
+        <v-btn   color='warning' href="/"> back to oTree</v-btn>
         <v-btn text outlined :to="{ name: 'home' }"> Vignette Manager</v-btn>
+        </v-btn-toggle>
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
