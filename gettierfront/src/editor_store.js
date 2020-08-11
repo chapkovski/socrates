@@ -18,24 +18,21 @@ const store = new Vuex.Store({
         SAVING_DONE(state) {
             state.saving = false
         },
-        SET_BUFFER(state, payload) { 
+        SET_BUFFER(state, payload) {
             state.bufferForNew = payload
-         },
+        },
         EMPTY_BUFFER(state) { state.bufferForNew = {} }
 
     },
     actions: {
         setBuffer({ commit }, vignette) {
-            console.debug('IN SET BUFFER', vignette, "JOPA") 
-            commit('SET_BUFFER', vignette            ) },
+            commit('SET_BUFFER', vignette)
+        },
         emptyBuffer({ commit },) { commit('EMPTY_BUFFER') },
         savingRequested({ commit }) {
-            console.debug('saving request initiated');
             commit('SAVING_INITIATED')
-
         },
         savingStopRequested({ commit }) {
-            console.debug('saving STOP request initiated');
             commit('SAVING_DONE')
         },
         async deleteVignette({ commit }, vignette_id) {
@@ -43,6 +40,18 @@ const store = new Vuex.Store({
                 await axios.delete(`/api/vignettes/${vignette_id}/`);
                 router.push({
                     name: "home",
+                });
+            }
+            catch (error) {
+                console.debug(error)
+            }
+        },
+        async copyVignette({ commit }, vignette_id) {
+            try {
+                const resp = await axios.get(`/api/vignettes/${vignette_id}/`);
+                commit('SET_BUFFER', resp.data);
+                router.push({
+                    name: "create_vignette",
                 });
             }
             catch (error) {

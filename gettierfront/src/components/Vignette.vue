@@ -6,18 +6,22 @@
           :vignette="vignette"
           v-if="vignette"
         ></formatted-vignette>
-        <v-btn color="warning" class="mr-4" @click="setAndRedirect">
-          Copy to new
-        </v-btn>
-        <v-btn
-          color="primary"
-          class="mr-4"
-          :to="{ name: 'edit_vignette', params: { id } }"
-          >Edit</v-btn
-        >
-        <v-btn color="success" class="mr-4" @click="deleteVignette(id)"
-          >Delete</v-btn
-        >
+        
+          <v-btn-toggle class="my-3" rounded>
+          <v-btn color="warning"   @click="setAndRedirect">
+            Copy to new
+          </v-btn>
+          <v-btn
+            color="primary"
+            
+            :to="{ name: 'edit_vignette', params: { id } }"
+            >Edit</v-btn
+          >
+          <v-btn color="success"  @click="deleteVignette(id)"
+            >Delete</v-btn
+          >
+          </v-btn-toggle>
+        
       </v-col>
     </v-row>
   </v-container>
