@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn>
+    <v-btn  :to="{ name: 'create_vignette' }">
       Create
     </v-btn>
   </div>
@@ -14,4 +14,5 @@ export default {
   mounted() {},
   methods: {},
 };
+      
 </script>

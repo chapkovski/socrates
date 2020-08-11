@@ -21,7 +21,10 @@ export default new Router({
         {
             path: '/',
             name: 'home',
-            component: Home
+            components: {
+                default:Home,
+                extrabtns: CreateTbr
+            }
         },
         {
             path: '/view/vignette/:id',

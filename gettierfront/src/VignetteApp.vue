@@ -5,12 +5,7 @@
         <v-btn text outlined :to="{ name: 'home' }"> Vignette Manager</v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        :to="{ name: 'create_vignette' }"
-        v-if="currentRouteName !== 'create_vignette'"
-      >
-        Create
-      </v-btn>
+
       <router-view name='extrabtns'></router-view>
     </v-app-bar>
 
