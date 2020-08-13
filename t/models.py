@@ -78,6 +78,10 @@ class Group(BaseGroup):
             msgs = self.chats.all().order_by('id')
             msgs = [{'text': i.body, 'source': i.owner.id_in_group} for i in msgs]
             return {id_in_group: dict(msgs=msgs, action='PrevMessages')}
+        decision = payload.get('decision', False)
+        if decision:
+            print('DECISION!', decision, id_in_group)
+
 
 
 class Player(BasePlayer):

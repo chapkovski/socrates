@@ -88,7 +88,11 @@ const store = new Vuex.Store({
 
         requestOldMessages: function (context) {
             const message = { request_old_messages: true }
-            Vue.prototype.$socket.send(JSON.stringify(message))
+            Vue.prototype.$socket.sendObj(message)
+        },
+        sendDecision: function (context, decision) {
+            const message = { decision: decision }
+            Vue.prototype.$socket.sendObj(message)
         },
         PrevMessages: function (context, message) {
             console.debug('previous messages received');

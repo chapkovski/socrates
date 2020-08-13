@@ -39,9 +39,10 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
-  overflow-y: auto;
+  overflow: auto;
   flex-direction: column-reverse;
-  overflow: scroll;
+  /* overflow: scroll; */
+  max-height:calc(100vh - 140px);
 }
 .inner-message-block {
   flex-grow: 1;

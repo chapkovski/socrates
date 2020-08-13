@@ -1,7 +1,11 @@
 <template>
-  <v-card class="m-3 content-card d-flex flex-column" outlined>
+  <v-card
+    class="m-3 content-card d-flex flex-column"
+    :outlined="!enabled"
+    :flat="enabled"
+  >
     <v-card-text class="content-text d-flex flex-column">
-      <v-card shaped min-height="300px" elevation="24" class="mb-5">
+      <v-card shaped elevation="24" class="mb-3">
         <v-card-text class="m-3">
           <div
             v-html="vignette && vignette.body"
@@ -9,9 +13,8 @@
           ></div>
         </v-card-text>
       </v-card>
-      <div class="question-wrapper mt-auto">
+      <div class="question-wrapper mt-3">
         <h5>{{ vignette.question }}</h5>
-
         <v-radio-group v-model="answer" :mandatory="false">
           <v-radio
             :disabled="!enabled"
@@ -82,9 +85,35 @@ export default {
       this.$emit("answer-changed", val);
     },
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {},
 };
 </script>
+<style scoped>
+.vignette-body {
+  max-height: 300px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+.light::-webkit-scrollbar {
+  width: 15px;
+}
+
+.light::-webkit-scrollbar-track {
+  background: #e6e6e6;
+  border-left: 1px solid #dadada;
+}
+
+.light::-webkit-scrollbar-thumb {
+  background: #b0b0b0;
+  border: solid 3px #e6e6e6;
+  border-radius: 7px;
+}
+
+.light::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+
+ 
+</style>
