@@ -8,7 +8,9 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
+from .generic_models import VignetteSubsession, VignettePlayer
 import random
+
 author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
 
 doc = """
@@ -22,10 +24,13 @@ class Constants(BaseConstants):
     num_rounds = 1
     bns = [False, True]
 
-class Subsession(BaseSubsession):
+
+class Subsession(VignetteSubsession):
     def creating_session(self):
+        super().creating_session()
         for p in self.get_players():
-            p.order= random.choice(Constants.bns)
+            p.order = random.choice(Constants.bns)
+
     def vignette(self):
         return dict(id=1)
 
@@ -35,5 +40,5 @@ class Group(BaseGroup):
         print(f'MESSAGE RECEIVED {payload} FROM: {id_in_group}')
 
 
-class Player(BasePlayer):
-    order = models.BooleanField()
+class Player(VignettePlayer):
+    pass

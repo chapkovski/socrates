@@ -8,16 +8,20 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-from datetime import datetime, timedelta,timezone
+from datetime import datetime, timedelta, timezone
 from django.db import models as djmodels
 from operator import itemgetter
-
+from first.generic_models import VignetteSubsession, VignettePlayer
 import random
+
 author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
 
 doc = """
 Second opinion collector + chat
 """
+
+import random
+from first.models import Constants as FirstConstants
 
 
 class Constants(BaseConstants):
@@ -27,29 +31,16 @@ class Constants(BaseConstants):
     seconds_to_chat = 10
 
 
-class Subsession(BaseSubsession):
-    body = models.LongStringField()
-    yes_option = models.LongStringField()
-    no_option = models.LongStringField()
-    vignette = djmodels.ForeignKey(to='Vignette', on_delete=djmodels.CASCADE, blank=True, null=True)
+class Subsession(VignetteSubsession):
 
     def creating_session(self):
-        vignette_title = self.session.config.get('vignette')
-        if not vignette_title:
-            raise Exception('Vignette title is necessary')
-        try:
-            v = Vignette.objects.get(title=vignette_title)
-            self.vignette = v
-            self.body = v.body
-            self.yes_option = v.yes_option
-            self.no_option = v.no_option
-        except Vignette.DoesNotExist:
-            raise Exception('Cannot find the vignette')
-
-        for g in self.get_groups():
-            for p in g.get_players():
-                Chat.objects.create(group=g, owner=p, body=f'1st message from {p.id_in_group}')
-                Chat.objects.create(group=g, owner=p, body=f'2st message from {p.id_in_group}')
+        first_exists = 'first' in self.session.config.get('app_sequence')
+        if first_exists:
+            for p in self.get_players():
+                p.order = p.participant.first_player.first().order
+        else:
+            for p in self.get_players():
+                p.order = random.choice(FirstConstants.bns)
 
 
 class Group(BaseGroup):
@@ -84,17 +75,8 @@ class Group(BaseGroup):
             print('DECISION!', decision, id_in_group)
 
 
-
-class Player(BasePlayer):
-    answer = models.BooleanField()
-
-    def vignette_json(self):
-        return dict(
-            body=self.subsession.body,
-            yes_option=self.subsession.yes_option,
-            no_option=self.subsession.no_option,
-        )
-
+class Player(VignettePlayer):
+    pass
 
 class Chat(djmodels.Model):
     body = models.StringField()

@@ -1,7 +1,5 @@
 <template>
   <v-app id="inspire">
-    <end-chat></end-chat>
-
     <v-main>
       <v-container class=" main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="limitoverflow">
@@ -32,8 +30,17 @@ import { mapActions } from "vuex";
 import FormattedVignette from "./components/FormattedVignette.vue";
 export default {
   name: "VignetteNoChat",
+  components: { FormattedVignette },
   data() {
-    return {};
+    return { vignette: null };
+  },
+
+  mounted() {
+    const path = window.path_to_vignette;
+    this.$http.get(path).then((response) => {
+      this.vignette = response.data;
+      console.debug("VIGNETTE", this.vignette);
+    });
   },
   computed: {
     currentRouteName() {
@@ -49,9 +56,7 @@ export default {
       console.debug("CONFIENDCE CHANGED!!!", val);
       this.sendDecision({ decision_type: "confidence", value: val });
     },
-    snd() {
-      this.sendMessage({ whatever: "JOPPPA" });
-    },
+
     ...mapActions(["sendMessage"]),
   },
 };
