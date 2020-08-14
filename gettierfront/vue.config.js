@@ -11,6 +11,10 @@ const pages = {
         entry: './src/vignette.js',
         chunks: ['chunk-vendors']
     },
+    'no_chat': {
+        entry: './src/no_chat.js',
+        chunks: ['chunk-vendors']
+    },
 };
 
 module.exports = {

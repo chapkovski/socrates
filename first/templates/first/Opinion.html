@@ -1,0 +1,28 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+{% load render_bundle from webpack_loader %}
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    {% render_bundle 'no_chat' 'css' %}
+    {% render_bundle 'chunk-vendors' 'css' %}
+    <script>
+        window.socket_path = "{{ view.live_url }}";
+        window.id_in_group = {{ player.id_in_group }};
+        window.vignette_id = {{ subsession.vignette.id }};
+
+    </script>
+
+
+    <div id="app"></div>
+
+
+
+    {% render_bundle 'chunk-vendors' %}
+    {% render_bundle 'no_chat' %}
+    {% next_button %}
+
+{% endblock %}

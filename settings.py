@@ -5,6 +5,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SESSION_CONFIGS = [
     dict(
+        name='first',
+        display_name="first",
+        num_demo_participants=2,
+        app_sequence=['first'],
+        vignette='asdf'
+    ), dict(
         name='t',
         display_name="t",
         num_demo_participants=2,
