@@ -12,10 +12,11 @@ from datetime import datetime, timedelta,timezone
 from django.db import models as djmodels
 from operator import itemgetter
 
-author = 'Your name here'
+import random
+author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
 
 doc = """
-Your app description
+Second opinion collector + chat
 """
 
 

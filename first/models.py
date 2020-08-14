@@ -12,7 +12,7 @@ import random
 author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
 
 doc = """
-Your app description
+First opinion collector
 """
 
 
@@ -20,12 +20,12 @@ class Constants(BaseConstants):
     name_in_url = 'first'
     players_per_group = None
     num_rounds = 1
-
+    bns = [False, True]
 
 class Subsession(BaseSubsession):
     def creating_session(self):
         for p in self.get_players():
-
+            p.order= random.choice(Constants.bns)
     def vignette(self):
         return dict(id=1)
 
