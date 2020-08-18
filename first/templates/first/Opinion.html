@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    {#    TODO: add <div>ERRORS: {{ form.errors.as_json|default_if_none:'' }}</div> #}
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     {% render_bundle 'no_chat' 'css' %}
     {% render_bundle 'chunk-vendors' 'css' %}

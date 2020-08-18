@@ -34,6 +34,7 @@ class Constants(BaseConstants):
 class Subsession(VignetteSubsession):
 
     def creating_session(self):
+        super().creating_session()
         first_exists = 'first' in self.session.config.get('app_sequence')
         if first_exists:
             for p in self.get_players():

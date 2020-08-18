@@ -19,6 +19,7 @@ class GetCurrentVignette(View):
         p = participant.first_player.first() or participant.t_player.first()
         if p:
             resp = p.vignette_json()
+            print('PROTORESP', resp)
         else:
             resp = dict(error=True)
         print(f'GONNA SEND BACK ', resp)

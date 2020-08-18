@@ -42,6 +42,7 @@ class VignettePlayer(BasePlayer):
 
     def vignette_json(self):
         s = self.subsession
+        print('BODY', s.body)
         choices = [dict(value=True, text=s.yes_option), dict(value=False, text=s.no_option)]
         if self.order:
             choices.reverse()

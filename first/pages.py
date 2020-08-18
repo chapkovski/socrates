@@ -5,6 +5,8 @@ from .models import Constants
 
 class Opinion(Page):
     live_method = 'first_decision_making'
+    form_model = 'player'
+    form_fields = ['answer', 'confidence']
 
 
 

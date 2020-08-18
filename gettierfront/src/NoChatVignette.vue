@@ -3,7 +3,7 @@
     <v-main>
       <v-container class=" main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="limitoverflow">
-          <v-col sm="12" class="content-col fill-height">
+          <v-col sm="12" class="content-col fill-height d-flex flex-column">
             <v-card
               class="m-3 content-card d-flex flex-grow-1 flex-column"
               outlined
@@ -17,6 +17,9 @@
                   v-if="vignette"
                 ></formatted-vignette>
               </v-card-text>
+              <v-card-actions>
+                <v-btn @click='validateAndSubmit'>Next</v-btn>
+              </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
@@ -58,6 +61,10 @@ export default {
     },
 
     ...mapActions(["sendMessage"]),
+    validateAndSubmit() {
+      console.debug("new form");
+      document.getElementById("form").submit();
+    },
   },
 };
 </script>

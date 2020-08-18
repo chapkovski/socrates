@@ -15,6 +15,7 @@
       </v-card>
       <div class="question-wrapper mt-3">
         <h5>{{ vignette.question }}</h5>
+        <input type="hidden" :value="convertedAnswer" name="answer" />
         <v-radio-group v-model="answer" :mandatory="false">
           <v-radio
             :disabled="!enabled"
@@ -22,6 +23,7 @@
             :label="choice.text"
             :value="choice.value"
             :key="ind"
+            
           ></v-radio>
         </v-radio-group>
         <v-card flat class="">
@@ -33,6 +35,7 @@
                   {{ minConf }} to
                   {{ maxConf }}
                 </h5>
+                <input type="hidden" :value="confidence" name="confidence" />
               </v-col>
               <v-btn-toggle v-model="confidence">
                 <v-btn
@@ -76,6 +79,10 @@ export default {
     maxConf() {
       return Math.max(...this.confidenceLevels);
     },
+    convertedAnswer(){
+      const conv = {true:'True', false:'False'}
+      return conv[this.answer]
+      }
   },
   watch: {
     confidence(val, oldVal) {
@@ -114,6 +121,4 @@ export default {
 .light::-webkit-scrollbar-thumb:hover {
   background: black;
 }
-
- 
 </style>

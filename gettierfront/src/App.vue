@@ -25,6 +25,9 @@
                   @confidence-changed="confidenceChanged"
                   v-if="vignette"
                 ></formatted-vignette>
+                <v-card-actions>
+                  <v-btn @click='formSubmit'>Next</v-btn>
+                </v-card-actions>
               </v-card-text>
             </v-card>
           </v-col>
@@ -92,15 +95,12 @@ export default {
     },
   },
   mounted() {
-    const vignette_id = window.vignette_id;
-    this.$http.get(`/api/vignettes/${vignette_id}`).then((response) => {
+    const path = window.path_to_vignette;
+    console.debug('PATH', path)
+    this.$http.get(path).then((response) => {
       this.vignette = response.data;
-      this.choices = [
-        { value: true, text: this.vignette.yes_option },
-        { value: false, text: this.vignette.no_option },
-      ];
-      this.vignette.choices = this.choices;
-    });
+      
+    }).catch((e)=>(console.debug(e)));
   },
   computed: {
     secondsForTimer() {
@@ -127,7 +127,7 @@ export default {
       }
     },
     formSubmit() {
-      console.debug("new form");
+      
       document.getElementById("form").submit();
     },
   },

@@ -7,11 +7,12 @@ class FirstWP(WaitPage):
     group_by_arrival_time = True
     after_all_players_arrive = 'set_timer'
 
+
 class DiscussionPage(Page):
     live_method = 'chat'
-    def post(self):
+    form_model = 'player'
+    form_fields = ['answer', 'confidence']
 
-        return super().post()
 
 page_sequence = [
     FirstWP,
