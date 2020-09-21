@@ -36,6 +36,11 @@ class Subsession(VignetteSubsession):
     def group_by_arrival_time_method(self, waiting_players):
         for i in waiting_players:
             print('WWWW', datetime.now(timezone.utc) - i.wp_entrance_time)
+        # TODO matching conditions go here for pairing conflicting views
+        if len(waiting_players) > 1:
+            for i in waiting_players:
+                i.matched = True
+            return waiting_players[:2]
 
     def creating_session(self):
         super().creating_session()
@@ -86,7 +91,10 @@ class Player(VignettePlayer):
     matched = models.BooleanField(blank=True)
 
     def checking_matching(self):
-        pass
+        self.wp_waiting_time = datetime.now(timezone.utc) - self.wp_entrance_time
+        if self.wp_waiting_time.total_seconds() > Constants.sec_to_wait_on_wp:
+            self.matched = False
+
 
 class Chat(djmodels.Model):
     body = models.StringField()

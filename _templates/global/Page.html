@@ -1,27 +1,8 @@
-{% extends "otree/Base.html" %}
-{% load i18n %}
+{% extends "otree/Page.html" %}
 {% load otree static %}
 
-{% block body_main %}
-
-
-
-
-        <script>var js_vars = {{ js_vars|json }};</script>
-        <form class="otree-form" method="post" role="form" id="form" autocomplete="off">{% csrf_token %}
-            {% block content %}{% endblock %}
-        </form>
-
-
-{% endblock %}
-{% block internal_scripts %}
-
-    {{ block.super }}
-    <script id="websocket-redirect" src="{% static 'otree/js/page-websocket-redirect.js' %}"
-            data-socket-url="{{ view.socket_url|safe }}"
-            data-redirect-url="{{ view.redirect_url|safe }}"
-            data-is-debug="{{ view.is_debug|default:"" }}"
-    ></script>
-
+{% block global_styles  %}
 {% endblock %}
 
+{% block global_scripts  %}
+{% endblock %}
