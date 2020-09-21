@@ -32,6 +32,9 @@ class Constants(BaseConstants):
 
 
 class Subsession(VignetteSubsession):
+    def group_by_arrival_time_method(self, waiting_players):
+        for i in waiting_players:
+            print('WWWW', i.wp_entrance_time)
 
     def creating_session(self):
         super().creating_session()
@@ -49,7 +52,7 @@ class Group(BaseGroup):
     time_chat_end = djmodels.DateTimeField(blank=True, null=True)
 
     def set_timer(self):
-        self.time_chat_start = datetime.now(timezone.utc)
+        self.time_chat_start = datetime.utcnow()
         self.time_chat_end = self.time_chat_start + timedelta(seconds=Constants.seconds_to_chat)
 
     def time_to_chat_over(self):
@@ -77,7 +80,9 @@ class Group(BaseGroup):
 
 
 class Player(VignettePlayer):
-    pass
+    wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
+    wp_waiting_time = djmodels.DurationField(null=True, blank=True)
+
 
 class Chat(djmodels.Model):
     body = models.StringField()
