@@ -28,13 +28,14 @@ class Constants(BaseConstants):
     name_in_url = 't'
     players_per_group = 2
     num_rounds = 1
-    seconds_to_chat = 10
+    seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
+    sec_to_wait_on_wp = 20  # this limits the time they stay on the wp without a partner before being redirected further
 
 
 class Subsession(VignetteSubsession):
     def group_by_arrival_time_method(self, waiting_players):
         for i in waiting_players:
-            print('WWWW', i.wp_entrance_time)
+            print('WWWW', datetime.now(timezone.utc) - i.wp_entrance_time)
 
     def creating_session(self):
         super().creating_session()
@@ -82,7 +83,10 @@ class Group(BaseGroup):
 class Player(VignettePlayer):
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)
+    matched = models.BooleanField(blank=True)
 
+    def checking_matching(self):
+        pass
 
 class Chat(djmodels.Model):
     body = models.StringField()
