@@ -17,7 +17,7 @@ class VignetteSubsession(BaseSubsession):
     vignette = djmodels.ForeignKey(to='Vignette', on_delete=djmodels.SET_NULL, blank=True, null=True)
 
     def creating_session(self):
-        from t.models import Vignette
+        from second.models import Vignette
         vignette_title = self.session.config.get('vignette')
         if not vignette_title:
             raise Exception('Vignette title is necessary')
@@ -29,7 +29,10 @@ class VignetteSubsession(BaseSubsession):
             self.yes_option = v.yes_option
             self.no_option = v.no_option
         except Vignette.DoesNotExist:
-            raise Exception('Cannot find the vignette')
+            # TODO: temporary fix for debugging. dont' forget to remove
+            FIX='asdf'
+            Vignette.objects.create(title=FIX, body=FIX, question=FIX, yes_option=FIX, no_option=FIX)
+            # raise Exception('Cannot find the vignette')
 
 
 class VignettePlayer(BasePlayer):

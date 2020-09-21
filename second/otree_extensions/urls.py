@@ -1,9 +1,7 @@
 from django.urls import path, include, re_path
 from rest_framework.authtoken import views
-from t.views import TestView, AxiosView
-from t.drf import vignette_router
-
-print('ROUTER PATHS', vignette_router.urls)
+from second.views import TestView, AxiosView
+from second.drf import vignette_router
 
 
 def path_wrapper(view):

@@ -1,4 +1,4 @@
-from t.models import Vignette
+from second.models import Vignette
 from rest_framework import viewsets
 from .serializers import VignetteSerializer
 

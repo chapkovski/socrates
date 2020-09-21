@@ -1,5 +1,5 @@
 from django.urls import path, include
-from t.models import Vignette
+from second.models import Vignette
 from rest_framework import routers, serializers, viewsets
 
 

@@ -1,6 +1,6 @@
 from django.views.generic import TemplateView, View
 from django.http import HttpResponse, JsonResponse
-from t.models import Vignette
+from second.models import Vignette
 from otree.models import Participant
 from rest_framework.authtoken.models import Token
 from django.utils.safestring import mark_safe

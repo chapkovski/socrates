@@ -7,14 +7,15 @@ SESSION_CONFIGS = [
     dict(
         name='first',
         display_name="first",
-        num_demo_participants=2,
+        num_demo_participants=1,
         app_sequence=['first'],
         vignette='asdf'
-    ), dict(
-        name='t',
-        display_name="t",
+    ),
+    dict(
+        name='second',
+        display_name="second",
         num_demo_participants=2,
-        app_sequence=['t'],
+        app_sequence=['second'],
         vignette='asdf'
     ),
 ]
@@ -43,7 +44,7 @@ SECRET_KEY = '017x2njo5bj4r7)4gd9(wrg(b%v$@@9*0hsss3_&0r*ku(t9bs'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 APPEND_SLASH = True
-EXTENSION_APPS = ['t', 'first']
+EXTENSION_APPS = ['second', 'first']
 INSTALLED_APPS = [
     'otree',
     'webpack_loader',
