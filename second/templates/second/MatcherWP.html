@@ -1,0 +1,27 @@
+{% extends 'otree/WaitPage.html' %}
+{% block content %}
+    <script src="{% static 'otree/js/jquery.countdown.min.js' %}"></script>
+    <div>
+        Now you have to wait for the partner who has an opposite opinion.
+    </div>
+    <div>If we are not able to find a partner for you for the next {{ sec_to_min }} minutes,
+        you will be redirected to the final page of this study.
+    </div>
+    <div>Time remaining for finding a partner: <b><span id="getting-started"></span></b></div>
+    <script type="text/javascript">
+        var currentDate = new Date();
+        var remainingSeconds = {{ seconds_to_mismatch|json }};
+        var milliseconds = Math.floor(remainingSeconds * 1000);
+
+        $("#getting-started")
+            .countdown(currentDate.valueOf() + milliseconds, function (event) {
+                $(this).text(
+                    event.strftime('%N minute%!N %S second%!S')
+                );
+            }).on('finish.countdown', function (event) {
+            var doneWaiting = setInterval(() => {
+                console.debug('jopa')
+            }, 1000)
+        });
+    </script>
+{% endblock %}

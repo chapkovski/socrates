@@ -29,7 +29,7 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds = 1
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
-    sec_to_wait_on_wp = 20  # this limits the time they stay on the wp without a partner before being redirected further
+    sec_to_wait_on_wp = 120  # this limits the time they stay on the wp without a partner before being redirected further
 
 
 class Subsession(VignetteSubsession):
@@ -87,6 +87,7 @@ class Group(BaseGroup):
 
 class Player(VignettePlayer):
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
+    wp_exit_time = djmodels.DateTimeField(null=True, blank=True)
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)
     matched = models.BooleanField(blank=True)
 
