@@ -14,14 +14,13 @@
         var milliseconds = Math.floor(remainingSeconds * 1000);
 
         $("#getting-started")
-            .countdown(currentDate.valueOf() + milliseconds, function (event) {
-                $(this).text(
-                    event.strftime('%N minute%!N %S second%!S')
-                );
-            }).on('finish.countdown', function (event) {
-            var doneWaiting = setInterval(() => {
-                console.debug('jopa')
-            }, 1000)
-        });
+            .countdown(currentDate.valueOf() + milliseconds).on('update.countdown', function (event) {
+            $(this).text(
+                event.strftime('%N minute%!N %S second%!S')
+            );
+        }).on('finish.countdown', function (event) {
+            console.debug('reloading...');
+            setTimeout(()=>{window.location.reload();}, 1000)
+        })
     </script>
 {% endblock %}

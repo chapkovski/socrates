@@ -22,6 +22,13 @@ Second opinion collector + chat
 
 import random
 from first.models import Constants as FirstConstants
+from enum import IntEnum
+
+
+class Match(IntEnum):
+    NOT_YET = -1
+    NOT_MATCHED = 0
+    MATCHED = 1
 
 
 class Constants(BaseConstants):
@@ -29,18 +36,30 @@ class Constants(BaseConstants):
     players_per_group = 2
     num_rounds = 1
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
-    sec_to_wait_on_wp = 120  # this limits the time they stay on the wp without a partner before being redirected further
+    sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
+    matching_choices = [Match.NOT_YET, Match.NOT_MATCHED,
+                        Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
 
 
 class Subsession(VignetteSubsession):
     def group_by_arrival_time_method(self, waiting_players):
-        for i in waiting_players:
-            print('WWWW', datetime.now(timezone.utc) - i.wp_entrance_time)
-        # TODO matching conditions go here for pairing conflicting views
+        now = datetime.now(timezone.utc)
+        waited_too_long = [p for p in waiting_players if now > p.wp_exit_time]
+        for p in waited_too_long:
+            p.matched = Match.NOT_MATCHED
+
+            return [p]
+
         if len(waiting_players) > 1:
+
             for i in waiting_players:
-                i.matched = True
-            return waiting_players[:2]
+                pos = i.participant.vars.get('position')
+                rest = [j for j in waiting_players if j.participant.vars.get('position') != pos]
+                if rest:
+                    group = [i, rest[0]]
+                for p in group:
+                    p.matched = Match.MATCHED
+                return group
 
     def creating_session(self):
         super().creating_session()
@@ -89,12 +108,13 @@ class Player(VignettePlayer):
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
     wp_exit_time = djmodels.DateTimeField(null=True, blank=True)
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)
-    matched = models.BooleanField(blank=True)
+    matched = models.IntegerField(blank=True, choices=Constants.matching_choices, initial=Match.NOT_YET)
 
     def checking_matching(self):
-        self.wp_waiting_time = datetime.now(timezone.utc) - self.wp_entrance_time
-        if self.wp_waiting_time.total_seconds() > Constants.sec_to_wait_on_wp:
-            self.matched = False
+        too_late = datetime.now(timezone.utc) > self.wp_exit_time
+        if too_late:
+            self.matched = int(too_late)
+        return self.matched
 
 
 class Chat(djmodels.Model):
