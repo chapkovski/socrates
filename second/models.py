@@ -57,9 +57,9 @@ class Subsession(VignetteSubsession):
                 rest = [j for j in waiting_players if j.participant.vars.get('position') != pos]
                 if rest:
                     group = [i, rest[0]]
-                for p in group:
-                    p.matched = Match.MATCHED
-                return group
+                    for p in group:
+                        p.matched = Match.MATCHED
+                    return group
 
     def creating_session(self):
         super().creating_session()

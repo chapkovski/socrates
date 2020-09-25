@@ -18,6 +18,13 @@ SESSION_CONFIGS = [
         app_sequence=['second'],
         vignette='asdf'
     ),
+    dict(
+        name='together',
+        display_name="Full game",
+        num_demo_participants=2,
+        app_sequence=['first', 'second'],
+        vignette='asdf'
+    ),
 ]
 
 SESSION_CONFIG_DEFAULTS = dict(
