@@ -28,7 +28,8 @@ SESSION_CONFIGS = [
 ]
 
 SESSION_CONFIG_DEFAULTS = dict(
-    real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
+    real_world_currency_per_point=1.00, participation_fee=0.00, doc="",
+    sec_to_wait_on_wp=int(environ.get('SEC_TO_WAIT', 20))
 )
 
 # ISO-639 code
