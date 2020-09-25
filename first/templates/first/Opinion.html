@@ -1,11 +1,11 @@
-{% extends "global/Page.html" %}
+{% extends "global/FullPage.html" %}
 {% load otree static %}
 {% load render_bundle from webpack_loader %}
 {% block title %}
 
 {% endblock %}
 
-{% block content %}
+{% block body_main %}
     {#    TODO: add <div>ERRORS: {{ form.errors.as_json|default_if_none:'' }}</div> #}
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     {% render_bundle 'no_chat' 'css' %}
@@ -17,13 +17,15 @@
 
     </script>
 
+    <form action='' method="post" role="form" id="form" autocomplete="off">
 
-    <div id="app"></div>
-
+        {% csrf_token %}
+        <div id="app"></div>
+    </form>
 
 
     {% render_bundle 'chunk-vendors' %}
     {% render_bundle 'no_chat' %}
-    {% next_button %}
+
 
 {% endblock %}

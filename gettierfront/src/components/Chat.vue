@@ -95,6 +95,10 @@ export default {
   outline: none !important;
 }
 .input-block {
+  position:absolute;
+  bottom:0;
+  right:0;
+  left:0;
   justify-self: flex-end;
   flex-grow: 0;
   display: flex;
@@ -106,6 +110,7 @@ export default {
   /* background: lightyellow; */
   display: flex;
   flex-grow:1;
+  position:relative;
   flex-direction: column;
 }
 .send-btn {

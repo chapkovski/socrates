@@ -49,7 +49,12 @@ class Subsession(VignetteSubsession):
             p.matched = Match.NOT_MATCHED
 
             return [p]
-
+        # this for debuginng only (when 'first' is not in app chain)
+        if 'first' not in self.session.config.get('app_sequence') and len(waiting_players) > 1:
+            group = waiting_players[:2]
+            for p in group:
+                p.matched = Match.MATCHED
+            return group
         if len(waiting_players) > 1:
 
             for i in waiting_players:

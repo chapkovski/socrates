@@ -23,16 +23,17 @@ class VignetteSubsession(BaseSubsession):
             raise Exception('Vignette title is necessary')
         try:
             v = Vignette.objects.get(title=vignette_title)
-            self.vignette = v
-            self.body = v.body
-            self.question = v.question
-            self.yes_option = v.yes_option
-            self.no_option = v.no_option
         except Vignette.DoesNotExist:
             # TODO: temporary fix for debugging. dont' forget to remove
-            FIX='asdf'
-            Vignette.objects.create(title=FIX, body=FIX, question=FIX, yes_option=FIX, no_option=FIX)
+            FIX = 'asdf'
+            v = Vignette.objects.create(title=FIX, body='Vignette example', question="what do you think?",
+                                        yes_option='YES', no_option='NOPE')
             # raise Exception('Cannot find the vignette')
+        self.vignette = v
+        self.body = v.body
+        self.question = v.question
+        self.yes_option = v.yes_option
+        self.no_option = v.no_option
 
 
 class VignettePlayer(BasePlayer):

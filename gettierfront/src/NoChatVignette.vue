@@ -1,8 +1,8 @@
 <template>
   <v-app id="inspire">
-    <v-main>
-      <v-container class=" main-container" fluid>
-        <v-row align="center" justify="center" no-gutters class="limitoverflow">
+        <v-main>
+      <v-container class=" main-container h-100 d-flex fill-height" fluid>
+        <v-row align="center" justify="center" no-gutters class="limitoverflow h-100 fill-height">
           <v-col sm="12" class="content-col fill-height d-flex flex-column">
             <v-card
               class="m-3 content-card d-flex flex-grow-1 flex-column"
@@ -60,7 +60,7 @@ export default {
       this.sendDecision({ decision_type: "confidence", value: val });
     },
 
-    ...mapActions(["sendMessage"]),
+    ...mapActions(["sendDecision"]),
     validateAndSubmit() {
       console.debug("new form");
       document.getElementById("form").submit();

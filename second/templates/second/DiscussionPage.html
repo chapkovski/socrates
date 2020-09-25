@@ -1,11 +1,11 @@
-{% extends "global/Page.html" %}
+{% extends "global/FullPage.html" %}
 {% load otree %}
 {% load render_bundle from webpack_loader %}
 {% block title %}
     Testing chat
 {% endblock %}
 
-{% block content %}
+{% block body_main %}
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     {% render_bundle 'main' 'css' %}
     {% render_bundle 'chunk-vendors' 'css' %}
@@ -17,12 +17,16 @@
     </script>
 
 
-    <div id="app"></div>
+    <form action='' method="post" role="form" id="form" autocomplete="off">
+
+        {% csrf_token %}
+        <div id="app"></div>
+    </form>
 
 
 
-    {% render_bundle 'chunk-vendors'   %}
-    {% render_bundle 'main'  %}
+    {% render_bundle 'chunk-vendors' %}
+    {% render_bundle 'main' %}
 
 
 {% endblock %}
