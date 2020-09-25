@@ -8,6 +8,8 @@ class Opinion(Page):
     form_model = 'player'
     form_fields = ['answer', 'confidence']
 
+    def before_next_page(self):
+        self.participant.vars['position'] = int(self.player.answer)
 
 
 page_sequence = [Opinion]

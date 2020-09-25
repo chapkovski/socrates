@@ -19,7 +19,7 @@ class GetCurrentVignette(View):
 class TestView(TemplateView):
     url_pattern = r'vignettemanager/.*$'
     url_name = 'vignette_manager'
-    template_name = 't/admin/create_vignette.html'
+    template_name = 'second/admin/create_vignette.html'
 
     def get(self, request, *args, **kwargs):
         print('USER:', request.user)
