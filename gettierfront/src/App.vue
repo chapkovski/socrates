@@ -1,7 +1,8 @@
 <template>
   <v-app id="inspire">
+    <v-system-bar height="30"><div>pizda</div> </v-system-bar>
     <end-chat></end-chat>
-
+    <error-modal></error-modal>
     <v-main>
       <v-container class=" main-container" fluid>
         <v-row align="center" justify="center" no-gutters class="limitoverflow">
@@ -26,7 +27,7 @@
                   v-if="vignette"
                 ></formatted-vignette>
                 <v-card-actions>
-                  <v-btn @click='formSubmit'>Next</v-btn>
+                  <v-btn x-large color="red" @click="formSubmit">Next</v-btn>
                 </v-card-actions>
               </v-card-text>
             </v-card>
@@ -58,8 +59,9 @@
 import Chat from "./components/Chat.vue";
 import FormattedVignette from "./components/FormattedVignette.vue";
 import EndChat from "./components/EndChatModal.vue";
+import ErrorModal from "./components/ErrorModal.vue";
 import VueCountdown from "@chenfengyuan/vue-countdown";
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "LayoutsDemosBaselineFlipped",
   props: {
@@ -68,6 +70,7 @@ export default {
   components: {
     chat: Chat,
     EndChat,
+    ErrorModal,
     countdown: VueCountdown,
     FormattedVignette,
   },
@@ -96,13 +99,16 @@ export default {
   },
   mounted() {
     const path = window.path_to_vignette;
-    console.debug('PATH', path)
-    this.$http.get(path).then((response) => {
-      this.vignette = response.data;
-      
-    }).catch((e)=>(console.debug(e)));
+    console.debug("PATH", path);
+    this.$http
+      .get(path)
+      .then((response) => {
+        this.vignette = response.data;
+      })
+      .catch((e) => console.debug(e));
   },
   computed: {
+    ...mapState(["djangoErrors"]),
     secondsForTimer() {
       return Math.max(0, this.secondsToEnd);
     },
@@ -127,7 +133,6 @@ export default {
       }
     },
     formSubmit() {
-      
       document.getElementById("form").submit();
     },
   },
@@ -139,12 +144,12 @@ export default {
   padding: 0px !important;
 }
 .chat-col {
-  height: calc(100vh) !important;
+  /* height: calc(100vh) !important; */
   display: flex;
   flex-direction: column;
 }
 .content-col {
-  height: calc(100vh) !important;
+  /* height: calc(100vh) !important; */
   display: flex;
   flex-direction: column;
 }

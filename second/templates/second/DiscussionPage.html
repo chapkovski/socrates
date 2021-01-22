@@ -14,6 +14,7 @@
         window.id_in_group = {{ player.id_in_group }};
         window.path_to_vignette = "{% url 'get_current_vignette' participant_code=participant.code %}";
         window.secondsToEnd = {{ group.time_to_chat_over }};
+        window.djangoErrors = {{ django_errors|default_if_none:''|json }};
     </script>
 
 

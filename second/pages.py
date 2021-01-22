@@ -2,6 +2,7 @@ from otree.api import Currency as c, currency_range
 from ._builtin import Page, WaitPage
 from .models import Constants, Match
 from datetime import datetime, timedelta, timezone
+from first.generic_pages import GeneralVignettePage
 
 
 class FirstWP(WaitPage):
@@ -25,10 +26,8 @@ class FirstWP(WaitPage):
     after_all_players_arrive = 'set_timer'
 
 
-class DiscussionPage(Page):
+class DiscussionPage(GeneralVignettePage):
     live_method = 'chat'
-    form_model = 'player'
-    form_fields = ['answer', 'confidence']
 
     def is_displayed(self):
         return self.player.matched == Match.MATCHED
@@ -36,7 +35,7 @@ class DiscussionPage(Page):
 
 class NoMatchingPage(Page):
     def is_displayed(self):
-        return  self.player.matched == Match.NOT_MATCHED
+        return self.player.matched == Match.NOT_MATCHED
 
 
 page_sequence = [

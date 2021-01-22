@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+    <error-modal></error-modal>
         <v-main>
       <v-container class=" main-container h-100 d-flex fill-height" fluid>
         <v-row align="center" justify="center" no-gutters class="limitoverflow h-100 fill-height">
@@ -18,7 +19,7 @@
                 ></formatted-vignette>
               </v-card-text>
               <v-card-actions>
-                <v-btn @click='validateAndSubmit'>Next</v-btn>
+                <v-btn x-large color='red' @click='validateAndSubmit'>Next</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -30,10 +31,12 @@
 
 <script>
 import { mapActions } from "vuex";
+import ErrorModal from "./components/ErrorModal.vue";
 import FormattedVignette from "./components/FormattedVignette.vue";
 export default {
   name: "VignetteNoChat",
-  components: { FormattedVignette },
+  components: { FormattedVignette ,
+  ErrorModal},
   data() {
     return { vignette: null };
   },

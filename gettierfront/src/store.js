@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import _ from 'lodash'
 import VueNativeSock from 'vue-native-websocket'
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -13,13 +14,16 @@ const store = new Vuex.Store({
         },
         chatOver: false,
         saving: false,
+        djangoErrors: window.djangoErrors,
+        errorDialog: _.isEmpty(window.djangoErrors) !== true
     },
     getters: {
-        status: (state) => { console.debug('jopa', state.socket.isConnected); return state.socket.isConnected },
+        status: (state) => state.socket.isConnected ,
         isChatOver: (state) => state.chatOver,
         savingStatus: (state) => state.saving,
     },
     mutations: {
+        toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog)  ,
         SAVING_INITIATED(state) {
             state.saving = true
         },

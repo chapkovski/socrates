@@ -14,7 +14,7 @@
         window.socket_path = "{{ view.live_url }}";
         window.id_in_group = {{ player.id_in_group }};
         window.path_to_vignette = "{% url 'get_current_vignette' participant_code=participant.code %}";
-
+        window.djangoErrors = {{ django_errors|default_if_none:''|json }};
     </script>
 
     <form action='' method="post" role="form" id="form" autocomplete="off">
