@@ -1,50 +1,20 @@
 <template>
   <v-app id="inspire">
     <v-system-bar height="30"><div>pizda</div> </v-system-bar>
-    <end-chat></end-chat>
-    <error-modal></error-modal>
+
     <v-main>
-      <v-container class=" main-container" fluid>
-        <v-row align="center" justify="center" no-gutters class="limitoverflow">
-          <v-col
-            xl="10"
-            lg="9"
-            md="8"
-            sm="6"
-            xs="12"
-            class="content-col fill-height"
-          >
-            <v-card
-              class="m-3 content-card d-flex flex-grow-1 flex-column"
-              outlined
-            >
-              <v-card-text class="d-flex flex-grow-1 flex-column">
-                <formatted-vignette
-                  :vignette="vignette"
-                  :enabled="true"
-                  @answer-changed="answerChanged"
-                  @confidence-changed="confidenceChanged"
-                  v-if="vignette"
-                ></formatted-vignette>
-                <v-card-actions>
-                  <v-btn x-large color="red" @click="formSubmit">Next</v-btn>
-                </v-card-actions>
+      <v-container fluid fill-height>
+        <v-row :style="{ height: '100%' }" class='d-flex'>
+          <v-col cols=9>
+            <v-card>
+              <v-card-text>
+                VIGNETTE HERE
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col
-            xl="2"
-            lg="3"
-            md="4"
-            sm="6"
-            xs="12"
-            class="chat-col fill-height"
-          >
-            <v-card
-              class="m-3 content-card d-flex flex-grow-1 flex-column "
-              outlined
-            >
-              <v-card-text class="d-flex flex-grow-1 flex-column">
+          <v-col cols=3  >
+            <v-card class="flex-grow-1 d-flex flex-column" height="100%">
+              <v-card-text height='100%' class="flex-grow-1 d-flex">
                 <chat></chat>
               </v-card-text>
             </v-card>
@@ -52,6 +22,9 @@
         </v-row>
       </v-container>
     </v-main>
+    <v-footer>
+      <v-col>jopa</v-col>
+    </v-footer>
   </v-app>
 </template>
 

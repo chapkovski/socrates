@@ -39,15 +39,19 @@ export default {
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 10px;
-  overflow: auto;
+  /* overflow: auto; */
   flex-direction: column-reverse;
-  /* overflow: scroll; */
-  max-height:calc(100vh - 140px);
+  overflow: scroll;
+  flex-basis:0
+  /* max-height:calc(100vh - 140px); */
 }
 .inner-message-block {
+  margin-bottom:64px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  overflow:visible;
+  flex-basis:0
 }
 /* TODO: move message to separate component */
 .message {
