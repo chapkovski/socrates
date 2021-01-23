@@ -1,20 +1,27 @@
 <template>
   <v-app id="inspire">
-    <v-system-bar height="30"><div>pizda</div> </v-system-bar>
+    <error-modal></error-modal>
+    <v-system-bar height="30" app><div>pizda</div> </v-system-bar>
 
     <v-main>
       <v-container fluid fill-height>
-        <v-row :style="{ height: '100%' }" class='d-flex'>
-          <v-col cols=9>
+        <v-row :style="{ height: '100%' }" class="d-flex">
+          <v-col cols="9">
             <v-card>
               <v-card-text>
-                VIGNETTE HERE
+                <formatted-vignette
+                  :vignette="vignette"
+                  :enabled="true"
+                  @answer-changed="answerChanged"
+                  @confidence-changed="confidenceChanged"
+                  v-if="vignette"
+                />
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols=3  >
+          <v-col cols="3">
             <v-card class="flex-grow-1 d-flex flex-column" height="100%">
-              <v-card-text height='100%' class="flex-grow-1 d-flex">
+              <v-card-text height="100%" class="flex-grow-1 d-flex">
                 <chat></chat>
               </v-card-text>
             </v-card>
@@ -22,8 +29,10 @@
         </v-row>
       </v-container>
     </v-main>
-    <v-footer>
-      <v-col>jopa</v-col>
+    <v-footer app>
+      <v-col>
+        <v-btn large color="red" @click="formSubmit">Next</v-btn>
+      </v-col>
     </v-footer>
   </v-app>
 </template>
