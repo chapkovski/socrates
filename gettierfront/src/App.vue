@@ -2,29 +2,22 @@
   <v-app id="inspire">
     <error-modal></error-modal>
     <v-system-bar height="30" app><div>pizda</div> </v-system-bar>
-
-    <v-main>
+    <v-navigation-drawer  fixed permanent right class='chatdrawer'>
+      <h1>chat</h1>
+        <chat></chat>
+      
+    </v-navigation-drawer>
+    <v-main class='maincont'>
       <v-container fluid fill-height>
-        <v-row :style="{ height: '100%' }" class="d-flex">
-          <v-col cols="9">
-            <v-card>
-              <v-card-text>
-                <formatted-vignette
+        <v-row>
+          <v-col>
+            <formatted-vignette
                   :vignette="vignette"
                   :enabled="true"
                   @answer-changed="answerChanged"
                   @confidence-changed="confidenceChanged"
                   v-if="vignette"
-                />
-              </v-card-text>
-            </v-card>
-          </v-col>
-          <v-col cols="3">
-            <v-card class="flex-grow-1 d-flex flex-column" height="100%">
-              <v-card-text height="100%" class="flex-grow-1 d-flex">
-                <chat></chat>
-              </v-card-text>
-            </v-card>
+                ></formatted-vignette>
           </v-col>
         </v-row>
       </v-container>
@@ -120,7 +113,22 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style >
+.maincont{margin-right:256px;
+overflow-y:scroll}
+.chatdrawer{
+  border: .1px solid lightgray;
+  border-radius:10px;
+  height: calc(100% - 50px)!important;
+  top:initial!important;
+  bottom:10px!important;
+  margin-right:10px;
+  padding:10px
+}
+div.v-navigation-drawer__content{
+  display: flex!important;
+  flex-direction: column!important;
+}
 .main-container {
   margin: 0px !important;
   padding: 0px !important;

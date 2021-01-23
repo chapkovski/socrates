@@ -98,7 +98,7 @@ export default {
 </script>
 <style scoped>
 .vignette-body {
-  max-height: 300px;
+  /* max-height: 300px; */
   max-width: 100%;
   overflow: auto;
 }
