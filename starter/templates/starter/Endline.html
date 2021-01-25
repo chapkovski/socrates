@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+
+
+
+
+{% block title %}
+    {% trans 'Questionnaire' %}
+{% endblock %}
+
+
+{% block content %}
+
+
+
+
+    {% for field in form %}
+        {% formfield field %}
+    {% endfor %}
+
+    {% next_button %}
+{% endblock %}
+ 

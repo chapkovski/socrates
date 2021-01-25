@@ -46,7 +46,6 @@ class VignettePlayer(BasePlayer):
 
     def vignette_json(self):
         s = self.subsession
-        print('BODY', s.body)
         choices = [dict(value=True, text=s.yes_option), dict(value=False, text=s.no_option)]
         if self.order:
             choices.reverse()
@@ -56,3 +55,5 @@ class VignettePlayer(BasePlayer):
             q=s.question,
             choices=choices
         )
+    def decision_making(self,  payload, **kwargs):
+        print(f'MESSAGE RECEIVED {payload} FROM: {self.id_in_group}')

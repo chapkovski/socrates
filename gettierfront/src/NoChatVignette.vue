@@ -1,9 +1,14 @@
 <template>
   <v-app id="inspire">
     <error-modal></error-modal>
-        <v-main>
+    <v-main>
       <v-container class=" main-container h-100 d-flex fill-height" fluid>
-        <v-row align="center" justify="center" no-gutters class="limitoverflow h-100 fill-height">
+        <v-row
+          align="center"
+          justify="center"
+          no-gutters
+          class="limitoverflow h-100 fill-height"
+        >
           <v-col sm="12" class="content-col fill-height d-flex flex-column">
             <v-card
               class="m-3 content-card d-flex flex-grow-1 flex-column"
@@ -19,7 +24,9 @@
                 ></formatted-vignette>
               </v-card-text>
               <v-card-actions>
-                <v-btn x-large color='red' @click='validateAndSubmit'>Next</v-btn>
+                <v-btn x-large color="red" @click="validateAndSubmit"
+                  >Next</v-btn
+                >
               </v-card-actions>
             </v-card>
           </v-col>
@@ -35,8 +42,7 @@ import ErrorModal from "./components/ErrorModal.vue";
 import FormattedVignette from "./components/FormattedVignette.vue";
 export default {
   name: "VignetteNoChat",
-  components: { FormattedVignette ,
-  ErrorModal},
+  components: { FormattedVignette, ErrorModal },
   data() {
     return { vignette: null };
   },
@@ -54,6 +60,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["sendDecision"]),
     answerChanged(val) {
       console.debug("ANSWER CHANGED!!!", val);
       this.sendDecision({ decision_type: "answer", value: val });
@@ -63,7 +70,6 @@ export default {
       this.sendDecision({ decision_type: "confidence", value: val });
     },
 
-    ...mapActions(["sendDecision"]),
     validateAndSubmit() {
       console.debug("new form");
       document.getElementById("form").submit();

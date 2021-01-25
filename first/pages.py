@@ -4,10 +4,11 @@ from .models import Constants
 from first.generic_pages import GeneralVignettePage
 
 class Opinion(GeneralVignettePage):
-    live_method = 'first_decision_making'
+    live_method = 'decision_making'
     form_model = 'player'
     form_fields = ['answer', 'confidence']
-
+    def is_displayed(self):
+        return True
     def before_next_page(self):
         self.participant.vars['position'] = int(self.player.answer)
 

@@ -1,0 +1,123 @@
+{% extends "global/Page.html" %}
+{% load  tz %}
+
+{% block title %}
+    Time to start
+{% endblock %}
+
+{% block content %}
+    <style>
+        .timer-badge {
+            font-size: 1rem;
+        }
+    </style>
+    <div class="card my-3">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    This study is about to start at:
+                </li>
+                <li class="list-group-item text-center font-weight-bold">
+                    <div>
+                        {% timezone "US/Eastern" %}
+                            {{ subsession.time_to_start }}
+                        {% endtimezone %} Eastern time.
+                    </div>
+                    <div>
+                        {% timezone "US/Central" %}
+                            ({{ subsession.time_to_start }})
+                        {% endtimezone %} Central time.
+                    </div>
+                    <div>
+                        {% timezone "US/Pacific" %}
+                            ({{ subsession.time_to_start }})
+                        {% endtimezone %} Pacific time.
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    Time till the start of the study:
+                    <span class="timer badge badge-success  timer-badge"></span>
+                </li>
+                {% if on_time %}
+                    <li class="list-group-item" id="ontime">
+                        If you click 'Proceed' button (which will appear below) to proceed to the study
+                        <strong>within {{ subsession.formatted_delta }}</strong> of
+                        {% timezone "US/Eastern" %}
+                            {{ subsession.time_to_start }}
+                        {% endtimezone %} Eastern time you
+                        are eligible for <strong>{{ subsession.time_bonus }}</strong> bonus.
+                    </li>
+                {% else %}
+                    <li class="list-group-item  d-none" id="late">
+                        You can click on the 'Proceed' button now and you <strong><u>still receive the
+                        fee for this HIT</u></strong>, but you won't be eligible for the bonus of
+                        <strong>{{ subsession.time_bonus }}</strong>.
+                    </li>
+                {% endif %}
+
+
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="alert alert-danger  d-none" id="inner-alert">
+        You have <span class="badge badge-success inner-timer font-weight-bold timer-badge"></span> to click 'Proceed'
+        in order to
+        get
+        <strong>{{ subsession.time_bonus }}</strong> bonus.
+    </div>
+    <button class="btn btn-lg btn-danger d-none" id="btn_proceed_without_bonus">Proceed without bonus</button>
+    <button class="btn btn-lg btn-success d-none" id="btn_proceed_with_bonus">Proceed with bonus</button>
+
+    <script src="{% static 'otree/js/jquery.countdown.min.js' %}"></script>
+
+    <script>
+        $(function () {
+            var currentDate = new Date();
+            var remainingTimeoutSeconds = {{ seconds_till_start|json }};
+            var milliseconds = Math.floor(remainingTimeoutSeconds * 1000);
+            const li_ontime = $('li#ontime')
+            const li_late = $('li#late')
+            const btn_no_bonus = $('button#btn_proceed_without_bonus')
+            const btn_bonus = $('button#btn_proceed_with_bonus');
+            const inner_alert = $('#inner-alert');
+            const inner_timer = inner_alert.find('.inner-timer').countdown(currentDate.valueOf() + milliseconds + {{subsession.time_to_proceed}} * 1000, {defer: true})
+                .on('update.countdown', function (event) {
+                    var format = '%-N:%S';
+                    $(this).html(event.strftime(format));
+                })
+                .on('finish.countdown', function (event) {
+
+                    $(this).html('0:00').addClass('badge-danger').removeClass('badge-success');
+                    btn_bonus.addClass('d-none').hide();
+                    btn_no_bonus.removeClass('d-none').show();
+                    li_ontime.addClass('d-none').hide();
+                    li_late.removeClass('d-none').show();
+                    inner_alert.addClass('d-none').hide();
+                })
+
+            $('.timer').countdown(currentDate.valueOf() + milliseconds)
+                .on('update.countdown', function (event) {
+                    // %-N is "Total count of minutes till the end, non-padded"
+                    // %S is seconds left
+                    var format = '%-N:%S';
+                    $(this).html(event.strftime(format));
+                })
+                .on('finish.countdown', function (event) {
+
+                    inner_alert.removeClass('d-none').show();
+
+                    $(this).html('0:00').addClass('badge-danger').removeClass('badge-success')
+                    btn_no_bonus.addClass('d-none').hide();
+                    btn_bonus.removeClass('d-none').show();
+                    li_ontime.removeClass('d-none').show();
+                    inner_timer.countdown('start')
+                });
+        });
+    </script>
+
+
+
+
+{% endblock %}

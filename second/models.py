@@ -60,15 +60,7 @@ class Subsession(VignetteSubsession):
                 p.matched = Match.MATCHED
             return group
         if len(waiting_players) > 1:
-
-            for i in waiting_players:
-                pos = i.participant.vars.get('position')
-                rest = [j for j in waiting_players if j.participant.vars.get('position') != pos]
-                if rest:
-                    group = [i, rest[0]]
-                    for p in group:
-                        p.matched = Match.MATCHED
-                    return group
+            return waiting_players[:2]
 
     def creating_session(self):
         super().creating_session()
@@ -105,6 +97,7 @@ class Group(BaseGroup):
 
     def chat(self, id_in_group, payload, **kwargs):
         if payload.get('participant_left_chat'):
+            self.chat_status = False
             return {0: dict(participant_left_chat=True, action='endOfChat')}
         text = payload.get('text')
         if text:

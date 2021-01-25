@@ -36,8 +36,7 @@ class Subsession(VignetteSubsession):
 
 
 class Group(BaseGroup):
-    def first_decision_making(self, id_in_group, payload, **kwargs):
-        print(f'MESSAGE RECEIVED {payload} FROM: {id_in_group}')
+    pass
 
 
 class Player(VignettePlayer):

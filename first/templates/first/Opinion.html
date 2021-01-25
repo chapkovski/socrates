@@ -11,6 +11,7 @@
     {% render_bundle 'no_chat' 'css' %}
     {% render_bundle 'chunk-vendors' 'css' %}
     <script>
+
         window.socket_path = "{{ view.live_url }}";
         window.id_in_group = {{ player.id_in_group }};
         window.path_to_vignette = "{% url 'get_current_vignette' participant_code=participant.code %}";
