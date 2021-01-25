@@ -4,15 +4,13 @@ from otree.api import (
     BaseConstants,
     BaseSubsession,
     BaseGroup,
-    BasePlayer,
-    Currency as c,
-    currency_range,
+
 )
 from datetime import datetime, timedelta, timezone
 from django.db import models as djmodels
-from operator import itemgetter
+
 from first.generic_models import VignetteSubsession, VignettePlayer
-import random
+from dateutil.relativedelta import relativedelta
 
 author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
 
@@ -37,6 +35,8 @@ class Constants(BaseConstants):
     num_rounds = 1
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
+    seconds_allow_exit =  10  # After how many seconds they allwered to leave the chat. TODO: move to session settings
+    msg_till_allowed_exit = 'Time till you are allowed to finish the chat'
     matching_choices = [Match.NOT_YET, Match.NOT_MATCHED,
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
 
@@ -78,12 +78,14 @@ class Subsession(VignetteSubsession):
 
 
 class Group(BaseGroup):
-    time_chat_start = djmodels.DateTimeField(blank=True, null=True)
-    time_chat_end = djmodels.DateTimeField(blank=True, null=True)
+    time_allow_exit = djmodels.DateTimeField(blank=True, null=True)
 
     def set_timer(self):
-        self.time_chat_start = datetime.utcnow()
-        self.time_chat_end = self.time_chat_start + timedelta(seconds=Constants.seconds_to_chat)
+        self.time_allow_exit = datetime.now(timezone.utc) + relativedelta(seconds=Constants.seconds_allow_exit)
+
+    @property
+    def seconds_till_allow_to_leave(self):
+        return (self.time_allow_exit - datetime.now(timezone.utc)).total_seconds()
 
     def time_to_chat_over(self):
         if self.time_chat_end:

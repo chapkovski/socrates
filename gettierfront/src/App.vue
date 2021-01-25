@@ -1,30 +1,51 @@
 <template>
   <v-app id="inspire">
     <error-modal></error-modal>
-    <v-system-bar height="30" app><div>pizda</div> </v-system-bar>
-    <v-navigation-drawer  fixed permanent right class='chatdrawer'>
+    <v-system-bar height="30" app>
+      <timer
+        :secsToEnd="secsTillAllowedExit"
+        :whatToDo="'allowExitPermission'"
+        :progressMessage="msg_till_allowed_exit"
+        color='blue'
+      ></timer>
+      <timer
+        :secsToEnd="secsTillForcedExit"
+        :whatToDo="'forceExit'"
+        :progressMessage="msg_till_forced_exit"
+        color='red'
+      ></timer>
+    </v-system-bar>
+    <v-navigation-drawer fixed permanent right class="chatdrawer">
       <h1>chat</h1>
-        <chat></chat>
-      
+      <chat></chat>
     </v-navigation-drawer>
-    <v-main class='maincont'>
+    <v-main class="maincont">
       <v-container fluid fill-height>
         <v-row>
           <v-col>
             <formatted-vignette
-                  :vignette="vignette"
-                  :enabled="true"
-                  @answer-changed="answerChanged"
-                  @confidence-changed="confidenceChanged"
-                  v-if="vignette"
-                ></formatted-vignette>
+              :vignette="vignette"
+              :enabled="true"
+              @answer-changed="answerChanged"
+              @confidence-changed="confidenceChanged"
+              v-if="vignette"
+            ></formatted-vignette>
           </v-col>
         </v-row>
       </v-container>
     </v-main>
     <v-footer app>
       <v-col>
-        <v-btn large color="red" @click="formSubmit">Next</v-btn>
+        <transition
+          name="custom-classes-transition"
+          enter-active-class="animate__animated animate__backInDown"
+          leave-active-class="animate__animated animate__backOutDown"
+          appear
+        >
+          <v-btn large color="red" @click="formSubmit" v-if="chatExitAllowed">
+            Next
+          </v-btn>
+        </transition>
       </v-col>
     </v-footer>
   </v-app>
@@ -35,7 +56,8 @@ import Chat from "./components/Chat.vue";
 import FormattedVignette from "./components/FormattedVignette.vue";
 import EndChat from "./components/EndChatModal.vue";
 import ErrorModal from "./components/ErrorModal.vue";
-import VueCountdown from "@chenfengyuan/vue-countdown";
+import "animate.css";
+import Timer from "./components/TimerTillEnd";
 import { mapActions, mapState } from "vuex";
 export default {
   name: "LayoutsDemosBaselineFlipped",
@@ -43,16 +65,18 @@ export default {
     source: String,
   },
   components: {
+    Timer,
     chat: Chat,
     EndChat,
     ErrorModal,
-    countdown: VueCountdown,
+    // countdown: VueCountdown,
     FormattedVignette,
+    
   },
 
   data() {
     return {
-      secondsToEnd: window.secondsToEnd,
+      timeLeft: 50,
       content: "",
       radios: "",
       choices: [],
@@ -63,7 +87,8 @@ export default {
       loading: false,
       totalChatHeight: 0,
       vignette: "",
-      nextAvailable: secondsToEnd <= 0,
+      secsTillAllowedExit: window.seconds_till_allow_to_leave,
+      msg_till_allowed_exit:window.msg_till_allowed_exit
     };
   },
   watch: {
@@ -83,10 +108,7 @@ export default {
       .catch((e) => console.debug(e));
   },
   computed: {
-    ...mapState(["djangoErrors"]),
-    secondsForTimer() {
-      return Math.max(0, this.secondsToEnd);
-    },
+    ...mapState(["djangoErrors", "chatExitAllowed"]),
   },
   methods: {
     answerChanged(val) {
@@ -113,21 +135,26 @@ export default {
   },
 };
 </script>
-<style >
-.maincont{margin-right:256px;
-overflow-y:scroll}
-.chatdrawer{
-  border: .1px solid lightgray;
-  border-radius:10px;
-  height: calc(100% - 50px)!important;
-  top:initial!important;
-  bottom:10px!important;
-  margin-right:10px;
-  padding:10px
+<style>
+.maincont {
+  margin-right: 256px;
+  overflow-y: scroll;
 }
-div.v-navigation-drawer__content{
-  display: flex!important;
-  flex-direction: column!important;
+.chatdrawer {
+  border: 0.1px solid lightgray;
+  border-radius: 10px;
+  height: calc(100% - 50px) !important;
+  top: initial !important;
+  bottom: 10px !important;
+  margin-right: 10px;
+  padding: 10px;
+  -webkit-box-shadow: -1px -1px 5px 0px rgba(0, 0, 0, 0.46);
+  -moz-box-shadow: -1px -1px 5px 0px rgba(0, 0, 0, 0.46);
+  box-shadow: -1px -1px 5px 0px rgba(0, 0, 0, 0.46);
+}
+div.v-navigation-drawer__content {
+  display: flex !important;
+  flex-direction: column !important;
 }
 .main-container {
   margin: 0px !important;

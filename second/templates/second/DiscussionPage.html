@@ -13,8 +13,10 @@
         window.socket_path = "{{ view.live_url }}";
         window.id_in_group = {{ player.id_in_group }};
         window.path_to_vignette = "{% url 'get_current_vignette' participant_code=participant.code %}";
-        window.secondsToEnd = {{ group.time_to_chat_over }};
         window.djangoErrors = {{ django_errors|default_if_none:''|json }};
+        window.timeTillExitPermission = {{ time_to_exit|json }};
+        window.seconds_till_allow_to_leave = {{ group.seconds_till_allow_to_leave|json }}
+        window.msg_till_allowed_exit = {{ Constants.msg_till_allowed_exit|json }}
     </script>
 
 

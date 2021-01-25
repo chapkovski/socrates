@@ -15,15 +15,17 @@ const store = new Vuex.Store({
         chatOver: false,
         saving: false,
         djangoErrors: window.djangoErrors,
-        errorDialog: _.isEmpty(window.djangoErrors) !== true
+        errorDialog: _.isEmpty(window.djangoErrors) !== true,
+        chatExitAllowed: false
     },
     getters: {
-        status: (state) => state.socket.isConnected ,
+        status: (state) => state.socket.isConnected,
         isChatOver: (state) => state.chatOver,
         savingStatus: (state) => state.saving,
     },
     mutations: {
-        toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog)  ,
+        allowExitPermission: (state) => (state.chatExitAllowed = true),
+        toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog),
         SAVING_INITIATED(state) {
             state.saving = true
         },
