@@ -4,6 +4,7 @@
       <v-progress-linear
         width="100%"
         height="25px"
+        :color="color"
         :value="
           (anyYouWantedScopName.timeObj.leftTime / 1000 / secsToEnd) * 100
         "
@@ -13,7 +14,7 @@
       </v-progress-linear>
     </template>
     <template v-slot:finish>
-      <span>Done!</span>
+      <span>You can click 'Next' if you want to leave the chat early</span>
     </template>
   </countdown>
 </template>
@@ -26,6 +27,7 @@ export default {
     secsToEnd: Number,
     progressMessage: String,
     whatToDo: String,
+    color: String
   },
   data() {
     const endTime = addSeconds(new Date(), this.secsToEnd);

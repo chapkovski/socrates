@@ -2,7 +2,12 @@ from os import environ
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+SOME_DEFAULTS = dict(
+    seconds_allow_exit=10,
+    msg_till_allowed_exit='You can leave the chat in',
+    seconds_forced_exit=30,
+    msg_forced_exit='The chat will end automatically in',
+)
 SESSION_CONFIGS = [
     dict(
         name='first',
@@ -16,14 +21,16 @@ SESSION_CONFIGS = [
         display_name="second",
         num_demo_participants=2,
         app_sequence=['second'],
-        vignette='asdf'
+        vignette='asdf',
+        **SOME_DEFAULTS
     ),
     dict(
         name='together',
         display_name="Full game",
         num_demo_participants=2,
         app_sequence=['first', 'second'],
-        vignette='asdf'
+        vignette='asdf',
+        **SOME_DEFAULTS
     ),
 ]
 

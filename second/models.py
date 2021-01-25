@@ -35,13 +35,17 @@ class Constants(BaseConstants):
     num_rounds = 1
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
-    seconds_allow_exit =  10  # After how many seconds they allwered to leave the chat. TODO: move to session settings
-    msg_till_allowed_exit = 'Time till you are allowed to finish the chat'
+
     matching_choices = [Match.NOT_YET, Match.NOT_MATCHED,
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
 
 
 class Subsession(VignetteSubsession):
+    seconds_allow_exit = models.IntegerField()
+    msg_till_allowed_exit = models.StringField()
+    seconds_forced_exit = models.IntegerField()
+    msg_forced_exit = models.StringField()
+
     def group_by_arrival_time_method(self, waiting_players):
         now = datetime.now(timezone.utc)
         waited_too_long = [p for p in waiting_players if now > p.wp_exit_time]
@@ -68,6 +72,11 @@ class Subsession(VignetteSubsession):
 
     def creating_session(self):
         super().creating_session()
+        self.seconds_allow_exit = self.session.config.get('seconds_allow_exit')
+        self.msg_till_allowed_exit = self.session.config.get('msg_till_allowed_exit')
+        self.seconds_forced_exit = self.session.config.get('seconds_forced_exit')
+        self.msg_forced_exit = self.session.config.get('msg_forced_exit')  # 'This chat will end in'
+
         first_exists = 'first' in self.session.config.get('app_sequence')
         if first_exists:
             for p in self.get_players():
@@ -79,20 +88,25 @@ class Subsession(VignetteSubsession):
 
 class Group(BaseGroup):
     time_allow_exit = djmodels.DateTimeField(blank=True, null=True)
+    time_forced_exit = djmodels.DateTimeField(blank=True, null=True)
+    chat_status = models.BooleanField()
 
     def set_timer(self):
-        self.time_allow_exit = datetime.now(timezone.utc) + relativedelta(seconds=Constants.seconds_allow_exit)
+        self.chat_status = True
+        self.time_allow_exit = datetime.now(timezone.utc) + relativedelta(seconds=self.subsession.seconds_allow_exit)
+        self.time_forced_exit = datetime.now(timezone.utc) + relativedelta(seconds=self.subsession.seconds_forced_exit)
 
     @property
     def seconds_till_allow_to_leave(self):
         return (self.time_allow_exit - datetime.now(timezone.utc)).total_seconds()
 
     def time_to_chat_over(self):
-        if self.time_chat_end:
-            return (self.time_chat_end - datetime.now(timezone.utc)).total_seconds() * 1000
+        return (self.time_forced_exit - datetime.now(timezone.utc)).total_seconds()
 
     def chat(self, id_in_group, payload, **kwargs):
-        text = payload.get('text', )
+        if payload.get('participant_left_chat'):
+            return {0: dict(participant_left_chat=True, action='endOfChat')}
+        text = payload.get('text')
         if text:
             p = self.get_player_by_id(id_in_group)
             ch = Chat.objects.create(owner=p, group=self, body=text)
@@ -101,14 +115,11 @@ class Group(BaseGroup):
             resp = {p.id_in_group: dict(text=f'ECHO: {ch.body}', source=id_in_group + 1, action='confirm'),
                     **to_others}
             return resp
-        request_old_messages = payload.get('request_old_messages', False)
+        request_old_messages = payload.get('request_old_messages')
         if request_old_messages:
             msgs = self.chats.all().order_by('id')
             msgs = [{'text': i.body, 'source': i.owner.id_in_group} for i in msgs]
-            return {id_in_group: dict(msgs=msgs, action='PrevMessages')}
-        decision = payload.get('decision', False)
-        if decision:
-            print('DECISION!', decision, id_in_group)
+            return {id_in_group: dict(msgs=msgs, action='PrevMessages', chatStatus=self.chat_status)}
 
 
 class Player(VignettePlayer):

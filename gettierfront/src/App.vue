@@ -4,15 +4,15 @@
     <v-system-bar height="30" app>
       <timer
         :secsToEnd="secsTillAllowedExit"
-        :whatToDo="'allowExitPermission'"
+        whatToDo="allowExitPermission"
         :progressMessage="msg_till_allowed_exit"
-        color='blue'
+        color="blue"
       ></timer>
       <timer
-        :secsToEnd="secsTillForcedExit"
-        :whatToDo="'forceExit'"
-        :progressMessage="msg_till_forced_exit"
-        color='red'
+        :secsToEnd="seconds_forced_exit"
+        whatToDo="forceExit"
+        :progressMessage="msg_forced_exit"
+        color="red"
       ></timer>
     </v-system-bar>
     <v-navigation-drawer fixed permanent right class="chatdrawer">
@@ -25,7 +25,7 @@
           <v-col>
             <formatted-vignette
               :vignette="vignette"
-              :enabled="true"
+              :enabled="false"
               @answer-changed="answerChanged"
               @confidence-changed="confidenceChanged"
               v-if="vignette"
@@ -71,7 +71,6 @@ export default {
     ErrorModal,
     // countdown: VueCountdown,
     FormattedVignette,
-    
   },
 
   data() {
@@ -88,13 +87,22 @@ export default {
       totalChatHeight: 0,
       vignette: "",
       secsTillAllowedExit: window.seconds_till_allow_to_leave,
-      msg_till_allowed_exit:window.msg_till_allowed_exit
+      msg_till_allowed_exit: window.msg_till_allowed_exit,
+      seconds_forced_exit: window.seconds_forced_exit,
+      msg_forced_exit: window.msg_forced_exit,
     };
+  },
+  computed: {
+    ...mapState(["djangoErrors", "chatExitAllowed", 'chatExitForced']),
   },
   watch: {
     confidence(newVal, oldVal) {
       console.debug(`old value ${oldVal}`);
       console.debug(`new value ${newVal}`);
+    },
+
+    "$store.state.chatExitForced": function() {
+      this.formSubmit();
     },
   },
   mounted() {
@@ -107,9 +115,7 @@ export default {
       })
       .catch((e) => console.debug(e));
   },
-  computed: {
-    ...mapState(["djangoErrors", "chatExitAllowed"]),
-  },
+
   methods: {
     answerChanged(val) {
       console.debug("ANSWER CHANGED!!!", val);

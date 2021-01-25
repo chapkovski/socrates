@@ -16,7 +16,11 @@
         window.djangoErrors = {{ django_errors|default_if_none:''|json }};
         window.timeTillExitPermission = {{ time_to_exit|json }};
         window.seconds_till_allow_to_leave = {{ group.seconds_till_allow_to_leave|json }}
-        window.msg_till_allowed_exit = {{ Constants.msg_till_allowed_exit|json }}
+        window.msg_till_allowed_exit = {{ subsession.msg_till_allowed_exit|json }}
+        window.seconds_forced_exit = {{ group.time_to_chat_over|json }}
+        window.msg_forced_exit = {{ subsession.msg_forced_exit|json }}
+
+
     </script>
 
 

@@ -13,7 +13,7 @@
           ></div>
         </v-card-text>
       </v-card>
-      <div class="question-wrapper mt-3">
+      <div class="question-wrapper mt-3" >
         <h5>{{ vignette.question }}</h5>
         <input type="hidden" :value="convertedAnswer" name="answer" />
         <v-radio-group v-model="answer" :mandatory="false">
@@ -64,6 +64,7 @@ export default {
       default: () => {},
     },
     enabled: { type: Boolean, default: false },
+    
   },
   data() {
     return {

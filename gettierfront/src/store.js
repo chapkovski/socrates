@@ -16,7 +16,8 @@ const store = new Vuex.Store({
         saving: false,
         djangoErrors: window.djangoErrors,
         errorDialog: _.isEmpty(window.djangoErrors) !== true,
-        chatExitAllowed: false
+        chatExitAllowed: false,
+        chatExitForced: false
     },
     getters: {
         status: (state) => state.socket.isConnected,
@@ -25,6 +26,7 @@ const store = new Vuex.Store({
     },
     mutations: {
         allowExitPermission: (state) => (state.chatExitAllowed = true),
+        forceExit: (state) => (state.chatExitForced = true),
         toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog),
         SAVING_INITIATED(state) {
             state.saving = true
@@ -69,7 +71,7 @@ const store = new Vuex.Store({
         },
         // default handler called for all methods
         SOCKET_ONMESSAGE(state, message) {
-
+           
         },
         // mutations for reconnect methods
         SOCKET_RECONNECT(state, count) {
@@ -88,6 +90,10 @@ const store = new Vuex.Store({
             console.debug('INCOMING messagei incoming', message);
             context.commit('addMessage', message);
         },
+        endOfChat: function(context, message){
+            console.debug('SOMEWONE LEFT THE CHAT');
+            context.commit('forceExit');
+        },
         confirm: function (context, message) {
             console.debug('messagei confirmed', message)
         },
@@ -102,7 +108,10 @@ const store = new Vuex.Store({
         },
         PrevMessages: function (context, message) {
             console.debug('previous messages received');
-            const { msgs } = message
+            const { msgs, chatStatus } = message
+            if (chatStatus === false) {
+                context.commit('forceExit');
+            }
             if (msgs) {
                 msgs.forEach(m => {
                     console.debug(m);
