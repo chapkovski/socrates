@@ -24,11 +24,13 @@ class VignetteSubsession(BaseSubsession):
         try:
             v = Vignette.objects.get(title=vignette_title)
         except Vignette.DoesNotExist:
-            # TODO: temporary fix for debugging. dont' forget to remove
-            FIX = 'asdf'
-            v = Vignette.objects.create(title=FIX, body='Vignette example', question="what do you think?",
-                                        yes_option='YES', no_option='NOPE')
-            # raise Exception('Cannot find the vignette')
+            # THis is for debugging only!
+            if vignette_title == 'asdf':
+                v = Vignette.objects.create(title=vignette_title, body='Vignette example', question="what do you think?",
+                                            yes_option='YES', no_option='NOPE')
+            else:
+                raise Exception(f'Cannot find the vignette with the title "{vignette_title}"\n'
+                                f'Go to "Vignette manager" and create the vignette with this title first!')
         self.vignette = v
         self.body = v.body
         self.question = v.question
