@@ -19,7 +19,7 @@ SESSION_CONFIGS = [
         display_name="first",
         num_demo_participants=1,
         app_sequence=[
-            # 'starter',
+            'starter',
             'first'
         ],
         vignette='asdf',
