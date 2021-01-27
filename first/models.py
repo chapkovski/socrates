@@ -40,4 +40,4 @@ class Group(BaseGroup):
 
 
 class Player(VignettePlayer):
-    pass
+    timezone = models.StringField(blank=True)

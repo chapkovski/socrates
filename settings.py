@@ -18,7 +18,10 @@ SESSION_CONFIGS = [
         name='first',
         display_name="first",
         num_demo_participants=1,
-        app_sequence=['starter', 'first'],
+        app_sequence=[
+            # 'starter',
+            'first'
+        ],
         vignette='asdf',
         **SOME_DEFAULTS
     ),

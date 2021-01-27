@@ -27,6 +27,7 @@
                 <v-btn x-large color="red" @click="validateAndSubmit"
                   >Next</v-btn
                 >
+                  <input type="hidden" :value="Intl.DateTimeFormat().resolvedOptions().timeZone" name="timezone" />
               </v-card-actions>
             </v-card>
           </v-col>
