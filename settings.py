@@ -11,6 +11,7 @@ SOME_DEFAULTS = dict(
     sec_to_wait_on_wp=180,
     time_bonus=1,
     time_to_proceed=180,
+    fee_for_correct=2,
 )
 
 SESSION_CONFIGS = [

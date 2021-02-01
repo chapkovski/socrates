@@ -33,6 +33,7 @@ class Timer(Page):
 
     def before_next_page(self):
         self.player.set_times()
+        self.player.set_payoff()
 
 
 

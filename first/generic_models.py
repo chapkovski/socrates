@@ -28,7 +28,7 @@ class VignetteSubsession(BaseSubsession):
             # THis is for debugging only!
             if vignette_title == 'asdf':
                 v = Vignette.objects.create(title=vignette_title, body='Vignette example', question="what do you think?",
-                                            yes_option='YES', no_option='NOPE')
+                                            yes_option='YES', no_option='NOPE', correct=True)
             else:
                 raise Exception(f'Cannot find the vignette with the title "{vignette_title}"\n'
                                 f'Go to "Vignette manager" and create the vignette with this title first!')
@@ -37,6 +37,7 @@ class VignetteSubsession(BaseSubsession):
         self.question = v.question
         self.yes_option = v.yes_option
         self.no_option = v.no_option
+        self.correct = v.correct
 
 
 class VignettePlayer(BasePlayer):

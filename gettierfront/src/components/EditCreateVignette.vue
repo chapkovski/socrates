@@ -9,9 +9,9 @@
             outlined
             required
             v-model="vignette.title"
-            @input="resetError('title')"
-            :error-messages="(errorMessages && errorMessages.title) || ''"
-          ></v-text-field>
+    :rules="[rules.required]"
+ 
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -36,35 +36,33 @@
       <v-row>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
+            v-model="vignette.question"
             label="Question"
             placeholder="Type question text here"
-            required
+
             outlined
-            v-model="vignette.question"
-            @input="resetError('question')"
-            :error-messages="(errorMessages && errorMessages.question) || ''"
-                                  :rules="[rules.required]"
-          ></v-text-field>
+
+ 
+            :rules="[rules.required]"
+          />
         </v-col>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
+            v-model="vignette.yes_option"
             label="Option for 'yes'"
             placeholder="Option for 'Yes'"
             outlined
-            v-model="vignette.yes_option"
-            @input="resetError('yes_option')"
-            :error-messages="(errorMessages && errorMessages.yes_option) || ''"
-                                  :rules="[rules.required]"
-          ></v-text-field>
+            :rules="[rules.required]"
+          />
         </v-col>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
             label="Option for 'No'"
             placeholder="Option for 'No'"
-            @input="resetError('no_option')"
+            
             outlined
             v-model="vignette.no_option"
-            :error-messages="(errorMessages && errorMessages.no_option) || ''"
+ 
                                   :rules="[rules.required]"
           ></v-text-field>
         </v-col>
@@ -123,7 +121,7 @@ export default {
     noOption: "",
     url: `/api/vignettes/`,
     axiosType: "post",
-    rules: {required: value => (value !== (undefined || null)|| 'Required.'),},
+    rules: {required: (value) => {if (value===null || value==='' || value===undefined) {return 'required'}}},
     nameRules: [
       
       (v) => !!v || "Vignette body is required",
@@ -172,10 +170,9 @@ export default {
     },
     saveVignette() {
       const val = this.$refs.form.validate();
-      console.debug("JOJPJPJP", val)
-      return
-      if (val) {
-        this.valid = true;
+
+      if (this.valid = true) {
+ 
         this.$http[this.axiosType](this.url, this.vignette)
           .then((r) => {
             if (r.data && r.data.id) {

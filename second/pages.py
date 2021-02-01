@@ -12,9 +12,6 @@ class FirstWP(WaitPage):
     template_name = 'second/MatcherWP.html'
 
     def is_displayed(self):
-        # If this is the essay type of treatment we do not match them anyway
-        if not self.session.config.get('chat'):
-            return False
         now = datetime.now(timezone.utc)
         if not self.player.wp_entrance_time:
             self.player.wp_entrance_time = now
@@ -77,7 +74,8 @@ class SecondOpinion(Opinion):
     template_name = 'first/Opinion.html'
     form_model = 'player'
     form_fields = ['answer', 'confidence']
-
+class AfterDiscussionWP(WaitPage):
+    after_all_players_arrive = 'set_payoffs'
 
 class Results(Page):
     pass
@@ -91,4 +89,5 @@ page_sequence = [
     EssayPage,
     NoMatchingPage,
     SecondOpinion,
+    AfterDiscussionWP
 ]

@@ -115,6 +115,9 @@ class Player(BasePlayer):
     assignment_id = models.StringField()
     on_time = models.BooleanField()
 
+    def set_payoff(self):
+        self.payoff = self.on_time * self.session.config.get('time_bonus', 0)
+
     def start(self):
         self.arrival_time = now()
         self.worker_id = self.participant.vars.get('workerId')

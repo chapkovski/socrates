@@ -14,7 +14,8 @@
         </v-card-text>
       </v-card>
       <div class="question-wrapper mt-3" >
-        <h5>{{ vignette.question }}</h5>
+ 
+        <h4>{{ vignette.q }}</h4>
         <input type="hidden" :value="convertedAnswer" name="answer" />
         <v-radio-group v-model="answer" :mandatory="false">
           <v-radio
