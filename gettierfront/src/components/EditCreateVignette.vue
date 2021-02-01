@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+  <v-form ref="form" v-model="valid"  @submit.prevent>
     <v-container>
       <v-row>
         <v-col cols="12">
@@ -43,6 +43,7 @@
             v-model="vignette.question"
             @input="resetError('question')"
             :error-messages="(errorMessages && errorMessages.question) || ''"
+                                  :rules="[rules.required]"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="12" md="12">
@@ -53,6 +54,7 @@
             v-model="vignette.yes_option"
             @input="resetError('yes_option')"
             :error-messages="(errorMessages && errorMessages.yes_option) || ''"
+                                  :rules="[rules.required]"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="12" md="12">
@@ -63,10 +65,15 @@
             outlined
             v-model="vignette.no_option"
             :error-messages="(errorMessages && errorMessages.no_option) || ''"
+                                  :rules="[rules.required]"
           ></v-text-field>
         </v-col>
         <v-col cols="12" sm="12" md="12">
-          <v-radio-group v-model="vignette.correct" row>
+          <v-radio-group
+           v-model="vignette.correct"
+            row
+                      :rules="[rules.required]"
+                      >
             <template v-slot:label>
               <div>Correct answer</strong></div>
             </template>
@@ -116,7 +123,9 @@ export default {
     noOption: "",
     url: `/api/vignettes/`,
     axiosType: "post",
+    rules: {required: value => (value !== (undefined || null)|| 'Required.'),},
     nameRules: [
+      
       (v) => !!v || "Vignette body is required",
       (v) => v.length >= 10 || "Vignette text must be at least  10 characters",
     ],
@@ -135,7 +144,7 @@ export default {
       this.axiosType = "patch";
       this.$http.get(`/api/vignettes/${this.id}`).then((response) => {
         this.vignette = response.data;
-        console.debug("PIZDA", response.data)
+       
       });
     } else {
       if (this.bufferForNew) {
@@ -163,7 +172,8 @@ export default {
     },
     saveVignette() {
       const val = this.$refs.form.validate();
-
+      console.debug("JOJPJPJP", val)
+      return
       if (val) {
         this.valid = true;
         this.$http[this.axiosType](this.url, this.vignette)
