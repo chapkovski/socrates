@@ -17,7 +17,7 @@
     {% render_bundle 'chunk-vendors' 'css' %}
 
     <div id="instructions" class="d-none">
-        <b>{{ player.get_instructions }}</b>
+        {{ player.get_instructions }}
     </div>
     <script>
         window.socket_path = "{{ view.live_url }}";

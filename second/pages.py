@@ -36,7 +36,8 @@ class Instructions(Page):
 class ComprehensionCheck(Page):
     pass
 
-
+class BeforeDiscussionWP(WaitPage):
+    pass
 class DiscussionPage(GeneralVignettePage):
     live_method = 'chat'
     _is_frozen = False
@@ -85,6 +86,7 @@ page_sequence = [
     FirstWP,
     Instructions,
     ComprehensionCheck,
+    BeforeDiscussionWP,
     DiscussionPage,
     EssayPage,
     NoMatchingPage,

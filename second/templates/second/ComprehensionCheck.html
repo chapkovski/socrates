@@ -8,7 +8,7 @@
 
 {% block content %}
       <div id="instructions" class="d-none">
-        <b>{{ player.get_instructions }}</b>
+        {{ player.get_instructions }}
     </div>
     <script>
         window.instructions = $('#instructions').html()
@@ -19,7 +19,6 @@
     {% render_bundle 'instruction_bar' 'js' %}
     {% render_bundle 'chunk-vendors' 'js' %}
 
-    {{ player.get_instructions }}
     <div>COMPREHESNION QUESTIONS HERE</div>
     {% next_button %}
 {% endblock %}

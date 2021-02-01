@@ -54,6 +54,7 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'ExportIndex' %}">Data</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ServerCheck' %}">Server Check</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'vignette_manager' %}">Vignette manager</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'instruction_manager' %}">Instructions</a></li>
                 {% if request.user.is_authenticated|default:False %}
                     <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
                 {% endif %}

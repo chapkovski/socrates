@@ -22,7 +22,13 @@ class TestView(TemplateView):
     template_name = 'second/admin/create_vignette.html'
 
     def get(self, request, *args, **kwargs):
-        print('USER:', request.user)
+        return super().get(request, *args, **kwargs)
+class InstructionManager(TemplateView):
+    url_pattern = r'instructions/.*$'
+    url_name = 'instruction_manager'
+    template_name = 'second/admin/instruction_manager.html'
+
+    def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
 
@@ -31,10 +37,7 @@ class AxiosView(View):
     url_name = 'ax'
 
     def get(self, request, *args, **kwargs):
-        print('USER:', request.user)
-        print('USER AUTH:', request.user.is_authenticated)
         if request.user.is_authenticated:
             token, created = Token.objects.get_or_create(user=request.user)
-
             return JsonResponse(dict(token=token.key))
         return JsonResponse(dict(token='hui!'))

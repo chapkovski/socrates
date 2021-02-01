@@ -6,6 +6,7 @@ from otree.api import (
     BaseGroup,
 
 )
+from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta, timezone
 from django.db import models as djmodels
 
@@ -56,11 +57,12 @@ class Constants(BaseConstants):
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
 
     payoff_funs = dict(
-        no_reward=lambda x,y: 0,
+        no_reward=lambda x, y: 0,
         solo_reasoning=independent_payoff,
         dependent=dependent_payoff,
         independent=independent_payoff
     )
+
 
 class Subsession(VignetteSubsession):
     seconds_allow_exit = models.IntegerField()
@@ -68,6 +70,7 @@ class Subsession(VignetteSubsession):
     seconds_forced_exit = models.IntegerField()
     msg_forced_exit = models.StringField()
     fee_for_correct = models.CurrencyField()
+
     def group_by_arrival_time_method(self, waiting_players):
         if not self.session.config.get('chat'):
             return [waiting_players[0]]
@@ -89,6 +92,15 @@ class Subsession(VignetteSubsession):
     def creating_session(self):
         super().creating_session()
         assert Constants.payoff_funs.get(self.session.config.get('param_name')), 'No payoff function found!'
+        param_name = self.session.config.get('param_name')
+        try:
+            Param.objects.get(name=param_name)
+        except (Param.DoesNotExist, Param.MultipleObjectsReturned):
+            try:
+                with open(f'data/instructions/{param_name}.html') as reader:
+                    Param.objects.create(name=param_name, body=reader.read())
+            except( FileNotFoundError):
+                raise Exception('Something wrong with instructions parameters. Check for their existance or ask Philipp what to do')
         self.seconds_allow_exit = self.session.config.get('seconds_allow_exit')
         self.msg_till_allowed_exit = self.session.config.get('msg_till_allowed_exit')
         self.seconds_forced_exit = self.session.config.get('seconds_forced_exit')
@@ -102,6 +114,7 @@ class Subsession(VignetteSubsession):
         else:
             for p in self.get_players():
                 p.order = random.choice(FirstConstants.bns)
+
 
 class Group(BaseGroup):
     time_allow_exit = djmodels.DateTimeField(blank=True, null=True)
@@ -149,6 +162,7 @@ class Group(BaseGroup):
             msgs = [{'text': i.body, 'source': i.owner.id_in_group} for i in msgs]
             return {id_in_group: dict(msgs=msgs, action='PrevMessages', chatStatus=self.chat_status)}
 
+
 class Player(VignettePlayer):
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
     wp_exit_time = djmodels.DateTimeField(null=True, blank=True)
@@ -160,7 +174,9 @@ class Player(VignettePlayer):
         """
          Return instructions here based on treatment type
         """
-        return self.session.config.get('param_name')
+
+        param_name = self.session.config.get('param_name')
+        return mark_safe(Param.objects.get(name=param_name).body)
 
     def checking_matching(self):
         too_late = datetime.now(timezone.utc) > self.wp_exit_time
@@ -168,10 +184,12 @@ class Player(VignettePlayer):
             self.matched = int(too_late)
         return self.matched
 
+
 class Chat(djmodels.Model):
     body = models.StringField()
     owner = djmodels.ForeignKey(to=Player, related_name='chats', on_delete=djmodels.CASCADE)
     group = djmodels.ForeignKey(to=Group, related_name='chats', on_delete=djmodels.CASCADE)
+
 
 class Vignette(djmodels.Model):
     title = djmodels.CharField(unique=True, max_length=100)
@@ -180,3 +198,8 @@ class Vignette(djmodels.Model):
     yes_option = models.StringField()
     no_option = models.StringField()
     correct = models.BooleanField()
+
+
+class Param(djmodels.Model):
+    name = models.StringField(unique=True)
+    body = models.LongStringField()

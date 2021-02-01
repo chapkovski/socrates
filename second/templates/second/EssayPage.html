@@ -8,7 +8,7 @@
 
 {% block content %}
     <div id="instructions" class="d-none">
-        <b>{{ player.get_instructions }}</b>
+        {{ player.get_instructions }}
     </div>
     <script>
         window.instructions = $('#instructions').html()

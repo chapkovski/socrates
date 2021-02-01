@@ -171,7 +171,7 @@ export default {
     saveVignette() {
       const val = this.$refs.form.validate();
 
-      if (this.valid = true) {
+      if (this.valid ) {
  
         this.$http[this.axiosType](this.url, this.vignette)
           .then((r) => {
