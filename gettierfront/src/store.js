@@ -12,7 +12,7 @@ const store = new Vuex.Store({
             message: '',
             reconnectError: false,
         },
-        chatOver: false,
+        chatEndModal: false,
         saving: false,
         djangoErrors: window.djangoErrors,
         errorDialog: _.isEmpty(window.djangoErrors) !== true,
@@ -22,10 +22,13 @@ const store = new Vuex.Store({
     },
     getters: {
         status: (state) => state.socket.isConnected,
-        isChatOver: (state) => state.chatOver,
         savingStatus: (state) => state.saving,
     },
     mutations: {
+        setEndChatModel:(state, value)=> {
+            state.chatEndModal=value
+        },
+        toggleChatEndModal:state=>(state.chatEndModal=!state.chatEndModal),
         allowExitPermission: (state) => (state.chatExitAllowed = true),
         forceExit: (state) => (state.chatExitForced = true),
         toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog),
@@ -93,8 +96,8 @@ const store = new Vuex.Store({
             context.commit('addMessage', message);
         },
         endOfChat: function(context, message){
-            console.debug('SOMEWONE LEFT THE CHAT');
-            context.commit('forceExit');
+            context.commit('setEndChatModel', {value: true})
+            
         },
         confirm: function (context, message) {
             console.debug('messagei confirmed', message)

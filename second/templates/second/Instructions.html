@@ -6,7 +6,12 @@
 {% endblock %}
 
 {% block content %}
-    {{ player.get_instructions }}
+    <div class="card m-3">
+        <div class="card-body">
+             {{ player.get_instructions }}
+        </div>
+    </div>
+
     {% next_button %}
 {% endblock %}
 

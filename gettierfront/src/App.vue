@@ -1,7 +1,8 @@
 <template>
   <v-app id="inspire">
-    <error-modal></error-modal>
-    <instructions-modal></instructions-modal>
+    <end-chat />
+    <error-modal />
+    <instructions-modal />
     <v-system-bar height="30" app>
       <timer
         :secsToEnd="secsTillAllowedExit"
@@ -112,8 +113,7 @@ export default {
       console.debug(`old value ${oldVal}`);
       console.debug(`new value ${newVal}`);
     },
-
-    "$store.state.chatExitForced": function() {
+    chatExitForced: function() {
       this.formSubmit();
     },
   },
