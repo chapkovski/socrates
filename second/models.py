@@ -32,7 +32,6 @@ class Match(IntEnum):
 
 
 def independent_payoff(g, p):
-    print('what is going on here')
     correct = p.subsession.correct
     answer = p.answer
     fee = p.subsession.fee_for_correct
@@ -57,7 +56,7 @@ class Constants(BaseConstants):
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
 
     payoff_funs = dict(
-        no_reward=lambda x: 0,
+        no_reward=lambda x,y: 0,
         solo_reasoning=independent_payoff,
         dependent=dependent_payoff,
         independent=independent_payoff
