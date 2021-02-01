@@ -60,7 +60,7 @@ SESSION_CONFIGS = [
         display_name="Dependent reward - chat",
         num_demo_participants=2,
         app_sequence=[
-            # 'starter', 'first',
+            'starter', 'first',
             'second'],
         vignette='asdf',
         param_name='dependent',
