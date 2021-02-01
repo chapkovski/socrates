@@ -65,6 +65,15 @@
             :error-messages="(errorMessages && errorMessages.no_option) || ''"
           ></v-text-field>
         </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <v-radio-group v-model="vignette.correct" row>
+            <template v-slot:label>
+              <div>Correct answer</strong></div>
+            </template>
+            <v-radio label="No" :value="false"></v-radio>
+            <v-radio label="Yes" :value="true"></v-radio>
+          </v-radio-group>
+        </v-col>
       </v-row>
       <v-row>
         <v-col>
@@ -99,6 +108,7 @@ export default {
       question: "",
       yes_option: "",
       no_option: "",
+      correct:"",
     },
     errorMessages: "",
     title: "",
@@ -125,6 +135,7 @@ export default {
       this.axiosType = "patch";
       this.$http.get(`/api/vignettes/${this.id}`).then((response) => {
         this.vignette = response.data;
+        console.debug("PIZDA", response.data)
       });
     } else {
       if (this.bufferForNew) {

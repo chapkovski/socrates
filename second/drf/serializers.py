@@ -9,6 +9,6 @@ class VignetteSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Vignette
-        fields = ['id', 'body', 'question', 'yes_option', 'no_option', 'title']
+        fields = ['id', 'body', 'question', 'yes_option', 'no_option', 'title', 'correct']
 
 

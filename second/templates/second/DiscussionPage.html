@@ -7,8 +7,18 @@
 
 {% block body_main %}
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <script src="{% static 'otree/js/jquery-3.2.1.min.js' %}"></script>
+    <style>
+    .d-none{
+        display:none;
+    }
+    </style>
     {% render_bundle 'main' 'css' %}
     {% render_bundle 'chunk-vendors' 'css' %}
+
+    <div id="instructions" class="d-none">
+        <b>{{ player.get_instructions }}</b>
+    </div>
     <script>
         window.socket_path = "{{ view.live_url }}";
         window.id_in_group = {{ player.id_in_group }};
@@ -16,10 +26,11 @@
         window.djangoErrors = {{ django_errors|default_if_none:''|json }};
         window.timeTillExitPermission = {{ time_to_exit|json }};
         window.seconds_till_allow_to_leave = {{ group.seconds_till_allow_to_leave|json }}
-        window.msg_till_allowed_exit = {{ subsession.msg_till_allowed_exit|json }}
-        window.seconds_forced_exit = {{ group.time_to_chat_over|json }}
-        window.msg_forced_exit = {{ subsession.msg_forced_exit|json }}
-
+            window.msg_till_allowed_exit = {{ subsession.msg_till_allowed_exit|json }}
+                window.seconds_forced_exit = {{ group.time_to_chat_over|json }}
+                    window.msg_forced_exit =
+                        {{ subsession.msg_forced_exit|json }}
+                        window.instructions = $('#instructions').html()
 
     </script>
 

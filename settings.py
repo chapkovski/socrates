@@ -27,20 +27,55 @@ SESSION_CONFIGS = [
     ),
     dict(
         name='second',
-        display_name="second",
+        display_name="chat_only",
         num_demo_participants=2,
         app_sequence=['starter', 'second'],
         vignette='asdf',
-        **SOME_DEFAULTS
+        **SOME_DEFAULTS,
+        param_name='dependent'
     ),
     dict(
-        name='together',
-        display_name="Full game",
+        name='solo_reasoning',
+        display_name="Solo reasoning - essay",
         num_demo_participants=2,
         app_sequence=['starter', 'first', 'second'],
         vignette='asdf',
+        param_name='solo_reasoning',
+        chat=False,
         **SOME_DEFAULTS
     ),
+    dict(
+        name='no_reward',
+        display_name="No reward - essay",
+        num_demo_participants=2,
+        app_sequence=['starter', 'first', 'second'],
+        vignette='asdf',
+        param_name='no_reward',
+        chat=False,
+        **SOME_DEFAULTS
+    ),
+    dict(
+        name='dependent',
+        display_name="Dependent reward - chat",
+        num_demo_participants=2,
+        app_sequence=['starter', 'first', 'second'],
+        vignette='asdf',
+        param_name='dependent',
+        chat=True,
+
+        **SOME_DEFAULTS
+    ),
+    dict(
+        name='independent',
+        display_name="Independent reward - chat",
+        num_demo_participants=2,
+        app_sequence=['starter', 'first', 'second'],
+        vignette='asdf',
+        param_name='independent',
+        chat=True,
+        **SOME_DEFAULTS
+    ),
+
 ]
 
 SESSION_CONFIG_DEFAULTS = dict(

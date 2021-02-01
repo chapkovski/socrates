@@ -78,7 +78,7 @@ class Subsession(BaseSubsession):
         self.time_to_proceed = self.session.config.get('time_to_proceed', 180)
         self.delta = timedelta(seconds=self.time_to_proceed)
         self.formatted_delta = humanize.naturaldelta(self.delta)
-        fallback_time = now() + relativedelta(seconds=15)
+        fallback_time = now() + relativedelta(seconds=3)
         fallback_time_str = str(fallback_time)
         time_to_start_str = self.session.config.get('time_to_start')
 

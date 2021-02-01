@@ -15,6 +15,7 @@ class VignetteSubsession(BaseSubsession):
     yes_option = models.LongStringField()
     no_option = models.LongStringField()
     vignette = djmodels.ForeignKey(to='Vignette', on_delete=djmodels.SET_NULL, blank=True, null=True)
+    correct = models.BooleanField()
 
     def creating_session(self):
         from second.models import Vignette

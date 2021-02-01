@@ -1,6 +1,7 @@
 <template>
   <v-app id="inspire">
     <error-modal></error-modal>
+    <instructions-modal></instructions-modal>
     <v-system-bar height="30" app>
       <timer
         :secsToEnd="secsTillAllowedExit"
@@ -36,6 +37,15 @@
     </v-main>
     <v-footer app>
       <v-col>
+        <v-btn
+          large
+          color="blue"
+          @click="toggleInstructionsDialog"
+          class="mx-3 white--text"
+        >
+          <v-icon x-large>info</v-icon>
+          Show instructions
+        </v-btn>
         <transition
           name="custom-classes-transition"
           enter-active-class="animate__animated animate__backInDown"
@@ -56,9 +66,10 @@ import Chat from "./components/Chat.vue";
 import FormattedVignette from "./components/FormattedVignette.vue";
 import EndChat from "./components/EndChatModal.vue";
 import ErrorModal from "./components/ErrorModal.vue";
+import InstructionsModal from "./components/InstructionsModal";
 import "animate.css";
 import Timer from "./components/TimerTillEnd";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   name: "LayoutsDemosBaselineFlipped",
   props: {
@@ -68,6 +79,7 @@ export default {
     Timer,
     chat: Chat,
     EndChat,
+    InstructionsModal,
     ErrorModal,
     // countdown: VueCountdown,
     FormattedVignette,
@@ -93,7 +105,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["djangoErrors", "chatExitAllowed", 'chatExitForced']),
+    ...mapState(["djangoErrors", "chatExitAllowed", "chatExitForced"]),
   },
   watch: {
     confidence(newVal, oldVal) {
@@ -117,6 +129,8 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["toggleInstructionsDialog"]),
+    ...mapActions(["sendDecision"]),
     answerChanged(val) {
       console.debug("ANSWER CHANGED!!!", val);
       this.sendDecision({ decision_type: "answer", value: val });
@@ -125,7 +139,7 @@ export default {
       console.debug("CONFIENDCE CHANGED!!!", val);
       this.sendDecision({ decision_type: "confidence", value: val });
     },
-    ...mapActions(["sendDecision"]),
+
     chatEnded() {
       this.nextAvailable = true;
     },

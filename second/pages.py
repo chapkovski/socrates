@@ -12,6 +12,9 @@ class FirstWP(WaitPage):
     template_name = 'second/MatcherWP.html'
 
     def is_displayed(self):
+        # If this is the essay type of treatment we do not match them anyway
+        if not self.session.config.get('chat'):
+            return False
         now = datetime.now(timezone.utc)
         if not self.player.wp_entrance_time:
             self.player.wp_entrance_time = now
@@ -29,12 +32,20 @@ class FirstWP(WaitPage):
     after_all_players_arrive = 'set_timer'
 
 
+class Instructions(Page):
+    pass
+
+
+class ComprehensionCheck(Page):
+    pass
+
+
 class DiscussionPage(GeneralVignettePage):
     live_method = 'chat'
     _is_frozen = False
 
     def is_displayed(self):
-        return self.group.chat_status and self.player.matched
+        return self.group.chat_status and self.player.matched and self.session.config.get('chat')
 
     def before_next_page(self):
         self.group.chat_status = False
@@ -48,16 +59,24 @@ class DiscussionPage(GeneralVignettePage):
 
 class NoMatchingPage(Page):
     def is_displayed(self):
+        # If this is the essay type of treatment we don't get to No matching page anyway
+        if not self.session.config.get('chat'):
+            return False
         return self.player.matched == Match.NOT_MATCHED
+
+
+class EssayPage(Page):
+    form_model = 'player'
+    form_fields = ['essay']
+
+    def is_displayed(self):
+        return not self.session.config.get('chat')
 
 
 class SecondOpinion(Opinion):
     template_name = 'first/Opinion.html'
     form_model = 'player'
     form_fields = ['answer', 'confidence']
-
-    def is_displayed(self):
-        return True
 
 
 class Results(Page):
@@ -66,7 +85,10 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
+    Instructions,
+    ComprehensionCheck,
     DiscussionPage,
+    EssayPage,
     NoMatchingPage,
     SecondOpinion,
 ]

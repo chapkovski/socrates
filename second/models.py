@@ -120,6 +120,13 @@ class Player(VignettePlayer):
     wp_exit_time = djmodels.DateTimeField(null=True, blank=True)
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)
     matched = models.IntegerField(blank=True, choices=Constants.matching_choices, initial=Match.NOT_YET)
+    essay = models.LongStringField()
+
+    def get_instructions(self):
+        """
+         Return instructions here based on treatment type
+        """
+        return self.session.config.get('param_name')
 
     def checking_matching(self):
         too_late = datetime.now(timezone.utc) > self.wp_exit_time
@@ -140,3 +147,4 @@ class Vignette(djmodels.Model):
     question = models.StringField()
     yes_option = models.StringField()
     no_option = models.StringField()
+    correct = models.BooleanField()

@@ -15,10 +15,14 @@ const pages = {
         entry: './src/no_chat.js',
         chunks: ['chunk-vendors']
     },
+    'instruction_bar': {
+        entry: './src/instruction_bar.js',
+        chunks: ['chunk-vendors']
+    },
 };
 
 module.exports = {
-    
+
     runtimeCompiler: true,
     "transpileDependencies": [
         "vuetify"

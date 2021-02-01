@@ -17,7 +17,8 @@ const store = new Vuex.Store({
         djangoErrors: window.djangoErrors,
         errorDialog: _.isEmpty(window.djangoErrors) !== true,
         chatExitAllowed: false,
-        chatExitForced: false
+        chatExitForced: false,
+        instructionsShow: false,
     },
     getters: {
         status: (state) => state.socket.isConnected,
@@ -28,6 +29,7 @@ const store = new Vuex.Store({
         allowExitPermission: (state) => (state.chatExitAllowed = true),
         forceExit: (state) => (state.chatExitForced = true),
         toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog),
+        toggleInstructionsDialog: (state) => (state.instructionsShow = !state.instructionsShow),
         SAVING_INITIATED(state) {
             state.saving = true
         },
