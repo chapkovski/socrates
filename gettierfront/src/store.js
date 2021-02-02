@@ -19,12 +19,15 @@ const store = new Vuex.Store({
         chatExitAllowed: false,
         chatExitForced: false,
         instructionsShow: false,
+        initiatorOfEnd:false,
     },
     getters: {
         status: (state) => state.socket.isConnected,
         savingStatus: (state) => state.saving,
+        chatEndedByPartner: (state) => (!state.chatExitForced&&state.chatEndModal),
     },
     mutations: {
+        setEndChatInitiator: (state)=>{state.initiatorOfEnd=true},
         setEndChatModel:(state, value)=> {
             state.chatEndModal=value
         },
@@ -96,7 +99,9 @@ const store = new Vuex.Store({
             context.commit('addMessage', message);
         },
         endOfChat: function(context, message){
+            if (!context.state.initiatorOfEnd) {
             context.commit('setEndChatModel', {value: true})
+        }
             
         },
         confirm: function (context, message) {

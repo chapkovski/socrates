@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <end-chat />
+    <end-chat v-if='!chatExitForced'/>
     <error-modal />
     <instructions-modal />
     <v-system-bar height="30" app>
@@ -129,7 +129,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["toggleInstructionsDialog"]),
+    ...mapMutations(["toggleInstructionsDialog",'setEndChatInitiator']),
     ...mapActions(["sendDecision"]),
     answerChanged(val) {
       console.debug("ANSWER CHANGED!!!", val);
@@ -150,6 +150,7 @@ export default {
       }
     },
     formSubmit() {
+      this.setEndChatInitiator()
       document.getElementById("form").submit();
     },
   },
