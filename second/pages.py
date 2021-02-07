@@ -30,14 +30,22 @@ class FirstWP(WaitPage):
 
 
 class Instructions(Page):
-    pass
+    form_fields = ['myown']
+    form_model = 'player'
+
+
+from .forms import CQForm
 
 
 class ComprehensionCheck(Page):
-    pass
+    def get_form_class(self):
+        return CQForm
+
 
 class BeforeDiscussionWP(WaitPage):
     pass
+
+
 class DiscussionPage(GeneralVignettePage):
     live_method = 'chat'
     _is_frozen = False
@@ -49,8 +57,10 @@ class DiscussionPage(GeneralVignettePage):
         self.group.chat_status = False
 
     def post(self):
+        # TODO: check if they are allowed to leave
         for i in self.group.get_players():
-            live_payload_function(i.participant.code, 'DiscussionPage', {'participant_left_chat': True})
+            live_payload_function(i.participant.code, 'DiscussionPage',
+                                  {'participant_left_chat': True, 'action': 'endOfChat'})
 
         return super().post()
 
@@ -75,8 +85,11 @@ class SecondOpinion(Opinion):
     template_name = 'first/Opinion.html'
     form_model = 'player'
     form_fields = ['answer', 'confidence']
+
+
 class AfterDiscussionWP(WaitPage):
     after_all_players_arrive = 'set_payoffs'
+
 
 class Results(Page):
     pass

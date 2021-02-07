@@ -19,7 +19,12 @@
     {% render_bundle 'instruction_bar' 'js' %}
     {% render_bundle 'chunk-vendors' 'js' %}
 
-    <div>COMPREHESNION QUESTIONS HERE</div>
+    <div class="alert alert-info">
+    To help us ensure that you understand the experiment, please check all the boxes that you think apply to this study:
+    </div>
+    <table class="table table-striped table-hover">
+    {{ form.as_table }}
+    </table>
     {% next_button %}
 {% endblock %}
 

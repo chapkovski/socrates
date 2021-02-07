@@ -6,6 +6,8 @@ from otree.api import (
     BaseGroup,
 
 )
+from csv import DictReader
+
 from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta, timezone
 from django.db import models as djmodels
@@ -24,6 +26,7 @@ Second opinion collector + chat
 import random
 from first.models import Constants as FirstConstants
 from enum import IntEnum
+from csv import DictReader
 
 
 class Match(IntEnum):
@@ -52,6 +55,8 @@ class Constants(BaseConstants):
     num_rounds = 1
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
+    with open("data/cqs.csv") as csvfile:
+        cqs = list(DictReader(csvfile))
 
     matching_choices = [Match.NOT_YET, Match.NOT_MATCHED,
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
@@ -99,8 +104,9 @@ class Subsession(VignetteSubsession):
             try:
                 with open(f'data/instructions/{param_name}.html') as reader:
                     Param.objects.create(name=param_name, body=reader.read())
-            except( FileNotFoundError):
-                raise Exception('Something wrong with instructions parameters. Check for their existance or ask Philipp what to do')
+            except(FileNotFoundError):
+                raise Exception(
+                    'Something wrong with instructions parameters. Check for their existance or ask Philipp what to do')
         self.seconds_allow_exit = self.session.config.get('seconds_allow_exit')
         self.msg_till_allowed_exit = self.session.config.get('msg_till_allowed_exit')
         self.seconds_forced_exit = self.session.config.get('seconds_forced_exit')
@@ -164,6 +170,7 @@ class Group(BaseGroup):
 
 
 class Player(VignettePlayer):
+    cq_err_counter = models.IntegerField(default=0, doc='Error counter for CQs')
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
     wp_exit_time = djmodels.DateTimeField(null=True, blank=True)
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)
