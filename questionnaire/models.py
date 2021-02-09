@@ -31,10 +31,10 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    age = models.IntegerField(label='')
-    sex = models.IntegerField()
-    race = models.IntegerField()
-    education = models.IntegerField()
+    age = models.IntegerField(label='How old are you?')
+    sex = models.IntegerField(label='What is your gender?', choices=[(0,'Female'),(1,'Male'), (2, 'Other'), (3,'Prefer not to answer')])
+    race = models.IntegerField(label='What is your race', choices=[(0, 'White'), (1, 'Black'), (2, 'Other')])
+    education = models.IntegerField(label='What is the highest educational level you have attained?', choices=[(0, 'BA'), (1, 'MA'), (2, 'Ph.D')])
     ses = models.IntegerField()
     philosophy = models.IntegerField()
     stats = models.IntegerField()

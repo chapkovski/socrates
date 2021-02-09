@@ -3,16 +3,23 @@ from ._builtin import Page, WaitPage
 from .models import Constants
 
 
-class MyPage(Page):
-    pass
+class Q(Page):
+    form_model = 'player'
+    form_fields = [
+        "age",
+        "sex",
+        "race",
+        "education",
+        "ses",
+        "philosophy",
+        "stats",
+        "stem",
+        "critical",
+        "country_born",
+        "country_life",
+        "experience",
+        "comment",
+    ]
 
 
-class ResultsWaitPage(WaitPage):
-    pass
-
-
-class Results(Page):
-    pass
-
-
-page_sequence = [MyPage, ResultsWaitPage, Results]
+page_sequence = [Q]
