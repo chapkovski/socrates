@@ -6,6 +6,7 @@ from first.generic_pages import GeneralVignettePage
 from dateutil.relativedelta import relativedelta
 from otree.live import live_payload_function
 from first.pages import Opinion
+from django.utils.html import escape
 
 
 class FirstWP(WaitPage):
@@ -77,7 +78,24 @@ class EssayPage(GeneralVignettePage):
     form_model = 'player'
     form_fields = ['essay']
 
+    def get_context_data(self, *args, **kwargs):
+        c = super().get_context_data(*args, **kwargs)
+        form = c.get('form')
 
+
+        if form and hasattr(form, 'cleaned_data'):
+            form_data = form.cleaned_data
+            for k, v in form_data.items():
+                form_data[k] = escape(v)
+            c['form_data'] = form_data
+        return c
+
+    def post(self):
+        if self.group.seconds_till_allow_to_leave > 0:
+            self.object = self.get_object()
+            form = self.get_form(data=self.request.POST, files=self.request.FILES, instance=self.object)
+            return self.form_invalid(form)
+        return super().post()
 
     def is_displayed(self):
         return not self.session.config.get('chat')

@@ -7,6 +7,8 @@ const store = new Vuex.Store({
     state: {
       vignette:null,
       chatExitAllowed: false,
+      instructionsShow: false,
+      errorDialog: !_.isEmpty(window.djangoErrors),
     },
     getters: {
       
@@ -16,7 +18,9 @@ const store = new Vuex.Store({
             state.vignette = payload
         },
         allowExitPermission: (state) => (state.chatExitAllowed = true),
+        toggleInstructionsDialog: (state) => (state.instructionsShow = !state.instructionsShow),
 
+        toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog),
     },
     actions: {
         async getVignette({ commit } ) {

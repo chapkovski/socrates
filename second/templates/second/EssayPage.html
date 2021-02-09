@@ -21,7 +21,7 @@
     <script>
 
         window.djangoErrors = {{ django_errors|default_if_none:''|json }};
-
+        window.form_data={{ form_data|default_if_none:''|json  }}
         window.seconds_till_allow_to_leave = {{ group.seconds_till_allow_to_leave|json }};
         window.msg_till_allowed_exit = {{ subsession.msg_till_allowed_exit|json }};
         window.instructions = $('#instructions').html();

@@ -1,6 +1,8 @@
 <template>
   <v-app id="inspire">
-    <error-modal></error-modal>
+    <error-modal
+      error-text="Please check if you answer all the questions at this page"
+    />
     <v-main>
       <v-container class=" main-container h-100 d-flex fill-height" fluid>
         <v-row
@@ -27,7 +29,11 @@
                 <v-btn x-large color="red" @click="validateAndSubmit"
                   >Next</v-btn
                 >
-                  <input type="hidden" :value="Intl.DateTimeFormat().resolvedOptions().timeZone" name="timezone" />
+                <input
+                  type="hidden"
+                  :value="Intl.DateTimeFormat().resolvedOptions().timeZone"
+                  name="timezone"
+                />
               </v-card-actions>
             </v-card>
           </v-col>

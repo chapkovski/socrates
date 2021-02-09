@@ -3,7 +3,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
-    seconds_allow_exit=1000,
+    seconds_allow_exit=10,
     msg_till_allowed_exit='You can leave the chat in',
     seconds_forced_exit=3000,
     msg_forced_exit='The chat will end automatically in',

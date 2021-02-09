@@ -1,21 +1,23 @@
 <template>
   <v-app id="inspire">
     <end-chat v-if='!chatExitForced'/>
-    <error-modal />
+    <error-modal error-text="Please check if you answer all the questions at this page" />
     <instructions-modal />
     <v-system-bar height="30" app>
       <timer
-        :secsToEnd="secsTillAllowedExit"
-        whatToDo="allowExitPermission"
-        :progressMessage="msg_till_allowed_exit"
+        :secs-to-end="secsTillAllowedExit"
+        what-to-do="allowExitPermission"
+        :progress-message="msg_till_allowed_exit"
+        timer-finish="You can click 'Next' if you want to leave the chat early"
         color="blue"
-      ></timer>
+      />
       <timer
-        :secsToEnd="seconds_forced_exit"
-        whatToDo="forceExit"
-        :progressMessage="msg_forced_exit"
+        :secs-to-end="seconds_forced_exit"
+        what-to-do="forceExit"
+        :progress-message="msg_forced_exit"
+        timer-finish=""
         color="red"
-      ></timer>
+      />
     </v-system-bar>
     <v-navigation-drawer fixed permanent right class="chatdrawer">
       <h1>chat</h1>
