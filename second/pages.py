@@ -73,9 +73,11 @@ class NoMatchingPage(Page):
         return self.player.matched == Match.NOT_MATCHED
 
 
-class EssayPage(Page):
+class EssayPage(GeneralVignettePage):
     form_model = 'player'
     form_fields = ['essay']
+
+
 
     def is_displayed(self):
         return not self.session.config.get('chat')
@@ -97,12 +99,12 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    Instructions,
-    ComprehensionCheck,
-    BeforeDiscussionWP,
+    # Instructions,
+    # ComprehensionCheck,
+    # BeforeDiscussionWP,
     DiscussionPage,
     EssayPage,
-    NoMatchingPage,
-    SecondOpinion,
-    AfterDiscussionWP
+    # NoMatchingPage,
+    # SecondOpinion,
+    # AfterDiscussionWP
 ]

@@ -3,7 +3,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
-    seconds_allow_exit=10,
+    seconds_allow_exit=1000,
     msg_till_allowed_exit='You can leave the chat in',
     seconds_forced_exit=3000,
     msg_forced_exit='The chat will end automatically in',
@@ -13,7 +13,12 @@ SOME_DEFAULTS = dict(
     time_to_proceed=180,
     fee_for_correct=2,
 )
-
+standard_app_seq = [
+    # 'starter',
+    # 'first',
+    'second',
+    # 'questionnaire'
+]
 SESSION_CONFIGS = [
     dict(
         name='first',
@@ -39,7 +44,7 @@ SESSION_CONFIGS = [
         name='solo_reasoning',
         display_name="Solo reasoning - essay",
         num_demo_participants=2,
-        app_sequence=['starter', 'first', 'second'],
+        app_sequence=standard_app_seq,
         vignette='asdf',
         param_name='solo_reasoning',
         chat=False,
@@ -49,7 +54,7 @@ SESSION_CONFIGS = [
         name='no_reward',
         display_name="No reward - essay",
         num_demo_participants=2,
-        app_sequence=['starter', 'first', 'second'],
+        app_sequence=standard_app_seq,
         vignette='asdf',
         param_name='no_reward',
         chat=False,
@@ -59,9 +64,7 @@ SESSION_CONFIGS = [
         name='dependent',
         display_name="Dependent reward - chat",
         num_demo_participants=2,
-        app_sequence=[
-            'starter', 'first',
-            'second'],
+        app_sequence=standard_app_seq,
         vignette='asdf',
         param_name='dependent',
         chat=True,
@@ -72,7 +75,7 @@ SESSION_CONFIGS = [
         name='independent',
         display_name="Independent reward - chat",
         num_demo_participants=2,
-        app_sequence=['starter', 'first', 'second'],
+        app_sequence=standard_app_seq,
         vignette='asdf',
         param_name='independent',
         chat=True,

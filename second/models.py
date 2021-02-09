@@ -135,10 +135,15 @@ class Group(BaseGroup):
         for p in self.get_players():
             p.payoff = payoff_fun(self, p)
 
-    def set_timer(self):
-        self.chat_status = True
+    def set_timer(self, ):
+
+        self.chat_status = self.session.config.get('chat')
+        # We set the allowed time to exit both for essays and chats because we
+        # don't let people the essay as well
         self.time_allow_exit = datetime.now(timezone.utc) + relativedelta(
             seconds=self.subsession.seconds_allow_exit)
+        # for the sake of simplicity (and Jesus Christ) we keep forced_exit option on exit although
+        # it is not enforced
         self.time_forced_exit = datetime.now(timezone.utc) + relativedelta(
             seconds=self.subsession.seconds_forced_exit)
 

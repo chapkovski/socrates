@@ -1,25 +1,46 @@
-{% extends "global/Page.html" %}
+{% extends "global/FullPage.html" %}
+{% load otree %}
 {% load render_bundle from webpack_loader %}
-{% load otree static %}
 
-{% block title %}
-    Please write the essay here
-{% endblock %}
 
-{% block content %}
+{% block body_main %}
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <script src="{% static 'otree/js/jquery-3.2.1.min.js' %}"></script>
+    <style>
+        .d-none {
+            display: none;
+        }
+    </style>
+
+    {% render_bundle 'essay' 'css' %}
+    {% render_bundle 'chunk-vendors' 'css' %}
+
     <div id="instructions" class="d-none">
         {{ player.get_instructions }}
     </div>
     <script>
-        window.instructions = $('#instructions').html()
+
+        window.djangoErrors = {{ django_errors|default_if_none:''|json }};
+
+        window.seconds_till_allow_to_leave = {{ group.seconds_till_allow_to_leave|json }};
+        window.msg_till_allowed_exit = {{ subsession.msg_till_allowed_exit|json }};
+        window.instructions = $('#instructions').html();
+        window.path_to_vignette = "{% url 'get_current_vignette' participant_code=participant.code %}";
     </script>
-    {% render_bundle 'instruction_bar' 'css' %}
-    {% render_bundle 'chunk-vendors' 'css' %}
-    <div id="app"></div>
-    {% render_bundle 'instruction_bar' 'js' %}
+
+
+    <form action='' method="post" role="form" id="form" autocomplete="off">
+
+        {% csrf_token %}
+        <div id="app"></div>
+    </form>
+
+
+    {% render_bundle 'essay' 'js' %}
     {% render_bundle 'chunk-vendors' 'js' %}
-    {% formfield player.essay with label='' %}
-    {% next_button %}
+
+
 {% endblock %}
+
 
 

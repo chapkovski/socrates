@@ -23,6 +23,10 @@ const pages = {
         entry: './src/instruction_bar.js',
         chunks: ['chunk-vendors']
     },
+    essay: {
+        entry: './src/components/Essay/essay.js',
+        chunks: ['chunk-vendors']
+    },
 
 };
 
