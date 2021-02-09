@@ -38,6 +38,8 @@
                 </h5>
                 <input type="hidden" :value="confidence" name="confidence" />
               </v-col>
+              <div class="likert-wrapper">
+              <div class='likert-marker left'>Very uncertain</div>
               <v-btn-toggle v-model="confidence">
                 <v-btn
                   :disabled="!enabled"
@@ -48,6 +50,8 @@
                   {{ i }}
                 </v-btn>
               </v-btn-toggle>
+              <div class='likert-marker right '>Very confident</div>
+              </div>
             </v-row>
           </v-card-text>
         </v-card>
@@ -99,6 +103,21 @@ export default {
 };
 </script>
 <style scoped>
+.likert-wrapper{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.likert-marker{
+  margin-left:10px;
+  margin-right:10px;
+}
+.likert-marker.left{
+  text-align:right
+}
+.likert-marker.right{
+  text-align:left
+}
 .vignette-body {
   /* max-height: 300px; */
   max-width: 100%;

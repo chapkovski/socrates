@@ -75,7 +75,7 @@ export default {
       msg_till_allowed_exit: window.msg_till_allowed_exit,
       essay: "",
       secsTillAllowedExit: window.seconds_till_allow_to_leave,
-    };
+    };  
   },
 
   created() {
