@@ -31,8 +31,7 @@ class FirstWP(WaitPage):
 
 
 class Instructions(Page):
-    form_fields = ['myown']
-    form_model = 'player'
+    pass
 
 
 from .forms import CQForm
