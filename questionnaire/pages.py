@@ -11,14 +11,14 @@ class Q(Page):
         "race",
         "education",
         "ses",
-        "philosophy",
-        "stats",
-        "stem",
-        "critical",
+        "phil_background",
+        "stats_background",
+        "stem_background",
+        "critical_background",
         "country_born",
         "country_life",
-        "experience",
-        "comment",
+        "survey_experience",
+        "other_comments",
     ]
 
 

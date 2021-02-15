@@ -9,6 +9,8 @@ from otree.api import (
     currency_range,
 )
 from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
+
 author = 'Philip Chapkovski, HSE-Moscow'
 
 doc = """
@@ -31,16 +33,85 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    age = models.IntegerField(label='How old are you?')
-    sex = models.IntegerField(label='What is your gender?', choices=[(0,'Female'),(1,'Male'), (2, 'Other'), (3,'Prefer not to answer')])
-    race = models.IntegerField(label='What is your race', choices=[(0, 'White'), (1, 'Black'), (2, 'Other')])
-    education = models.IntegerField(label='What is the highest educational level you have attained?', choices=[(0, 'BA'), (1, 'MA'), (2, 'Ph.D')])
-    ses = models.IntegerField()
-    philosophy = models.IntegerField()
-    stats = models.IntegerField()
-    stem = models.BooleanField()
-    critical = models.BooleanField()
-    country_born = CountryField(null=True, blank=True)
-    country_life = models.StringField()
-    experience = models.IntegerField()
-    comment = models.LongStringField()
+    age = models.IntegerField(label='In what year were you born?', min=18, max=100)
+    sex = models.IntegerField(label='What is your gender?',
+                              choices=[(0, 'Male'), (1, 'Female'), (2, 'Other')],
+                              widget=widgets.RadioSelectHorizontal)
+    race = models.IntegerField(label='Which race or races do you consider yourself to be',
+                               choices=[(0, 'White'),
+                                        (1, 'Black or African American'),
+                                        (2, 'American Indian or Alaska Native'),
+                                        (3, 'Asian'),
+                                        (4, 'Native Hawaiian or Pacific Islander'),
+                                        (5, 'Other')
+                                        ],
+                               widget=widgets.RadioSelect
+                               )
+    education = models.IntegerField(label='What is the highest level of education you have achieved?',
+                                    choices=[(0, 'Less than high school degree'),
+                                             (1,
+                                              'High school graduate (high school diploma or equivalent including GED)'),
+                                             (2, 'Some college but no degree'),
+                                             (3, 'Associate degree in college (2-year)'),
+                                             (4, 'Bachelor''s degree in college (4-year)'),
+                                             (5, 'Master''s degree'),
+                                             (6, 'Doctoral degree'),
+                                             (7, 'Professional degree (JD, MD)')
+                                             ],
+                                    widget=widgets.RadioSelect
+                                    )
+    ses = models.IntegerField(label='What is the highest level of education your parents have achieved?',
+                              choices=[(0, 'Less than high school degree'),
+                                       (1, 'High school graduate (high school diploma or equivalent including GED)'),
+                                       (2, 'Some college but no degree'),
+                                       (3, 'Associate degree in college (2-year)'),
+                                       (4, 'Bachelor''s degree in college (4-year)'),
+                                       (5, 'Master''s degree'),
+                                       (6, 'Doctoral degree'),
+                                       (7, 'Professional degree (JD, MD)')
+                                       ],
+                              widget=widgets.RadioSelect
+                              )
+    phil_background = models.IntegerField(label='How much philosophy have you studied in college or high school?',
+                                          choices=[(0, 'None (zero classes)'),
+                                                   (1, 'Some (1 - 3 classes)'),
+                                                   (2, 'Moderate (4 - 7 classes)'),
+                                                   (3, 'A lot (More than 7 classes)'),
+                                                   ],
+                                          widget=widgets.RadioSelectHorizontal
+                                          )
+    stats_background = models.IntegerField(label='How much statistics have you studied in college or high school?',
+                                           choices=[(0, 'None (zero classes)'),
+                                                    (1, 'Some (1 - 3 classes)'),
+                                                    (2, 'Moderate (4 - 7 classes)'),
+                                                    (3, 'A lot (More than 7 classes)'),
+                                                    ],
+                                           widget=widgets.RadioSelectHorizontal
+                                           )
+    stem_background = models.BooleanField(label='Did you major in a STEM field or are you planning to do so?',
+                                          choices=[(False, "No"),
+                                                   (True, 'Yes')
+                                                   ],
+                                          widget=widgets.RadioSelectHorizontal
+                                          )
+    critical_background = models.BooleanField(label='Have you ever studied critical thinking?',
+                                              choices=[(False, "No"),
+                                                       (True, 'Yes')
+                                                       ],
+                                              widget=widgets.RadioSelectHorizontal
+                                              )
+    country_born = CountryField(verbose_name='In which country were you born?', null=True, blank=False )
+    country_life = CountryField(verbose_name='In which country have you lived most of your life?', null=True, blank=False)
+    survey_experience = models.IntegerField(label='Overall, how positive was your experience of this survey?',
+                                            choices=[(1, 'Negative'),
+                                                     (2, 'Somewhat negative'),
+                                                     (3, 'Neither positive nor negative'),
+                                                     (4, 'Somewhat positive'),
+                                                     (5, 'Positive'),
+                                                     ],
+                                            widget=widgets.RadioSelectHorizontal
+                                            )
+    other_comments = models.LongStringField(null=True,
+                                            blank=True,
+                                            label='If you have any other comments that you would like to'
+                                                  ' share with us, please do so here')
