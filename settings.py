@@ -7,16 +7,16 @@ SOME_DEFAULTS = dict(
     msg_till_allowed_exit='You can leave the chat in',
     seconds_forced_exit=3000,
     msg_forced_exit='The chat will end automatically in',
-    time_to_start='2020-01-26 15:34 MSK',
+    time_to_start='2020-02-10 19:00 MSK',
     sec_to_wait_on_wp=180,
     time_bonus=1,
     time_to_proceed=180,
     fee_for_correct=2,
 )
 standard_app_seq = [
-    'starter',
-    'first',
-    'second',
+    # 'starter',
+    # 'first',
+    # 'second',
     'questionnaire'
 ]
 SESSION_CONFIGS = [
@@ -114,7 +114,8 @@ INSTALLED_APPS = [
     'otree',
     'webpack_loader',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_countries'
 ]
 
 WEBPACK_LOADER = {

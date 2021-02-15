@@ -8,7 +8,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
-
+from django_countries.fields import CountryField
 author = 'Philip Chapkovski, HSE-Moscow'
 
 doc = """
@@ -40,7 +40,7 @@ class Player(BasePlayer):
     stats = models.IntegerField()
     stem = models.BooleanField()
     critical = models.BooleanField()
-    country_born = models.StringField()
+    country_born = CountryField(null=True, blank=True)
     country_life = models.StringField()
     experience = models.IntegerField()
     comment = models.LongStringField()
