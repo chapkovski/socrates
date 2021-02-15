@@ -117,12 +117,12 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    # Instructions,
-    # ComprehensionCheck,
-    # BeforeDiscussionWP,
+    Instructions,
+    ComprehensionCheck,
+    BeforeDiscussionWP,
     DiscussionPage,
     EssayPage,
-    # NoMatchingPage,
-    # SecondOpinion,
-    # AfterDiscussionWP
+    NoMatchingPage,
+    SecondOpinion,
+    AfterDiscussionWP
 ]
