@@ -33,7 +33,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    age = models.IntegerField(label='In what year were you born?', min=18, max=100)
+    age = models.IntegerField(label='How old are you?', min=18, max=100)
     sex = models.IntegerField(label='What is your gender?',
                               choices=[(0, 'Male'), (1, 'Female'), (2, 'Other')],
                               widget=widgets.RadioSelectHorizontal)
