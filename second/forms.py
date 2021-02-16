@@ -1,5 +1,5 @@
 from django import forms
-
+import random
 from .models import Constants
 
 
@@ -10,7 +10,9 @@ class CQForm(forms.Form):
         kwargs.pop('instance')
         self.player = view.player
         super().__init__(*args, **kwargs)
-        for i in Constants.cqs:
+        cqs = Constants.cqs.copy()
+        random.shuffle(cqs)
+        for i in cqs:
             self.fields[i.get('name')] = forms.BooleanField(required=False,
                                                             label=i.get('label'),
                                                             widget=forms.CheckboxInput())
