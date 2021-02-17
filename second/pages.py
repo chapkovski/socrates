@@ -60,11 +60,12 @@ class DiscussionPage(GeneralVignettePage):
 
     def post(self):
         # TODO: check if they are allowed to leave
-        for i in self.player.get_others_in_group():
-            pcode_retval = {i.participant.code: {'participant_left_chat': True, 'action': 'endOfChat'}}
-            _live_send_back(i.participant._session_code, i.participant._index_in_pages,
-                            pcode_retval
-                            )
+        # if not self.participant._is_bot:
+        #     for i in self.player.get_others_in_group():
+        #         pcode_retval = {i.participant.code: {'participant_left_chat': True, 'action': 'endOfChat'}}
+        #         _live_send_back(i.participant._session_code, i.participant._index_in_pages,
+        #                         pcode_retval
+        #                         )
 
         return super().post()
 
