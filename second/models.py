@@ -134,10 +134,13 @@ class Group(BaseGroup):
         for p in self.get_players():
             p.payoff = payoff_fun(self, p)
 
-    def set_timer(self, ):
+    def when_matched(self, ):
         for p in self.get_players():
             p.matched = Match.MATCHED
         self.chat_status = self.session.config.get('chat')
+
+    def set_timer(self, ):
+
         # We set the allowed time to exit both for essays and chats because we
         # don't let people the essay as well
         self.time_allow_exit = datetime.now(timezone.utc) + relativedelta(
@@ -203,7 +206,7 @@ class Player(VignettePlayer):
 
 class Chat(djmodels.Model):
     body = models.StringField()
-    timestamp =  djmodels.DateTimeField(auto_now_add=True)
+    timestamp = djmodels.DateTimeField(auto_now_add=True)
     owner = djmodels.ForeignKey(to=Player, related_name='chats', on_delete=djmodels.CASCADE)
     group = djmodels.ForeignKey(to=Group, related_name='chats', on_delete=djmodels.CASCADE)
 

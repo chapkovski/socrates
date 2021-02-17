@@ -1,6 +1,9 @@
 from ._builtin import Page as oTreePage
 from .models import TimeTracker
 from datetime import datetime, timezone
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Page(oTreePage):
@@ -27,6 +30,6 @@ class Page(oTreePage):
             if self.time_tracker_field:
                 setattr(self.player, self.time_tracker_field, t.seconds_on_page)
         except (TimeTracker.DoesNotExist, TimeTracker.MultipleObjectsReturned):
-            pass
+            logger.warning('Tracker not found')
 
         return super().post(*args, **kwargs)
