@@ -7,6 +7,11 @@
 {% endblock %}
 
 {% block content %}
+    <style>
+    .otree-form-errors.alert.alert-danger{
+        display: none;
+    }
+    </style>
       <div id="instructions" class="d-none">
         {{ player.get_instructions }}
     </div>

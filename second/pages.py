@@ -3,7 +3,7 @@ from ._builtin import Page, WaitPage
 from .models import Constants, Match
 from datetime import datetime, timedelta, timezone
 from first.generic_pages import GeneralVignettePage
-from dateutil.relativedelta import relativedelta
+from second.generic_pages import Page
 from otree.live import live_payload_function
 from first.pages import Opinion
 from django.utils.html import escape
@@ -38,6 +38,7 @@ from .forms import CQForm
 
 
 class ComprehensionCheck(Page):
+    time_tracker_field = 'time_on_comprehension_check'
     def get_form_class(self):
         return CQForm
 
@@ -48,10 +49,11 @@ class BeforeDiscussionWP(WaitPage):
 
 class DiscussionPage(GeneralVignettePage):
     live_method = 'chat'
+    time_tracker_field = 'time_on_discussion'
     _is_frozen = False
 
     def is_displayed(self):
-        return self.group.chat_status and self.player.matched and self.session.config.get('chat')
+        return self.group.chat_status and self.player.matched == Match.MATCHED and  self.session.config.get('chat')
 
     def before_next_page(self):
         self.group.chat_status = False
@@ -74,6 +76,7 @@ class NoMatchingPage(Page):
 
 
 class EssayPage(GeneralVignettePage):
+    time_tracker_field = 'time_on_essay'
     form_model = 'player'
     form_fields = ['essay']
 
@@ -101,6 +104,7 @@ class EssayPage(GeneralVignettePage):
 
 
 class SecondOpinion(Opinion):
+    time_tracker_field = 'time_on_second_opinion'
     template_name = 'first/Opinion.html'
     form_model = 'player'
     form_fields = ['answer', 'confidence']

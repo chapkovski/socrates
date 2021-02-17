@@ -1,12 +1,9 @@
-from otree.api import Currency as c, currency_range
-from ._builtin import Page, WaitPage
-from .models import Constants
 from first.generic_pages import GeneralVignettePage
-
+from second.models import TimeTracker
 
 class Opinion(GeneralVignettePage):
 
-
+    time_tracker_field = 'time_on_first_opinion'
     live_method = 'decision_making'
     form_model = 'player'
     form_fields = ['answer', 'confidence', 'timezone']

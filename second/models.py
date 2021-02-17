@@ -6,8 +6,7 @@ from otree.api import (
     BaseGroup,
 
 )
-from csv import DictReader
-
+from otree.models import Participant
 from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta, timezone
 from django.db import models as djmodels
@@ -136,7 +135,8 @@ class Group(BaseGroup):
             p.payoff = payoff_fun(self, p)
 
     def set_timer(self, ):
-
+        for p in self.get_players():
+            p.matched = Match.MATCHED
         self.chat_status = self.session.config.get('chat')
         # We set the allowed time to exit both for essays and chats because we
         # don't let people the essay as well
@@ -181,6 +181,10 @@ class Player(VignettePlayer):
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)
     matched = models.IntegerField(blank=True, choices=Constants.matching_choices, initial=Match.NOT_YET)
     essay = models.LongStringField()
+    time_on_comprehension_check = models.FloatField()
+    time_on_discussion = models.FloatField()
+    time_on_essay = models.FloatField()
+    time_on_second_opinion = models.FloatField()
 
     def get_instructions(self):
         """
@@ -199,6 +203,7 @@ class Player(VignettePlayer):
 
 class Chat(djmodels.Model):
     body = models.StringField()
+    timestamp =  djmodels.DateTimeField(auto_now_add=True)
     owner = djmodels.ForeignKey(to=Player, related_name='chats', on_delete=djmodels.CASCADE)
     group = djmodels.ForeignKey(to=Group, related_name='chats', on_delete=djmodels.CASCADE)
 
@@ -215,3 +220,30 @@ class Vignette(djmodels.Model):
 class Param(djmodels.Model):
     name = models.StringField(unique=True)
     body = models.LongStringField()
+
+
+class TimeTracker(djmodels.Model):
+    class Meta:
+        unique_together = ['owner', 'page', 'period', 'app_name']
+
+    owner = djmodels.ForeignKey(to=Participant,
+                                on_delete=djmodels.CASCADE,
+                                related_name='timetrackers')
+    page = models.StringField()
+    period = models.IntegerField()
+    get_time = djmodels.DateTimeField()
+    post_time = djmodels.DateTimeField(null=True)
+    seconds_on_page = models.IntegerField()
+    app_name = models.StringField()
+
+
+def custom_export(players):
+    yield ['session', 'participant_code', 'target_code', 'timestamp', 'text', 'group_id', ]
+    for p in Chat.objects.all():
+        yield [p.owner.session.code,
+               p.owner.participant.code,
+               p.owner.get_others_in_group()[0].participant.code,
+               p.timestamp,
+               p.body,
+               p.group.id_in_subsession,
+               ]

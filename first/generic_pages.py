@@ -1,4 +1,4 @@
-from ._builtin import Page
+from second.generic_pages import Page
 
 
 class GeneralVignettePage(Page):
