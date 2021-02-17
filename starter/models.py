@@ -104,7 +104,10 @@ class Player(BasePlayer):
     def set_times(self):
         self.time_to_pass = datetime.now(tz=timezone('UTC'))
         self.diff_to_pass = (self.time_to_pass - self.subsession.time_to_start).total_seconds()
-        self.on_time = 0 < self.diff_to_pass < self.subsession.time_to_proceed
+        if not self.participant._is_bot:
+            self.on_time = 0 < self.diff_to_pass < self.subsession.time_to_proceed
+        else:
+            self.on_time = True
         self.participant.vars['on_time'] = self.on_time
 
     arrival_time = djmodels.DateTimeField(blank=True, null=True)

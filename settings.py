@@ -16,8 +16,8 @@ SOME_DEFAULTS = dict(
 standard_app_seq = [
     'starter',
     'first',
-    'second',
-    'questionnaire'
+    # 'second',
+    # 'questionnaire'
 ]
 SESSION_CONFIGS = [
     dict(
