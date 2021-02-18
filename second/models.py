@@ -56,7 +56,7 @@ class Constants(BaseConstants):
     NO_CHAT_TREATMENTS = ['no_reward', 'solo_reasoning']
     players_per_group = 2
     num_rounds = 1
-    sec_waiting_too_long = 10
+    sec_waiting_too_long = 30
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
     with open("data/cqs.csv") as csvfile:
