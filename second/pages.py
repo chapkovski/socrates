@@ -95,10 +95,11 @@ class EssayPage(GeneralVignettePage):
         return c
 
     def post(self):
-        if self.group.seconds_till_allow_to_leave > 0:
-            self.object = self.get_object()
-            form = self.get_form(data=self.request.POST, files=self.request.FILES, instance=self.object)
-            return self.form_invalid(form)
+        if not self.participant._is_bot:
+            if self.group.seconds_till_allow_to_leave > 0:
+                self.object = self.get_object()
+                form = self.get_form(data=self.request.POST, files=self.request.FILES, instance=self.object)
+                return self.form_invalid(form)
         return super().post()
 
     def is_displayed(self):
@@ -129,5 +130,5 @@ page_sequence = [
     EssayPage,
     NoMatchingPage,
     SecondOpinion,
-    AfterDiscussionWP
+    # AfterDiscussionWP
 ]

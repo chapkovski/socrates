@@ -8,8 +8,7 @@ class Opinion(GeneralVignettePage):
     form_model = 'player'
     form_fields = ['answer', 'confidence', 'timezone']
 
-    def is_displayed(self):
-        return True
+
 
     def before_next_page(self):
         self.participant.vars['position'] = int(self.player.answer)
