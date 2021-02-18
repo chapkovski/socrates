@@ -6,6 +6,7 @@ from otree.api import (
     BaseGroup,
 
 )
+import os
 from otree.models import Participant
 from django.utils.safestring import mark_safe
 from datetime import datetime, timedelta, timezone
@@ -14,6 +15,7 @@ from django.db import models as djmodels
 from first.generic_models import VignetteSubsession, VignettePlayer
 from dateutil.relativedelta import relativedelta
 import logging
+from itertools import groupby
 
 logger = logging.getLogger(__name__)
 author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
@@ -50,8 +52,10 @@ def dependent_payoff(g, p):
 
 class Constants(BaseConstants):
     name_in_url = 't'
+    CHAT_TREATMENTS = ['dependent', 'independent']
     players_per_group = 2
     num_rounds = 1
+    sec_waiting_too_long = 10
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
     with open("data/cqs.csv") as csvfile:
@@ -76,13 +80,43 @@ class Subsession(VignetteSubsession):
     fee_for_correct = models.CurrencyField()
 
     def group_by_arrival_time_method(self, waiting_players):
+        """
+        If there are those who wait too long, we just assign them to a no_reward treatment and let them proceed.
+        Otherwise we match them with the opposite views
+        """
+        now = datetime.now(timezone.utc)
+        neg_holders = [w for w in waiting_players if
+                       not w.participant.vars.get('position') and type(w.participant.vars.get('position')) is bool]
+        pos_holders = [w for w in waiting_players if
+                       w.participant.vars.get('position') is True]
+        bot_session = waiting_players[0].participant._is_bot
+        too_long_waiters =[]
+        if bot_session:
+            if len(waiting_players) > 1:
+                shortl, longl, = sorted([pos_holders, neg_holders], key=lambda x: len(x))
+                too_long_waiters = longl[len(shortl):]
+            else:
+                for i in waiting_players:
+                    i.participant.vars.setdefault('attempt_counter',0)
+                    i.participant.vars['attempt_counter']+=1
+                    if i.participant.vars['attempt_counter']>9:
+                        i.treatment = 'no_reward'
+                        return [i]
+        else:
+
+            too_long_waiters = [w for w in waiting_players if
+                                (now - w.wp_entrance_time).total_seconds() > Constants.sec_waiting_too_long]
+        if too_long_waiters:
+            for i in too_long_waiters:
+                i.treatment = 'no_reward'
+                return [too_long_waiters[0]]
+
         if not self.session.config.get('chat'):
             return [waiting_players[0]]
-        now = datetime.now(timezone.utc)
         waited_too_long = [p for p in waiting_players if now > p.wp_exit_time]
         for p in waited_too_long:
             p.matched = Match.NOT_MATCHED
-
+            p.treatment = 'no_reward'
             return [p]
         # this for debuginng only (when 'first' is not in app chain)
         if 'first' not in self.session.config.get('app_sequence') and len(waiting_players) > 1:
@@ -91,27 +125,35 @@ class Subsession(VignetteSubsession):
                 p.matched = Match.MATCHED
             return group
         if len(waiting_players) > 1:
-            return waiting_players[:2]
+
+            if neg_holders and pos_holders:
+                return [neg_holders[0], pos_holders[0]]
 
     def creating_session(self):
         super().creating_session()
         assert Constants.payoff_funs.get(self.session.config.get('param_name')), 'No payoff function found!'
+
+        path_to_instructions = 'data/instructions/'
+        with os.scandir(path_to_instructions) as entries:
+            for entry in entries:
+                html_ext = '.html'
+                if entry.name.endswith(html_ext):
+                    filename = entry.name[:-len(html_ext)]
+                    with open(f'{path_to_instructions}{filename}.html') as reader:
+                        Param.objects.get_or_create(name=filename, defaults=dict(body=reader.read()))
         param_name = self.session.config.get('param_name')
         try:
             Param.objects.get(name=param_name)
-        except (Param.DoesNotExist, Param.MultipleObjectsReturned):
-            try:
-                with open(f'data/instructions/{param_name}.html') as reader:
-                    Param.objects.create(name=param_name, body=reader.read())
-            except(FileNotFoundError):
-                raise Exception(
-                    'Something wrong with instructions parameters. Check for their existance or ask Philipp what to do')
+        except (Param.DoesNotExist):
+            raise Exception(
+                'Something wrong with instructions parameters. Check for their existance or ask Philipp what to do')
         self.seconds_allow_exit = self.session.config.get('seconds_allow_exit')
         self.msg_till_allowed_exit = self.session.config.get('msg_till_allowed_exit')
         self.seconds_forced_exit = self.session.config.get('seconds_forced_exit')
         self.msg_forced_exit = self.session.config.get('msg_forced_exit')  # 'This chat will end in'
         self.fee_for_correct = self.session.config.get('fee_for_correct')  # How much they earn for correct answer?
-
+        for p in self.get_players():
+            p.treatment = param_name
         first_exists = 'first' in self.session.config.get('app_sequence')
         if first_exists:
             for p in self.get_players():
@@ -127,7 +169,8 @@ class Group(BaseGroup):
     chat_status = models.BooleanField()
 
     def set_payoffs(self):
-        payoff_fun = Constants.payoff_funs.get(self.session.config.get('param_name'))
+        param_name = self.get_players()[0].treatment
+        payoff_fun = Constants.payoff_funs.get(param_name)
         if not payoff_fun:
             logger.error('No payoff function is found! Check for correct param_name')
             return
@@ -188,14 +231,18 @@ class Player(VignettePlayer):
     time_on_discussion = models.FloatField()
     time_on_essay = models.FloatField()
     time_on_second_opinion = models.FloatField()
+    treatment = models.StringField()
+
+    @property
+    def in_chat_treatment(self):
+        return self.treatment in Constants.CHAT_TREATMENTS
 
     def get_instructions(self):
         """
          Return instructions here based on treatment type
         """
 
-        param_name = self.session.config.get('param_name')
-        return mark_safe(Param.objects.get(name=param_name).body)
+        return mark_safe(Param.objects.get(name=self.treatment).body)
 
     def checking_matching(self):
         too_late = datetime.now(timezone.utc) > self.wp_exit_time

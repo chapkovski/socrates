@@ -53,19 +53,19 @@ class DiscussionPage(GeneralVignettePage):
     _is_frozen = False
 
     def is_displayed(self):
-        return self.group.chat_status and self.player.matched == Match.MATCHED and self.session.config.get('chat')
+        return self.group.chat_status and self.player.matched == Match.MATCHED and self.player.in_chat_treatment
 
     def before_next_page(self):
         self.group.chat_status = False
 
     def post(self):
         # TODO: check if they are allowed to leave
-        # if not self.participant._is_bot:
-        #     for i in self.player.get_others_in_group():
-        #         pcode_retval = {i.participant.code: {'participant_left_chat': True, 'action': 'endOfChat'}}
-        #         _live_send_back(i.participant._session_code, i.participant._index_in_pages,
-        #                         pcode_retval
-        #                         )
+        if not self.participant._is_bot:
+            for i in self.player.get_others_in_group():
+                pcode_retval = {i.participant.code: {'participant_left_chat': True, 'action': 'endOfChat'}}
+                _live_send_back(i.participant._session_code, i.participant._index_in_pages,
+                                pcode_retval
+                                )
 
         return super().post()
 
@@ -73,7 +73,7 @@ class DiscussionPage(GeneralVignettePage):
 class NoMatchingPage(Page):
     def is_displayed(self):
         # If this is the essay type of treatment we don't get to No matching page anyway
-        if not self.session.config.get('chat'):
+        if not self.player.in_chat_treatment:
             return False
         return self.player.matched == Match.NOT_MATCHED
 
@@ -103,7 +103,7 @@ class EssayPage(GeneralVignettePage):
         return super().post()
 
     def is_displayed(self):
-        return not self.session.config.get('chat')
+        return not self.player.in_chat_treatment
 
 
 class SecondOpinion(Opinion):

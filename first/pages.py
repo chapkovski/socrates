@@ -11,7 +11,7 @@ class Opinion(GeneralVignettePage):
 
 
     def before_next_page(self):
-        self.participant.vars['position'] = int(self.player.answer)
+        self.participant.vars['position'] = self.player.answer
 
 
 page_sequence = [Opinion]

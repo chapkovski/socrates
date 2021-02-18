@@ -8,6 +8,10 @@
         you will be redirected to the final page of this study.
     </div>
     <div>Time remaining for finding a partner: <b><span id="getting-started"></span></b></div>
+    <script> window.setInterval(function () {
+        window.location.reload();
+    }, 10 * 1000);
+    </script>
     <script type="text/javascript">
         var currentDate = new Date();
         var remainingSeconds = {{ seconds_to_mismatch|json }};
@@ -20,7 +24,10 @@
             );
         }).on('finish.countdown', function (event) {
             console.debug('reloading...');
-            setTimeout(()=>{window.location.reload();}, 1000)
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000)
         })
+
     </script>
 {% endblock %}
