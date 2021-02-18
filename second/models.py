@@ -53,6 +53,7 @@ def dependent_payoff(g, p):
 class Constants(BaseConstants):
     name_in_url = 't'
     CHAT_TREATMENTS = ['dependent', 'independent']
+    NO_CHAT_TREATMENTS = ['no_reward', 'solo_reasoning']
     players_per_group = 2
     num_rounds = 1
     sec_waiting_too_long = 10
@@ -100,7 +101,7 @@ class Subsession(VignetteSubsession):
                     i.participant.vars.setdefault('attempt_counter',0)
                     i.participant.vars['attempt_counter']+=1
                     if i.participant.vars['attempt_counter']>9:
-                        i.treatment = 'no_reward'
+                        i.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
                         return [i]
         else:
 
@@ -108,7 +109,7 @@ class Subsession(VignetteSubsession):
                                 (now - w.wp_entrance_time).total_seconds() > Constants.sec_waiting_too_long]
         if too_long_waiters:
             for i in too_long_waiters:
-                i.treatment = 'no_reward'
+                i.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
                 return [too_long_waiters[0]]
 
         if not self.session.config.get('chat'):
@@ -116,7 +117,7 @@ class Subsession(VignetteSubsession):
         waited_too_long = [p for p in waiting_players if now > p.wp_exit_time]
         for p in waited_too_long:
             p.matched = Match.NOT_MATCHED
-            p.treatment = 'no_reward'
+            p.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
             return [p]
         # this for debuginng only (when 'first' is not in app chain)
         if 'first' not in self.session.config.get('app_sequence') and len(waiting_players) > 1:

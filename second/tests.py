@@ -6,13 +6,15 @@ import random
 
 def answer_strategy(group):
     """
+
     if they hold opposite positions:
-        there is 60% the wrong one will change to correct, and correct holder will keep it
-        there is 15% the correct holder will change to incorrect and the wrong one will keep it
-        15% chance that they each will keep their original positions
-        10% they inverse (the wrong holder will switch )
-
-
+        there is X1% the wrong one will change to correct, and correct holder will keep it
+        there is X2% the correct holder will change to incorrect and the wrong one will keep it
+        X3% chance that they each will keep their original positions
+        X4% they inverse (the wrong holder will switch )
+    these values are different for independent and dependent treatments
+    for no_reward and solo treatments there is a certain probability (<50%) to change the position. this parameter is
+    different for no_reward and solo.
 
     """
     ego, alter = group.get_players()
@@ -66,5 +68,14 @@ class PlayerBot(Bot):
             ans['answer'] = bool(group_strategies[self.group.pk][self.player.id_in_group])
         else:
             yield Submission(EssayPage, {'essay': 'bot essay'}, check_html=False)
+            r = random.random()
+            if self.player.treatment == 'no_reward':
+                threshold = 0.85
+            else:
+                threshold = 0.70
+            if r > threshold:
+                ans['answer'] = not self.participant.vars.get('position')
+            else:
+                ans['answer'] = self.participant.vars.get('position')
 
         yield Submission(SecondOpinion, ans, check_html=False)
