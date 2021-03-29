@@ -12,22 +12,30 @@ const store = new Vuex.Store({
             message: '',
             reconnectError: false,
         },
-        chatOver: false,
+        chatEndModal: false,
         saving: false,
         djangoErrors: window.djangoErrors,
         errorDialog: _.isEmpty(window.djangoErrors) !== true,
         chatExitAllowed: false,
-        chatExitForced: false
+        chatExitForced: false,
+        instructionsShow: false,
+        initiatorOfEnd:false,
     },
     getters: {
         status: (state) => state.socket.isConnected,
-        isChatOver: (state) => state.chatOver,
         savingStatus: (state) => state.saving,
+        chatEndedByPartner: (state) => (!state.chatExitForced&&state.chatEndModal),
     },
     mutations: {
+        setEndChatInitiator: (state)=>{state.initiatorOfEnd=true},
+        setEndChatModel:(state, value)=> {
+            state.chatEndModal=value
+        },
+        toggleChatEndModal:state=>(state.chatEndModal=!state.chatEndModal),
         allowExitPermission: (state) => (state.chatExitAllowed = true),
         forceExit: (state) => (state.chatExitForced = true),
         toggleErrorDialog: (state) => (state.errorDialog = !state.errorDialog),
+        toggleInstructionsDialog: (state) => (state.instructionsShow = !state.instructionsShow),
         SAVING_INITIATED(state) {
             state.saving = true
         },
@@ -91,8 +99,10 @@ const store = new Vuex.Store({
             context.commit('addMessage', message);
         },
         endOfChat: function(context, message){
-            console.debug('SOMEWONE LEFT THE CHAT');
-            context.commit('forceExit');
+            if (!context.state.initiatorOfEnd) {
+            context.commit('setEndChatModel', {value: true})
+        }
+            
         },
         confirm: function (context, message) {
             console.debug('messagei confirmed', message)

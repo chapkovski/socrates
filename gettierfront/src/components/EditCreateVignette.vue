@@ -1,5 +1,5 @@
 <template>
-  <v-form ref="form" v-model="valid" lazy-validation @submit.prevent>
+  <v-form ref="form" v-model="valid"  @submit.prevent>
     <v-container>
       <v-row>
         <v-col cols="12">
@@ -9,9 +9,9 @@
             outlined
             required
             v-model="vignette.title"
-            @input="resetError('title')"
-            :error-messages="(errorMessages && errorMessages.title) || ''"
-          ></v-text-field>
+    :rules="[rules.required]"
+ 
+          />
         </v-col>
       </v-row>
       <v-row>
@@ -36,34 +36,48 @@
       <v-row>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
+            v-model="vignette.question"
             label="Question"
             placeholder="Type question text here"
-            required
+
             outlined
-            v-model="vignette.question"
-            @input="resetError('question')"
-            :error-messages="(errorMessages && errorMessages.question) || ''"
-          ></v-text-field>
+
+ 
+            :rules="[rules.required]"
+          />
         </v-col>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
+            v-model="vignette.yes_option"
             label="Option for 'yes'"
             placeholder="Option for 'Yes'"
             outlined
-            v-model="vignette.yes_option"
-            @input="resetError('yes_option')"
-            :error-messages="(errorMessages && errorMessages.yes_option) || ''"
-          ></v-text-field>
+            :rules="[rules.required]"
+          />
         </v-col>
         <v-col cols="12" sm="12" md="12">
           <v-text-field
             label="Option for 'No'"
             placeholder="Option for 'No'"
-            @input="resetError('no_option')"
+            
             outlined
             v-model="vignette.no_option"
-            :error-messages="(errorMessages && errorMessages.no_option) || ''"
+ 
+                                  :rules="[rules.required]"
           ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="12" md="12">
+          <v-radio-group
+           v-model="vignette.correct"
+            row
+                      :rules="[rules.required]"
+                      >
+            <template v-slot:label>
+              <div>Correct answer</strong></div>
+            </template>
+            <v-radio label="No" :value="false"></v-radio>
+            <v-radio label="Yes" :value="true"></v-radio>
+          </v-radio-group>
         </v-col>
       </v-row>
       <v-row>
@@ -99,6 +113,7 @@ export default {
       question: "",
       yes_option: "",
       no_option: "",
+      correct:"",
     },
     errorMessages: "",
     title: "",
@@ -106,7 +121,9 @@ export default {
     noOption: "",
     url: `/api/vignettes/`,
     axiosType: "post",
+    rules: {required: (value) => {if (value===null || value==='' || value===undefined) {return 'required'}}},
     nameRules: [
+      
       (v) => !!v || "Vignette body is required",
       (v) => v.length >= 10 || "Vignette text must be at least  10 characters",
     ],
@@ -125,6 +142,7 @@ export default {
       this.axiosType = "patch";
       this.$http.get(`/api/vignettes/${this.id}`).then((response) => {
         this.vignette = response.data;
+       
       });
     } else {
       if (this.bufferForNew) {
@@ -153,8 +171,8 @@ export default {
     saveVignette() {
       const val = this.$refs.form.validate();
 
-      if (val) {
-        this.valid = true;
+      if (this.valid ) {
+ 
         this.$http[this.axiosType](this.url, this.vignette)
           .then((r) => {
             if (r.data && r.data.id) {

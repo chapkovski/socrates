@@ -40,4 +40,5 @@ class Group(BaseGroup):
 
 
 class Player(VignettePlayer):
-    pass
+    timezone = models.StringField(blank=True)
+    time_on_first_opinion = models.FloatField()

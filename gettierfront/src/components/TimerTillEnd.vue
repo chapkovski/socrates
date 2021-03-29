@@ -14,7 +14,7 @@
       </v-progress-linear>
     </template>
     <template v-slot:finish>
-      <span>You can click 'Next' if you want to leave the chat early</span>
+      <span>{{ timerFinish }}</span>
     </template>
   </countdown>
 </template>
@@ -27,7 +27,8 @@ export default {
     secsToEnd: Number,
     progressMessage: String,
     whatToDo: String,
-    color: String
+    color: String,
+    timerFinish: String,
   },
   data() {
     const endTime = addSeconds(new Date(), this.secsToEnd);

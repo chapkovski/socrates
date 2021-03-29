@@ -3,22 +3,35 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 
 
 const pages = {
-    'main': {
+    main: {
         entry: './src/main.js',
         chunks: ['chunk-vendors']
     },
-    'vignette': {
+    vignette: {
         entry: './src/vignette.js',
         chunks: ['chunk-vendors']
+    },   
+     instructions: {
+        entry: './src/components/InstructionManager/instruction_manager.js',
+        chunks: ['chunk-vendors']
     },
-    'no_chat': {
+    no_chat: {
         entry: './src/no_chat.js',
         chunks: ['chunk-vendors']
     },
+    instruction_bar: {
+        entry: './src/instruction_bar.js',
+        chunks: ['chunk-vendors']
+    },
+    essay: {
+        entry: './src/components/Essay/essay.js',
+        chunks: ['chunk-vendors']
+    },
+
 };
 
 module.exports = {
-    
+
     runtimeCompiler: true,
     "transpileDependencies": [
         "vuetify"

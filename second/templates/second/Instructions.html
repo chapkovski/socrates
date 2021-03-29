@@ -1,0 +1,19 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Instructions
+{% endblock %}
+
+{% block content %}
+    {% formfields %}
+    <div class="card m-3">
+        <div class="card-body">
+             {{ player.get_instructions }}
+        </div>
+    </div>
+
+    {% next_button %}
+{% endblock %}
+
+

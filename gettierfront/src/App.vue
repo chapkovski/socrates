@@ -1,19 +1,23 @@
 <template>
   <v-app id="inspire">
-    <error-modal></error-modal>
+    <end-chat v-if='!chatExitForced'/>
+    <error-modal error-text="Please check if you answer all the questions at this page" />
+    <instructions-modal />
     <v-system-bar height="30" app>
       <timer
-        :secsToEnd="secsTillAllowedExit"
-        whatToDo="allowExitPermission"
-        :progressMessage="msg_till_allowed_exit"
+        :secs-to-end="secsTillAllowedExit"
+        what-to-do="allowExitPermission"
+        :progress-message="msg_till_allowed_exit"
+        timer-finish="You can click 'Next' if you want to leave the chat early"
         color="blue"
-      ></timer>
+      />
       <timer
-        :secsToEnd="seconds_forced_exit"
-        whatToDo="forceExit"
-        :progressMessage="msg_forced_exit"
+        :secs-to-end="seconds_forced_exit"
+        what-to-do="forceExit"
+        :progress-message="msg_forced_exit"
+        timer-finish=""
         color="red"
-      ></timer>
+      />
     </v-system-bar>
     <v-navigation-drawer fixed permanent right class="chatdrawer">
       <h1>chat</h1>
@@ -36,6 +40,15 @@
     </v-main>
     <v-footer app>
       <v-col>
+        <v-btn
+          large
+          color="blue"
+          @click="toggleInstructionsDialog"
+          class="mx-3 white--text"
+        >
+          <v-icon x-large>info</v-icon>
+          Show instructions
+        </v-btn>
         <transition
           name="custom-classes-transition"
           enter-active-class="animate__animated animate__backInDown"
@@ -56,9 +69,10 @@ import Chat from "./components/Chat.vue";
 import FormattedVignette from "./components/FormattedVignette.vue";
 import EndChat from "./components/EndChatModal.vue";
 import ErrorModal from "./components/ErrorModal.vue";
+import InstructionsModal from "./components/InstructionsModal";
 import "animate.css";
 import Timer from "./components/TimerTillEnd";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapMutations } from "vuex";
 export default {
   name: "LayoutsDemosBaselineFlipped",
   props: {
@@ -68,6 +82,7 @@ export default {
     Timer,
     chat: Chat,
     EndChat,
+    InstructionsModal,
     ErrorModal,
     // countdown: VueCountdown,
     FormattedVignette,
@@ -93,15 +108,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(["djangoErrors", "chatExitAllowed", 'chatExitForced']),
+    ...mapState(["djangoErrors", "chatExitAllowed", "chatExitForced"]),
   },
   watch: {
     confidence(newVal, oldVal) {
       console.debug(`old value ${oldVal}`);
       console.debug(`new value ${newVal}`);
     },
-
-    "$store.state.chatExitForced": function() {
+    chatExitForced: function() {
       this.formSubmit();
     },
   },
@@ -117,6 +131,8 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["toggleInstructionsDialog",'setEndChatInitiator']),
+    ...mapActions(["sendDecision"]),
     answerChanged(val) {
       console.debug("ANSWER CHANGED!!!", val);
       this.sendDecision({ decision_type: "answer", value: val });
@@ -125,7 +141,7 @@ export default {
       console.debug("CONFIENDCE CHANGED!!!", val);
       this.sendDecision({ decision_type: "confidence", value: val });
     },
-    ...mapActions(["sendDecision"]),
+
     chatEnded() {
       this.nextAvailable = true;
     },
@@ -136,6 +152,7 @@ export default {
       }
     },
     formSubmit() {
+      this.setEndChatInitiator()
       document.getElementById("form").submit();
     },
   },

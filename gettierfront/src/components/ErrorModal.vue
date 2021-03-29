@@ -14,7 +14,7 @@
         </v-card-title>
 
         <v-card-text class='my-3'>
-          Please check if you answer all the questions at this page
+          {{errorText}}
         </v-card-text>
 
         <v-divider></v-divider>
@@ -37,6 +37,7 @@
 <script>
 import {  mapState ,mapMutations} from "vuex";
   export default {
+    props:['errorText'],
     data () {
       return {
         dialog: true,
@@ -44,7 +45,16 @@ import {  mapState ,mapMutations} from "vuex";
     },
     
   computed:{
-    ...mapState(['errorDialog']),
+    ...mapState({instoreErrDlg:'errorDialog'}),
+    errorDialog:{
+      get: function(){
+        return this.instoreErrDlg
+      },
+      set: function(){
+        this.toggleErrorDialog()
+      }
+    }
+
   },
   methods:{...mapMutations(['toggleErrorDialog'])}
   }

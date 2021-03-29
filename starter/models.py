@@ -78,7 +78,7 @@ class Subsession(BaseSubsession):
         self.time_to_proceed = self.session.config.get('time_to_proceed', 180)
         self.delta = timedelta(seconds=self.time_to_proceed)
         self.formatted_delta = humanize.naturaldelta(self.delta)
-        fallback_time = now() + relativedelta(seconds=15)
+        fallback_time = now() + relativedelta(seconds=3)
         fallback_time_str = str(fallback_time)
         time_to_start_str = self.session.config.get('time_to_start')
 
@@ -104,7 +104,10 @@ class Player(BasePlayer):
     def set_times(self):
         self.time_to_pass = datetime.now(tz=timezone('UTC'))
         self.diff_to_pass = (self.time_to_pass - self.subsession.time_to_start).total_seconds()
-        self.on_time = 0 < self.diff_to_pass < self.subsession.time_to_proceed
+        if not self.participant._is_bot:
+            self.on_time = 0 < self.diff_to_pass < self.subsession.time_to_proceed
+        else:
+            self.on_time = True
         self.participant.vars['on_time'] = self.on_time
 
     arrival_time = djmodels.DateTimeField(blank=True, null=True)
@@ -114,6 +117,9 @@ class Player(BasePlayer):
     hit_id = models.StringField()
     assignment_id = models.StringField()
     on_time = models.BooleanField()
+
+    def set_payoff(self):
+        self.payoff = self.on_time * self.session.config.get('time_bonus', 0)
 
     def start(self):
         self.arrival_time = now()

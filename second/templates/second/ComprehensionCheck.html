@@ -1,0 +1,36 @@
+{% extends "global/Page.html" %}
+{% load render_bundle from webpack_loader %}
+{% load otree static %}
+
+{% block title %}
+    Comprehension check
+{% endblock %}
+
+{% block content %}
+    <style>
+    .otree-form-errors.alert.alert-danger{
+        display: none;
+    }
+    </style>
+      <div id="instructions" class="d-none">
+        {{ player.get_instructions }}
+    </div>
+    <script>
+        window.instructions = $('#instructions').html()
+    </script>
+    {% render_bundle 'instruction_bar' 'css' %}
+    {% render_bundle 'chunk-vendors' 'css' %}
+    <div id="app"></div>
+    {% render_bundle 'instruction_bar' 'js' %}
+    {% render_bundle 'chunk-vendors' 'js' %}
+
+    <div class="alert alert-info">
+    To help us ensure that you understand the experiment, please check all the boxes that you think apply to this study:
+    </div>
+    <table class="table table-striped table-hover">
+    {{ form.as_table }}
+    </table>
+    {% next_button %}
+{% endblock %}
+
+

@@ -2,3 +2,7 @@ otree>=3.3.11
 django-webpack-loader>=0.7.0
 django-dotenv>=1.4.2
 djangorestframework>=3.11.0
+python-dateutil
+dateparser
+humanize
+django-countries==7.0
