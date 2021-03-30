@@ -56,7 +56,7 @@ class Constants(BaseConstants):
     NO_CHAT_TREATMENTS = ['no_reward', 'solo_reasoning']
     players_per_group = 2
     num_rounds = 1
-    sec_waiting_too_long = 30
+    sec_waiting_too_long = 10
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
     with open("data/cqs.csv") as csvfile:
@@ -85,26 +85,27 @@ class Subsession(VignetteSubsession):
         If there are those who wait too long, we just assign them to a no_reward treatment and let them proceed.
         Otherwise we match them with the opposite views
         """
+        if not self.session.config.get('chat'):
+            return [waiting_players[0]]
         now = datetime.now(timezone.utc)
         neg_holders = [w for w in waiting_players if
                        not w.participant.vars.get('position') and type(w.participant.vars.get('position')) is bool]
         pos_holders = [w for w in waiting_players if
                        w.participant.vars.get('position') is True]
         bot_session = waiting_players[0].participant._is_bot
-        too_long_waiters =[]
+        too_long_waiters = []
         if bot_session:
             if len(waiting_players) > 1:
                 shortl, longl, = sorted([pos_holders, neg_holders], key=lambda x: len(x))
                 too_long_waiters = longl[len(shortl):]
             else:
                 for i in waiting_players:
-                    i.participant.vars.setdefault('attempt_counter',0)
-                    i.participant.vars['attempt_counter']+=1
-                    if i.participant.vars['attempt_counter']>9:
+                    i.participant.vars.setdefault('attempt_counter', 0)
+                    i.participant.vars['attempt_counter'] += 1
+                    if i.participant.vars['attempt_counter'] > 9:
                         i.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
                         return [i]
         else:
-
             too_long_waiters = [w for w in waiting_players if
                                 (now - w.wp_entrance_time).total_seconds() > Constants.sec_waiting_too_long]
         if too_long_waiters:
@@ -112,21 +113,7 @@ class Subsession(VignetteSubsession):
                 i.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
                 return [too_long_waiters[0]]
 
-        if not self.session.config.get('chat'):
-            return [waiting_players[0]]
-        waited_too_long = [p for p in waiting_players if now > p.wp_exit_time]
-        for p in waited_too_long:
-            p.matched = Match.NOT_MATCHED
-            p.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
-            return [p]
-        # this for debuginng only (when 'first' is not in app chain)
-        if 'first' not in self.session.config.get('app_sequence') and len(waiting_players) > 1:
-            group = waiting_players[:2]
-            for p in group:
-                p.matched = Match.MATCHED
-            return group
         if len(waiting_players) > 1:
-
             if neg_holders and pos_holders:
                 return [neg_holders[0], pos_holders[0]]
 

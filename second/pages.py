@@ -130,5 +130,5 @@ page_sequence = [
     EssayPage,
     NoMatchingPage,
     SecondOpinion,
-    # AfterDiscussionWP
+    AfterDiscussionWP
 ]
