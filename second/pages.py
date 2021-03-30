@@ -19,14 +19,18 @@ class FirstWP(WaitPage):
         if not self.player.wp_entrance_time:
             self.player.wp_entrance_time = now
         if not self.player.wp_exit_time:
-            self.player.wp_exit_time = now + timedelta(seconds=self.session.config.get('sec_to_wait_on_wp'))
+            self.player.wp_exit_time = now + timedelta(seconds=Constants.sec_waiting_too_long)
 
         return self.player.matched == Match.NOT_YET
 
     def vars_for_template(self):
         seconds_to_mismatch = (self.player.wp_exit_time - datetime.now(timezone.utc)).total_seconds()
+        prog_val = (seconds_to_mismatch / Constants.sec_waiting_too_long) * 100
         return dict(seconds_to_mismatch=seconds_to_mismatch,
-                    sec_to_min=int(self.session.config.get('sec_to_wait_on_wp') / 60))
+                    total_seconds_to_wait=Constants.sec_waiting_too_long,
+                    val_now=int(prog_val),
+                    val_for_progress=f"{prog_val / 100:.2%}",
+                    sec_to_min=int(Constants.sec_waiting_too_long / 60))
 
     group_by_arrival_time = True
     after_all_players_arrive = 'when_matched'
@@ -106,6 +110,10 @@ class EssayPage(GeneralVignettePage):
         return not self.player.in_chat_treatment
 
 
+class BeforeSecondOpinion(Page):
+    pass
+
+
 class SecondOpinion(Opinion):
     time_tracker_field = 'time_on_second_opinion'
     template_name = 'first/Opinion.html'
@@ -129,6 +137,7 @@ page_sequence = [
     DiscussionPage,
     EssayPage,
     NoMatchingPage,
+    BeforeSecondOpinion,
     SecondOpinion,
     AfterDiscussionWP
 ]

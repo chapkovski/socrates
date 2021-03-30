@@ -1,22 +1,12 @@
 {% extends "global/Page.html" %}
-
-
-
+{% load otree static %}
 
 {% block title %}
-    {% trans 'Questionnaire' %}
+    Page title
 {% endblock %}
-
 
 {% block content %}
 
-
-
-
-    {% for field in form %}
-        {% formfield field %}
-    {% endfor %}
-
     {% next_button %}
+
 {% endblock %}
- 

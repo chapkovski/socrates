@@ -25,45 +25,6 @@ class Constants(BaseConstants):
     players_per_group = None
     num_rounds = 1
 
-    EDUCATION_CHOICES = [
-        [1, _('Primary or lower education')],
-        [2, _('Secondary (lower or upper) education')],
-        [3, _('A-levels or post-secondary non-tertiary education')],
-        [4, _('Uncompleted tertiary education')],
-        [5, _('Tertiary education (Bachelor, Master or Diploma degrees)')],
-        [6, _('PhD or more than two diplomas or science degrees')],
-    ]
-    INCOME_CHOICES = [
-        [1, _('Not enough money even for food')],
-        [2, _('Enough for food, but not enough to buy clothes and shoes')],
-        [3, _('Enough for clothes and shoes, but not enough for the purchase of small household appliances')],
-        [4,
-         _("Enough money for small purchases, but buying expensive things (a computer, "
-           "washing machine, refrigerator) requires savings or credit."
-           )],
-        [5,
-         _(
-             "There is enough money to buy for a house, but to buy a car, a summer "
-             "residence, an apartment you need to save or take a loan")],
-        [6, _("We can afford any purchases without restrictions and loans")]
-    ]
-    RELIGION_CHOICES = [(1, _('Atheist')),
-                        (2, _('Spiritual but not religious')),
-                        (3, _('Orthodox Christian')),
-                        (4, _('Catholic')),
-                        (5, _('Muslim')),
-                        (6, _('Buddhist')),
-                        (7, _('Protestant')),
-                        (8, _('Jewish')),
-                        (9, _('Another religion not mentioned here'))]
-    RELIGION_ATTENDANCE_CHOICES = [
-        (1, _('At least once a week')),
-        (2, _('Once or twice a month')),
-        (3, _('A few times a year')),
-        (4, _('Seldom / never')),
-        (5, _('No answer, I am atheist'))
-    ]
-
 
 class Subsession(BaseSubsession):
     time_to_start = djmodels.DateTimeField(blank=True, null=True)
@@ -117,6 +78,7 @@ class Player(BasePlayer):
     hit_id = models.StringField()
     assignment_id = models.StringField()
     on_time = models.BooleanField()
+    consent = models.BooleanField(widget=widgets.CheckboxInput )
 
     def set_payoff(self):
         self.payoff = self.on_time * self.session.config.get('time_bonus', 0)

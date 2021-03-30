@@ -1,0 +1,76 @@
+{% extends "global/Page.html" %}
+
+
+{% block title %}
+    Consent form
+{% endblock %}
+{% block content %}
+
+
+
+    <div class="card">
+        <div class="card-body">
+
+            <ul class="list-group list-group-flush text-left infotext">
+                <li class="list-group-item">
+                    {% blocktrans trimmed %}
+                        Your participation is anonymous and confidential. The results of this research will
+                        be published but only in aggregated form. All decisions of the research
+                        participants will be processed by a computer program that does not reveal your
+                        identity to other participants or to the researchers.
+                    {% endblocktrans %}
+                </li>
+                <li class="list-group-item">
+                    {% blocktrans trimmed %}
+                        By participating in this study, you do not expose yourself to any risks.
+                    {% endblocktrans %}
+                </li>
+
+                <li class="list-group-item">
+                    {% blocktrans trimmed %}
+                        By participating in this study, you give your informed consent to the use of your
+                        answers anonymously and solely for scientific purposes.
+                    {% endblocktrans %}
+
+                </li>
+                <li class="list-group-item">
+                    {% blocktrans trimmed %}
+                        On average, the survey takes about 15 minutes.
+                    {% endblocktrans %}
+                </li>
+
+                <li class="list-group-item">
+                    {% blocktrans trimmed %}
+                        Let us know if you have any questions or technical difficulties by e-mail:
+                    {% endblocktrans %} <a href="mailto:fchapkovskiy@hse.ru" target="_blank"
+                                           rel="noopener noreferrer">fchapkovskiy@hse.ru</a>.
+
+                </li>
+                <li class="list-group-item">
+                    <h3>Concent:</h3>
+                    <div>
+                        By checking the box below next to the red informed consent
+                        statement, you acknowledge that you have read the rules and privacy policy,
+                        you certify you are 18 years of age or older, and you agree that your
+                        participation is voluntary.
+                    </div>
+                    <div class='text-danger mt-3'>
+                        <label for="id_consent">
+                            <i>{{ form.consent }}
+                                I acknowledge that I have read the rules and privacy policy, I
+                                certify I am 18 years of age or older, and I agree that my registration in
+                                the subject pool is voluntary.</i>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="my-3">
+        {% next_button %}
+    </div>
+
+
+
+
+{% endblock %}

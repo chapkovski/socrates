@@ -1,27 +1,58 @@
 {% extends 'otree/WaitPage.html' %}
 {% block content %}
+    <style>
+        div.progress {
+            display: none
+        }
+    </style>
     <script src="{% static 'otree/js/jquery.countdown.min.js' %}"></script>
-    <div>
-        We are now attempting to match you with a partner.
-    </div>
-    <div>If we are not able to find a partner for you for the next {{ sec_to_min }} minutes,
-        you will be redirected to the final page of this study.
-    </div>
-    <div>Time remaining for finding a partner: <b><span id="getting-started"></span></b></div>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            We are now retrieving information necessary for the second part of the study.
+        </li>
+        <li class="list-group-item">
+            In general it takes a few minutes.
+        </li>
+        <li class="list-group-item">
+            At maximum you will wait for {{ sec_to_min }} minutes,
+            after which we will forward you further.
+        </li>
+        <li class="list-group-item">
+            Maximum time remaining: <b><span id="getting-started"></span></b>:
+        </li>
+        <li class="list-group-item">
+            <div class="progress1">
+                <div class="progress-bar  progress-bar-animated" role="progressbar"
+                     id="moving_prog"
+                     aria-valuenow="{{ val_now }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ val_for_progress }}">
+                    &nbsp;
+                </div>
+            </div>
+        </li>
+    </ul>
+
+
+
     <script> window.setInterval(function () {
         window.location.reload();
-    }, 10 * 1000);
+    }, 10 * 100000);
     </script>
     <script type="text/javascript">
+        var totalSecondsToWait = {{ total_seconds_to_wait|json }}
         var currentDate = new Date();
         var remainingSeconds = {{ seconds_to_mismatch|json }};
         var milliseconds = Math.floor(remainingSeconds * 1000);
-
+        const $progbar = $('#moving_prog')
         $("#getting-started")
             .countdown(currentDate.valueOf() + milliseconds).on('update.countdown', function (event) {
             $(this).text(
                 event.strftime('%N minute%!N %S second%!S')
             );
+            const x= event.offset.totalSeconds/totalSecondsToWait;
+            const forProgress=parseFloat(x*100).toFixed(2)+"%"
+            $progbar.css('width', forProgress)
+            console.debug(event.offset.totalSeconds, forProgress)
         }).on('finish.countdown', function (event) {
             console.debug('reloading...');
             setTimeout(() => {

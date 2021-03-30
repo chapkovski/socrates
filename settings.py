@@ -1,5 +1,6 @@
 from os import environ
 import os
+EXTENSION_APPS = ['second', 'first','cloudcapturer']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
@@ -14,10 +15,11 @@ SOME_DEFAULTS = dict(
     fee_for_correct=2,
 )
 standard_app_seq = [
-    # 'starter',
+    'starter',
     'first',
     'second',
-    'questionnaire'
+    'questionnaire',
+    'last'
 ]
 SESSION_CONFIGS = [
     dict(
@@ -109,7 +111,7 @@ SECRET_KEY = '017x2njo5bj4r7)4gd9(wrg(b%v$@@9*0hsss3_&0r*ku(t9bs'
 
 # if an app is included in SESSION_CONFIGS, you don't need to list it here
 APPEND_SLASH = True
-EXTENSION_APPS = ['second', 'first']
+
 COUNTRIES_FIRST = ['US', 'GB']
 COUNTRIES_FIRST_BREAK = '-------'
 COUNTRIES_FIRST_REPEAT = True
@@ -119,7 +121,8 @@ INSTALLED_APPS = [
     'webpack_loader',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_countries'
+    'django_countries',
+    'cloudcapturer'
 ]
 
 WEBPACK_LOADER = {

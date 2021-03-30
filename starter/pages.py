@@ -9,10 +9,8 @@ from .models import Constants
 
 class Timer(Page):
 
-
     def post(self):
         tts = self.subsession.time_to_start
-        print("IS BOT???", self.participant._is_bot)
         if datetime.now(tz=timezone('UTC')) < tts and not self.participant._is_bot:
             return self._redirect_to_page_the_user_should_be_on()
         return super().post()
@@ -37,9 +35,13 @@ class Timer(Page):
         self.player.set_payoff()
 
 
+class Consent(Page):
+    form_model = 'player'
+    form_fields=['consent']
 
 
 page_sequence = [
     Timer,
+    Consent,
 
 ]
