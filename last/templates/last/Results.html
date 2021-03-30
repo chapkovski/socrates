@@ -28,7 +28,7 @@
                         <td><b>{{ participant.vars.ego_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
                         </td>
                     </tr>
-                    {% if participant.vars.alter_correct is not None %}
+                    {% if participant.vars.alter_correct|default_if_none:None is not None %}
                         <tr>
                             <td>Your partner's second answer was:</td>
                             <td>
