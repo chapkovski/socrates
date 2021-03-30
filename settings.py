@@ -15,8 +15,8 @@ SOME_DEFAULTS = dict(
     fee_for_correct=2,
 )
 standard_app_seq = [
-    'starter',
-    'first',
+    # 'starter',
+    # 'first',
     'second',
     'questionnaire',
     'last'
