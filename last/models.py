@@ -8,6 +8,7 @@ from otree.api import (
     Currency as c,
     currency_range,
 )
+from otree.common import _CurrencyEncoder
 import json
 
 author = 'Your name here'
@@ -31,8 +32,12 @@ class Group(BaseGroup):
     pass
 
 
+
+
+
+
 class Player(BasePlayer):
     vars_dump = models.LongStringField(doc='for storing participant vars')
 
     def start(self):
-        self.vars_dump = json.dumps(self.participant.vars)
+        self.vars_dump = json.dumps(self.participant.vars, cls=_CurrencyEncoder)

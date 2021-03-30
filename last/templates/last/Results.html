@@ -2,7 +2,7 @@
 {% load otree  i18n %}
 
 {% block title %}
-    {% trans 'Thank you for the participation' %}
+    Thank you for the participation
 {% endblock %}
 {% block progress %}
 
@@ -11,14 +11,37 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="lead text-center">{% trans 'Your code' %}
+            <div class="lead text-center">Your code
                 <div class="text-center"><span class="font-weight-bold display-4">{{ participant.code }}</span>
                 </div>
             </div>
             <div class="lead my-3  ">
-                {% blocktrans trimmed %}
-                    In order for the task to be considered completed, please copy and paste it on the mTurk assignment page.
-                {% endblocktrans %}
+
+                In order for the task to be considered completed, please copy and paste it on the mTurk assignment page.
+
+            </div>
+            <div class="my-3  ">
+
+                <table class="table table-hover table-striped">
+                    <tr>
+                        <td>Your second answer was:</td>
+                        <td><b>{{ participant.vars.ego_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
+                        </td>
+                    </tr>
+                    {% if participant.vars.alter_correct %}
+                        <tr>
+                            <td>Your partner's second answer was:</td>
+                            <td><b>{{ participant.vars.alter_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    <tr>
+                        <td>Your bonus for this study is:</td>
+                        <td><b>{{ participant.payoff|default_if_none:'' }}</b></td>
+                    </tr>
+
+                </table>
+
             </div>
         </div>
     </div>

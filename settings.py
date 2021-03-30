@@ -4,7 +4,7 @@ EXTENSION_APPS = ['second', 'first','cloudcapturer']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
-    seconds_allow_exit=100,
+    seconds_allow_exit=10,
     msg_till_allowed_exit='You can leave the chat in',
     seconds_forced_exit=3000,
     msg_forced_exit='The chat will end automatically in',
@@ -15,10 +15,10 @@ SOME_DEFAULTS = dict(
     fee_for_correct=2,
 )
 standard_app_seq = [
-    'starter',
-    'first',
+    # 'starter',
+    # 'first',
     'second',
-    'questionnaire',
+    # 'questionnaire',
     'last'
 ]
 SESSION_CONFIGS = [

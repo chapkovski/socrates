@@ -4,6 +4,7 @@ from otree.api import (
     models
 )
 from django.db import models as djmodels
+from itertools import cycle
 
 
 class VignetteSubsession(BaseSubsession):
@@ -27,7 +28,8 @@ class VignetteSubsession(BaseSubsession):
         except Vignette.DoesNotExist:
             # THis is for debugging only!
             if vignette_title == 'asdf':
-                v = Vignette.objects.create(title=vignette_title, body='Vignette example', question="what do you think?",
+                v = Vignette.objects.create(title=vignette_title, body='Vignette example',
+                                            question="what do you think?",
                                             yes_option='YES', no_option='NOPE', correct=True)
             else:
                 raise Exception(f'Cannot find the vignette with the title "{vignette_title}"\n'
@@ -59,5 +61,6 @@ class VignettePlayer(BasePlayer):
             q=s.question,
             choices=choices
         )
-    def decision_making(self,  payload, **kwargs):
+
+    def decision_making(self, payload, **kwargs):
         print(f'MESSAGE RECEIVED {payload} FROM: {self.id_in_group}')

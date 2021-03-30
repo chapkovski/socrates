@@ -122,7 +122,7 @@ class SecondOpinion(Opinion):
 
 
 class AfterDiscussionWP(WaitPage):
-    after_all_players_arrive = 'set_payoffs'
+    after_all_players_arrive = 'set_payoffs_and_results'
 
 
 class Results(Page):

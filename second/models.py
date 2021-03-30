@@ -15,7 +15,7 @@ from django.db import models as djmodels
 from first.generic_models import VignetteSubsession, VignettePlayer
 from dateutil.relativedelta import relativedelta
 import logging
-from itertools import groupby
+from itertools import cycle
 
 logger = logging.getLogger(__name__)
 author = 'Philipp Chapkovski, HSE-Moscow, chapkovski@gmail.com'
@@ -36,18 +36,34 @@ class Match(IntEnum):
     MATCHED = 1
 
 
+# TODO: move to classes all this BS.
+
 def independent_payoff(g, p):
     correct = p.subsession.correct
     answer = p.answer
     fee = p.subsession.fee_for_correct
-    return fee * (answer == correct)
+    return dict(payoff=fee * (answer == correct),
+                ego_correct=answer == correct,
+                )
 
 
 def dependent_payoff(g, p):
+    answer = p.answer
+    alter_answer = p.other.answer
     correct = p.subsession.correct
     fee = p.subsession.fee_for_correct
     all_correct = all([i.answer == correct for i in g.get_players()])
-    return fee * all_correct
+    return dict(payoff=fee * all_correct,
+                ego_correct=answer == correct,
+                alter_correct=alter_answer == correct,
+                both_correct=all_correct)
+
+
+def no_reward(g, p):
+    correct = p.subsession.correct
+    answer = p.answer
+    return dict(payoff=0,
+                ego_correct=answer == correct)
 
 
 class Constants(BaseConstants):
@@ -66,7 +82,7 @@ class Constants(BaseConstants):
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
 
     payoff_funs = dict(
-        no_reward=lambda x, y: 0,
+        no_reward=no_reward,
         solo_reasoning=independent_payoff,
         dependent=dependent_payoff,
         independent=independent_payoff
@@ -147,7 +163,10 @@ class Subsession(VignetteSubsession):
             for p in self.get_players():
                 p.order = p.participant.first_player.first().order
         else:
+            potanswers = cycle([False, True])
             for p in self.get_players():
+                if self.session.is_demo:  ## only for debugging!!
+                    p.participant.vars['position'] = next(potanswers)
                 p.order = random.choice(FirstConstants.bns)
 
 
@@ -156,14 +175,16 @@ class Group(BaseGroup):
     time_forced_exit = djmodels.DateTimeField(blank=True, null=True)
     chat_status = models.BooleanField()
 
-    def set_payoffs(self):
+    def set_payoffs_and_results(self):
         param_name = self.get_players()[0].treatment
         payoff_fun = Constants.payoff_funs.get(param_name)
         if not payoff_fun:
             logger.error('No payoff function is found! Check for correct param_name')
             return
         for p in self.get_players():
-            p.payoff = payoff_fun(self, p)
+            response = payoff_fun(self, p)
+            p.payoff = response.get('payoff')
+            p.participant.vars.update(response)
 
     def when_matched(self, ):
         for p in self.get_players():
@@ -222,12 +243,17 @@ class Player(VignettePlayer):
     treatment = models.StringField()
 
     @property
+    def other(self):
+        return self.get_others_in_group()[0]
+
+    @property
     def in_chat_treatment(self):
         return self.treatment in Constants.CHAT_TREATMENTS
 
     def get_instructions(self):
         """
-         Return instructions here based on treatment type
+         Return instructions here based on treatment type.
+         TODO: use render_to_string to inject some variables (like fee for correct answer)
         """
 
         return mark_safe(Param.objects.get(name=self.treatment).body)
