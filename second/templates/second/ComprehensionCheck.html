@@ -8,16 +8,17 @@
 
 {% block content %}
     <style>
-    .otree-form-errors.alert.alert-danger{
-        display: none;
-    }
-    .errorlist{
-        font-weight: bold;
-        color:red;
-        font-size:1rem;
-    }
+        .otree-form-errors.alert.alert-danger {
+            display: none;
+        }
+
+        .errorlist {
+            font-weight: bold;
+            color: red;
+            font-size: 1rem;
+        }
     </style>
-      <div id="instructions" class="d-none">
+    <div id="instructions" class="d-none">
         {{ player.get_instructions }}
     </div>
     <script>
@@ -30,14 +31,20 @@
     {% render_bundle 'chunk-vendors' 'js' %}
 
     <div class="alert alert-info">
-    To help us ensure that you understand the experiment, please check all the boxes that you think apply to this study:
+        To help us ensure that you understand the experiment, please check all the boxes that you think apply to this
+        study:
     </div>
+    {% if form.errors %}
+        <div class="alert alert-danger my-3">
+            {{ form.errors }}
+        </div>
+    {% endif %}
     <table class="table table-striped table-hover">
-    {% for foo in form %}
-    <div class="form-group">
-    {% formfield foo %}
-  </div>
-    {% endfor %}
+        {% for foo in form %}
+            <div class="form-group">
+                {% formfield foo %}
+            </div>
+        {% endfor %}
 
     </table>
     {% next_button %}
