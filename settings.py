@@ -18,7 +18,7 @@ standard_app_seq = [
     # 'starter',
     # 'first',
     'second',
-    # 'questionnaire',
+    'questionnaire',
     'last'
 ]
 SESSION_CONFIGS = [

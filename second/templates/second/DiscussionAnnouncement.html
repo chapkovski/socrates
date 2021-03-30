@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Discussion with another participant
+{% endblock %}
+
+{% block content %}
+    <div class="card my-3">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    On the next screen you will be able to discuss your answers with another
+                    randomly chosen participant who has an <b>different</b> opinion.
+                </li>
+
+
+                <li class="list-group-item ">
+                    Please click 'Proceed' to start the discussion
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="my-3">
+        <button class="  btn btn-danger">Proceed</button>
+    </div>
+{% endblock %}
+
+

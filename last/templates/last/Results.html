@@ -2,7 +2,7 @@
 {% load otree  i18n %}
 
 {% block title %}
-    Thank you for the participation
+
 {% endblock %}
 {% block progress %}
 
@@ -28,16 +28,23 @@
                         <td><b>{{ participant.vars.ego_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
                         </td>
                     </tr>
-                    {% if participant.vars.alter_correct %}
+                    {% if participant.vars.alter_correct is not None %}
                         <tr>
                             <td>Your partner's second answer was:</td>
-                            <td><b>{{ participant.vars.alter_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
+                            <td>
+                                <b>{{ participant.vars.alter_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
                             </td>
                         </tr>
                     {% endif %}
                     <tr>
                         <td>Your bonus for this study is:</td>
                         <td><b>{{ participant.payoff|default_if_none:'' }}</b></td>
+                    </tr>
+                    <tr class="table-info">
+                        <td colspan="2" class="lead text-center">You will get the participation fee for this study no
+                            matter what your bonus is!
+                        </td>
+
                     </tr>
 
                 </table>

@@ -46,6 +46,11 @@ class ComprehensionCheck(Page):
     def get_form_class(self):
         return CQForm
 
+class DiscussionAnnouncement(Page):
+    # todo move this condition to some parents
+    def is_displayed(self):
+        return self.group.chat_status and self.player.matched == Match.MATCHED and self.player.in_chat_treatment
+
 
 class BeforeDiscussionWP(WaitPage):
     after_all_players_arrive = 'set_timer'
@@ -131,8 +136,9 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    Instructions,
+    # Instructions,
     ComprehensionCheck,
+    DiscussionAnnouncement,
     BeforeDiscussionWP,
     DiscussionPage,
     EssayPage,
