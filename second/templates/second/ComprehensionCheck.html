@@ -33,7 +33,12 @@
     To help us ensure that you understand the experiment, please check all the boxes that you think apply to this study:
     </div>
     <table class="table table-striped table-hover">
-    {{ form.as_table }}
+    {% for foo in form %}
+    <div class="form-group">
+    {% formfield foo %}
+  </div>
+    {% endfor %}
+
     </table>
     {% next_button %}
 {% endblock %}
