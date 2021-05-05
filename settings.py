@@ -4,7 +4,7 @@ EXTENSION_APPS = ['second', 'first','cloudcapturer']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
-    sec_waiting_too_long=30,
+    sec_waiting_too_long=180,
     seconds_allow_exit=10,
     msg_till_allowed_exit='You can leave the chat in',
     seconds_forced_exit=3000,
