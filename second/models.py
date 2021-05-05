@@ -123,7 +123,7 @@ class Subsession(VignetteSubsession):
                         return [i]
         else:
             too_long_waiters = [w for w in waiting_players if
-                                (now - w.wp_entrance_time).total_seconds() > Constants.sec_waiting_too_long]
+                                (now - w.wp_entrance_time).total_seconds() > w.sec_waiting_too_long]
         if too_long_waiters:
             for i in too_long_waiters:
                 i.treatment = random.choice(Constants.NO_CHAT_TREATMENTS)
@@ -230,6 +230,10 @@ class Group(BaseGroup):
 
 
 class Player(VignettePlayer):
+    @property
+    def sec_waiting_too_long(self):
+        return self.session.config.get('sec_waiting_too_long', Constants.sec_waiting_too_long)
+
     cq_err_counter = models.IntegerField(default=0, doc='Error counter for CQs')
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
     wp_exit_time = djmodels.DateTimeField(null=True, blank=True)

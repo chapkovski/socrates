@@ -37,9 +37,17 @@
                         </tr>
                     {% endif %}
                     <tr>
-                        <td>Your bonus for this study is:</td>
-                        <td><b>{{ participant.payoff|default_if_none:'' }}</b></td>
+                        <td>Your bonus for the second part of the study:</td>
+                        <td><b>{{ participant.vars.study_bonus|default_if_none:'' }}</b></td>
                     </tr>
+                    {% if participant.vars.bonus_time|default_if_none:None is not None %}
+                        <tr>
+                            <td>Your bonus for being on time:</td>
+                            <td>
+                                <b>{{ participant.vars.bonus_time }}</b>
+                            </td>
+                        </tr>
+                    {% endif %}
                     <tr class="table-info">
                         <td colspan="2" class="lead text-center">You will get the participation fee for this study no
                             matter what your bonus is!

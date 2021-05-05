@@ -15,7 +15,7 @@
         <div class="card-body">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    This study is about to start at:
+                    This study starts at:
                 </li>
                 <li class="list-group-item text-center font-weight-bold">
                     <div>
@@ -50,8 +50,14 @@
                 {% else %}
                     <li class="list-group-item  d-none" id="late">
                         You can click on the 'Proceed' button now and you <strong><u>still receive the
-                        fee for this HIT</u></strong>, but you won't be eligible for the bonus of
-                        <strong>{{ subsession.time_bonus }}</strong>.
+                        fee for this HIT</u></strong>.
+                        <div>
+                            You will also be available for any extra bonuses that you may earn in a course of study.
+
+                        </div>
+                        <div>
+                            However you won't be eligible for <b>$1</b> bonus for being on time.
+                        </div>
                     </li>
                 {% endif %}
 
@@ -67,7 +73,7 @@
         get
         <strong>{{ subsession.time_bonus }}</strong> bonus.
     </div>
-    <button class="btn btn-lg btn-danger d-none" id="btn_proceed_without_bonus">Proceed without bonus</button>
+    <button class="btn btn-lg btn-danger d-none" id="btn_proceed_without_bonus">Proceed</button>
     <button class="btn btn-lg btn-success d-none" id="btn_proceed_with_bonus">Proceed with bonus</button>
 
     <script src="{% static 'otree/js/jquery.countdown.min.js' %}"></script>

@@ -19,18 +19,18 @@ class FirstWP(WaitPage):
         if not self.player.wp_entrance_time:
             self.player.wp_entrance_time = now
         if not self.player.wp_exit_time:
-            self.player.wp_exit_time = now + timedelta(seconds=Constants.sec_waiting_too_long)
+            self.player.wp_exit_time = now + timedelta(seconds=self.player.sec_waiting_too_long)
 
         return self.player.matched == Match.NOT_YET
 
     def vars_for_template(self):
         seconds_to_mismatch = (self.player.wp_exit_time - datetime.now(timezone.utc)).total_seconds()
-        prog_val = (seconds_to_mismatch / Constants.sec_waiting_too_long) * 100
+        prog_val = (seconds_to_mismatch / self.player.sec_waiting_too_long) * 100
         return dict(seconds_to_mismatch=seconds_to_mismatch,
-                    total_seconds_to_wait=Constants.sec_waiting_too_long,
+                    total_seconds_to_wait=self.player.sec_waiting_too_long,
                     val_now=int(prog_val),
                     val_for_progress=f"{prog_val / 100:.2%}",
-                    sec_to_min=int(Constants.sec_waiting_too_long / 60))
+                    sec_to_min=int(self.player.sec_waiting_too_long / 60))
 
     group_by_arrival_time = True
     after_all_players_arrive = 'when_matched'
