@@ -40,23 +40,24 @@
                 </li>
                 {% if on_time %}
                     <li class="list-group-item" id="ontime">
-                        If you click 'Proceed' button (which will appear below) to proceed to the study
+                        You must click “Proceed” (which will appear below)
                         <strong>within {{ subsession.formatted_delta }}</strong> of
                         {% timezone "US/Eastern" %}
                             {{ subsession.time_to_start }}
-                        {% endtimezone %} Eastern time you
-                        are eligible for <strong>{{ subsession.time_bonus }}</strong> bonus.
+                        {% endtimezone %} Eastern time to be
+                        eligible for <strong>{{ subsession.time_bonus }}</strong> bonus
+                        upon completion of the study.
                     </li>
                 {% else %}
                     <li class="list-group-item  d-none" id="late">
-                        You can click on the 'Proceed' button now and you <strong><u>still receive the
-                        fee for this HIT</u></strong>.
+                        You can click on the 'Proceed' button now and you <strong><u>still be elligible to receive
+                        paymnent for completing the study</u></strong>.
                         <div>
-                            You will also be available for any extra bonuses that you may earn in a course of study.
+                            You will also be elligible for any extra bonuses that can be earned during this study.
 
                         </div>
                         <div>
-                            However you won't be eligible for <b>$1</b> bonus for being on time.
+                            However you won't be eligible for the <b>$1</b> bonus for being on time.
                         </div>
                     </li>
                 {% endif %}
