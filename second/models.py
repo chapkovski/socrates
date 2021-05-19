@@ -186,6 +186,7 @@ class Group(BaseGroup):
             logger.error('No payoff function is found! Check for correct param_name')
             return
         for p in self.get_players():
+            p.set_payoff()
             response = payoff_fun(self, p)
             p.payoff = response.get('payoff')
             p.participant.vars.update(response)
@@ -237,6 +238,17 @@ class Player(VignettePlayer):
     @property
     def sec_waiting_too_long(self):
         return self.session.config.get('sec_waiting_too_long', Constants.sec_waiting_too_long)
+
+    def set_payoff(self):
+        param_name = self.treatment
+        payoff_fun = Constants.payoff_funs.get(param_name)
+        if not payoff_fun:
+            logger.error('No payoff function is found! Check for correct param_name')
+            return
+
+        response = payoff_fun(self.group, self)
+        self.payoff = response.get('payoff')
+        self.participant.vars.update(response)
 
     cq_err_counter = models.IntegerField(default=0, doc='Error counter for CQs')
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)

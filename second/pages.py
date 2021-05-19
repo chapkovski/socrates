@@ -126,7 +126,6 @@ class SecondOpinion(Opinion):
     form_fields = ['answer', 'confidence']
     def before_next_page(self):
         if not self.subsession.dependable_treatment:
-JOPA - DO SOMETHING HIERE
             self.player.set_payoff()
 
 class AfterDiscussionWP(WaitPage):
