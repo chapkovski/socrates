@@ -96,6 +96,10 @@ class Subsession(VignetteSubsession):
     msg_forced_exit = models.StringField()
     fee_for_correct = models.CurrencyField()
 
+    @property
+    def dependable_treatment(self):
+        return self.session.config.get('param_name') == 'dependent'
+
     def group_by_arrival_time_method(self, waiting_players):
         """
         If there are those who wait too long, we just assign them to a no_reward treatment and let them proceed.

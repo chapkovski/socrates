@@ -124,9 +124,14 @@ class SecondOpinion(Opinion):
     template_name = 'first/Opinion.html'
     form_model = 'player'
     form_fields = ['answer', 'confidence']
-
+    def before_next_page(self):
+        if not self.subsession.dependable_treatment:
+JOPA - DO SOMETHING HIERE
+            self.player.set_payoff()
 
 class AfterDiscussionWP(WaitPage):
+    def is_displayed(self):
+        return self.subsession.dependable_treatment
     after_all_players_arrive = 'set_payoffs_and_results'
 
 
