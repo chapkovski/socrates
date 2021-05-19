@@ -12,8 +12,9 @@ SOME_DEFAULTS = dict(
     time_to_start='2021-03-30 22:00 MSK',
     sec_to_wait_on_wp=180,
     time_bonus=1,
-    time_to_proceed=10,
+    time_to_proceed=180,
     fee_for_correct=2,
+    study_length_min=60,
 )
 standard_app_seq = [
     'starter',

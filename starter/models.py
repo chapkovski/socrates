@@ -21,7 +21,7 @@ def now():
 
 
 class Constants(BaseConstants):
-    name_in_url = 'endline'
+    name_in_url = 'starter'
     players_per_group = None
     num_rounds = 1
 
@@ -32,14 +32,17 @@ class Subsession(BaseSubsession):
     time_to_proceed = models.IntegerField()
     delta = djmodels.DurationField(null=True, blank=True)
     formatted_delta = models.StringField()
+    study_length = models.StringField()
+
 
     def creating_session(self):
         # in case there is no time to start in session config we fall back to current time plus 10 min
         self.time_bonus = self.session.config.get('time_bonus', 1)
-        self.time_to_proceed = self.session.config.get('time_to_proceed', 180)
+        self.time_to_proceed = self.session.config.get('time_to_proceed', 10)
         self.delta = timedelta(seconds=self.time_to_proceed)
         self.formatted_delta = humanize.naturaldelta(self.delta)
-        fallback_time = now() + relativedelta(seconds=3)
+        self.study_length = humanize.naturaldelta(self.session.config.get('study_length_min')*60)
+        fallback_time = now() + relativedelta(seconds=10)
         fallback_time_str = str(fallback_time)
         time_to_start_str = self.session.config.get('time_to_start')
 

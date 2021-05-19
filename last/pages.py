@@ -5,7 +5,7 @@ from .models import Constants
 
 # TODO: provide missing vars to template!
 class Results(Page):
-
+    pass
 
 
 page_sequence = [
