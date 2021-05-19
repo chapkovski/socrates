@@ -23,6 +23,9 @@
             <div class="my-3  ">
 
                 <table class="table table-hover table-striped">
+
+
+
                     <tr>
                         <td>Your second answer was:</td>
                         <td><b>{{ participant.vars.ego_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
@@ -38,16 +41,27 @@
                     {% endif %}
                     <tr>
                         <td>Your bonus for the second part of the study:</td>
-                        <td><b>{{ participant.vars.study_bonus|default_if_none:'' }}</b></td>
+                        <td><b>{{ participant.vars.payoff|default_if_none:'' }}</b></td>
                     </tr>
-                    {% if participant.vars.bonus_time|default_if_none:None is not None %}
+                    {% if participant.vars.bonus_time|default_if_none:True is not None %}
                         <tr>
                             <td>Your bonus for being on time:</td>
                             <td>
-                                <b>{{ participant.vars.bonus_time }}</b>
+                                <b>{{ participant.vars.bonus_time|default_if_none:'' }}</b>
                             </td>
                         </tr>
                     {% endif %}
+                  <tr>
+                        <td>Participation fee for this study:</td>
+                        <td><b>{{ session.config.participation_fee|default_if_none:'' }}</b>
+                        </td>
+                    </tr>
+                  <tr class="table-success my-5">
+                        <td>Total payoff for this study:</td>
+                        <td><b>{{ participant.payoff_plus_participation_fee }}</b>
+                        </td>
+                    </tr>
+                <tr><td></td><td></td></tr>
                     <tr class="table-info">
                         <td colspan="2" class="lead text-center">You will get the participation fee for this study no
                             matter what your bonus is!

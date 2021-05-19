@@ -42,6 +42,8 @@ class Subsession(BaseSubsession):
         self.delta = timedelta(seconds=self.time_to_proceed)
         self.formatted_delta = humanize.naturaldelta(self.delta)
         self.study_length = humanize.naturaldelta(self.session.config.get('study_length_min')*60)
+        self.session.vars['study_length'] = self.study_length
+
         fallback_time = now() + relativedelta(seconds=10)
         fallback_time_str = str(fallback_time)
         time_to_start_str = self.session.config.get('time_to_start')
@@ -85,6 +87,7 @@ class Player(BasePlayer):
 
     def set_payoff(self):
         self.payoff = self.on_time * self.session.config.get('time_bonus', 0)
+        self.participant.vars['bonus_time'] = self.payoff
 
     def start(self):
         self.arrival_time = now()
