@@ -68,6 +68,8 @@ def no_reward(g, p):
 
 class Constants(BaseConstants):
     name_in_url = 't'
+    answer_correspondence = {False: 'no_option',
+                             True: 'yes_option'}
     CHAT_TREATMENTS = ['dependent', 'independent']
     NO_CHAT_TREATMENTS = ['no_reward', 'solo_reasoning']
     players_per_group = 2
@@ -234,7 +236,21 @@ class Group(BaseGroup):
             return {id_in_group: dict(msgs=msgs, action='PrevMessages', chatStatus=self.chat_status)}
 
 
+def original_answer(player):
+    pos = player.participant.vars.get('position')
+    return getattr(player.subsession, Constants.answer_correspondence.get(pos))
+
+
 class Player(VignettePlayer):
+    @property
+    def original_ego_answer(self):
+        return original_answer(self)
+
+    @property
+    def original_alter_answer(self):
+        alter = self.get_others_in_group()[0]
+        return original_answer(alter)
+
     @property
     def sec_waiting_too_long(self):
         return self.session.config.get('sec_waiting_too_long', Constants.sec_waiting_too_long)

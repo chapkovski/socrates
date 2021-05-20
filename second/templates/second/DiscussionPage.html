@@ -30,7 +30,8 @@
         window.seconds_forced_exit = {{ group.time_to_chat_over|json }};
         window.msg_forced_exit = {{ subsession.msg_forced_exit|json }};
         window.instructions = $('#instructions').html();
-
+        window.original_ego_answer = {{ player.original_ego_answer|json }};
+        window.original_alter_answer = {{ player.original_alter_answer|json }};
     </script>
 
 

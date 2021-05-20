@@ -1,7 +1,9 @@
 <template>
   <v-app id="inspire">
-    <end-chat v-if='!chatExitForced'/>
-    <error-modal error-text="Please check if you answer all the questions at this page" />
+    <end-chat v-if="!chatExitForced" />
+    <error-modal
+      error-text="Please check if you answer all the questions at this page"
+    />
     <instructions-modal />
     <v-system-bar height="30" app>
       <timer
@@ -23,8 +25,31 @@
       <h1>chat</h1>
       <chat></chat>
     </v-navigation-drawer>
-    <v-main class="maincont">
+    <v-main class="maincont pr-3">
       <v-container fluid fill-height>
+        <v-row>
+          <v-col>
+            <v-sheet color="white" elevation="1" width="100%" rounded>
+              <v-container>
+                <v-row>
+                  <v-col>
+                    <div class="m-3">
+                      Your answer was: <b>{{ original_ego_answer }}</b>
+                    </div>
+                    <div>
+                      Your partner's answer was:
+                      <b>{{ original_alter_answer }}</b>
+                    </div>
+                    <div>
+                      For your reference during this exercise, here is the
+                      original problem.
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-sheet>
+          </v-col>
+        </v-row>
         <v-row>
           <v-col>
             <formatted-vignette
@@ -105,6 +130,8 @@ export default {
       msg_till_allowed_exit: window.msg_till_allowed_exit,
       seconds_forced_exit: window.seconds_forced_exit,
       msg_forced_exit: window.msg_forced_exit,
+      original_ego_answer: window.original_ego_answer,
+      original_alter_answer: window.original_alter_answer,
     };
   },
   computed: {
@@ -115,7 +142,7 @@ export default {
       console.debug(`old value ${oldVal}`);
       console.debug(`new value ${newVal}`);
     },
-    chatExitForced: function() {
+    chatExitForced: function () {
       this.formSubmit();
     },
   },
@@ -131,7 +158,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["toggleInstructionsDialog",'setEndChatInitiator']),
+    ...mapMutations(["toggleInstructionsDialog", "setEndChatInitiator"]),
     ...mapActions(["sendDecision"]),
     answerChanged(val) {
       console.debug("ANSWER CHANGED!!!", val);
@@ -152,7 +179,7 @@ export default {
       }
     },
     formSubmit() {
-      this.setEndChatInitiator()
+      this.setEndChatInitiator();
       document.getElementById("form").submit();
     },
   },
