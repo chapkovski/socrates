@@ -9,8 +9,9 @@
       <timer
         :secs-to-end="secsTillAllowedExit"
         what-to-do="allowExitPermission"
-        :progress-message="msg_till_allowed_exit"
-        timer-finish="You can click 'Next' if you want to leave the chat early"
+        :progress-message="''"
+        :show-progress='false'
+        timer-finish="You may leave the chat now or continue for as long as you like."
         color="blue"
       />
       <timer
@@ -81,7 +82,7 @@
           appear
         >
           <v-btn large color="red" @click="formSubmit" v-if="chatExitAllowed">
-            Next
+            Leave chat
           </v-btn>
         </transition>
       </v-col>

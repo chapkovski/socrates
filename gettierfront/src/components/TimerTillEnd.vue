@@ -2,6 +2,7 @@
   <countdown :end-time="endTime" :style="{ width: '100%' }" @finish="toDo()">
     <template v-slot:process="anyYouWantedScopName">
       <v-progress-linear
+      v-if='showProgress'
         width="100%"
         height="25px"
         :color="color"
@@ -29,6 +30,7 @@ export default {
     whatToDo: String,
     color: String,
     timerFinish: String,
+    showProgress:{type:Boolean, default:true}
   },
   data() {
     const endTime = addSeconds(new Date(), this.secsToEnd);
