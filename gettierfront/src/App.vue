@@ -59,6 +59,7 @@
               @answer-changed="answerChanged"
               @confidence-changed="confidenceChanged"
               v-if="vignette"
+              :showConfidence="false"
             ></formatted-vignette>
           </v-col>
         </v-row>

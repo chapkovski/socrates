@@ -27,7 +27,7 @@
             
           ></v-radio>
         </v-radio-group>
-        <v-card flat class="">
+        <v-card flat class="" v-if='showConfidence'>
           <v-card-text>
             <v-row align="center" justify="center">
               <v-col cols="12">
@@ -69,6 +69,7 @@ export default {
       default: () => {},
     },
     enabled: { type: Boolean, default: false },
+    showConfidence: { type: Boolean, default: true },
     
   },
   data() {
