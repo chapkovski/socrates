@@ -7,8 +7,6 @@ from .models import Constants
 class Results(Page):
     pass
 
-
-
 page_sequence = [
     Results
 ]
