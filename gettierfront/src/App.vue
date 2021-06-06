@@ -22,7 +22,7 @@
         color="red"
       />
     </v-system-bar>
-    <v-navigation-drawer fixed permanent right class="chatdrawer">
+    <v-navigation-drawer fixed permanent right class="chatdrawer" width=400>
       <h1>chat</h1>
       <chat></chat>
     </v-navigation-drawer>
@@ -189,7 +189,7 @@ export default {
 </script>
 <style>
 .maincont {
-  margin-right: 256px;
+  margin-right: 400px;
   overflow-y: scroll;
 }
 .chatdrawer {

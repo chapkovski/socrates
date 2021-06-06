@@ -9,6 +9,7 @@
         @keyup.enter="sendMessage"
         @keydown.enter.prevent
       />
+      
       <v-btn
         dark
         fab
