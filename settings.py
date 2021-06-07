@@ -17,7 +17,7 @@ SOME_DEFAULTS = dict(
     study_length_min=60,
 )
 standard_app_seq = [
-    # 'starter',
+    'starter',
     'first',
     'second',
     'questionnaire',
