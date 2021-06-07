@@ -21,7 +21,7 @@ class Opinion(GeneralVignettePage):
 
 
 page_sequence = [
-    PreIntro,
-    Intro,
+    # PreIntro,
+    # Intro,
     Opinion
 ]

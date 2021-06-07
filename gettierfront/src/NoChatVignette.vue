@@ -4,7 +4,23 @@
       error-text="Please check if you answer all the questions at this page"
     />
     <v-main>
-      <v-container class=" main-container h-100 d-flex fill-height" fluid>
+      <v-container class="main-container h-100 d-flex fill-height" fluid>
+        <v-row v-if='original_ego_answer'>
+          <v-col>
+            <v-sheet color="white" elevation="1" width="100%" rounded>
+              <v-container>
+                <v-row>
+                  <v-col>
+                    <div class="m-3">
+                      When you first answered this question you chose an option:
+                      <b>{{ original_ego_answer }}</b>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-sheet>
+          </v-col>
+        </v-row>
         <v-row
           align="center"
           justify="center"
@@ -51,7 +67,7 @@ export default {
   name: "VignetteNoChat",
   components: { FormattedVignette, ErrorModal },
   data() {
-    return { vignette: null };
+    return { vignette: null, original_ego_answer: window.original_ego_answer };
   },
 
   mounted() {

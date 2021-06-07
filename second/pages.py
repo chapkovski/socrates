@@ -120,6 +120,8 @@ class BeforeSecondOpinion(Page):
 
 
 class SecondOpinion(Opinion):
+    def second_opinion(self):
+        return dict(a=1)
     time_tracker_field = 'time_on_second_opinion'
     template_name = 'first/Opinion.html'
     form_model = 'player'
@@ -140,13 +142,13 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    Instructions,
-    ComprehensionCheck,
-    DiscussionAnnouncement,
-    BeforeDiscussionWP,
-    DiscussionPage,
-    EssayPage,
-    NoMatchingPage,
+    # Instructions,
+    # ComprehensionCheck,
+    # DiscussionAnnouncement,
+    # BeforeDiscussionWP,
+    # DiscussionPage,
+    # EssayPage,
+    # NoMatchingPage,
     BeforeSecondOpinion,
     SecondOpinion,
     AfterDiscussionWP
