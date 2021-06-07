@@ -22,7 +22,15 @@ class CQForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if {i.get('name'): bool(int(i.get('correct'))) for i in Constants.cqs} != cleaned_data:
+        all_correct = True
+        for i in Constants.cqs:
+
+            if bool(int(i.get('correct'))) != cleaned_data.get(i.get('name')):
+                curval = getattr(self.player, f'{i.get("name")}_err_counter')
+                setattr(self.player, f'{i.get("name")}_err_counter', curval + 1)
+                all_correct = False
+                self.player.save()
+        if not all_correct:
             self.player.cq_err_counter += 1
             self.player.save()
             raise forms.ValidationError('Some answers are incorrect. Please read instructions and try once again.')
