@@ -1,0 +1,32 @@
+{% extends "global/FullPage.html" %}
+{% load otree static %}
+{% load render_bundle from webpack_loader %}
+{% block title %}
+
+{% endblock %}
+
+{% block body_main %}
+    {#    TODO: add <div>ERRORS: {{ form.errors.as_json|default_if_none:'' }}</div> #}
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    {% render_bundle 'no_chat' 'css' %}
+    {% render_bundle 'chunk-vendors' 'css' %}
+    <script>
+        window.original_ego_answer = {{ player.original_ego_answer|default_if_none:False|json }}
+        window.socket_path = "{{ view.live_url }}";
+        window.id_in_group = {{ player.id_in_group }};
+        window.path_to_vignette = "{% url 'get_current_vignette' participant_code=participant.code %}";
+        window.djangoErrors = {{ django_errors|default_if_none:''|json }};
+    </script>
+
+    <form action='' method="post" role="form" id="form" autocomplete="off">
+
+        {% csrf_token %}
+        <div id="app"></div>
+    </form>
+
+
+    {% render_bundle 'chunk-vendors' %}
+    {% render_bundle 'no_chat' %}
+
+
+{% endblock %}

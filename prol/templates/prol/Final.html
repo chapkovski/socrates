@@ -1,0 +1,22 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Final page
+{% endblock %}
+
+{% block content %}
+    <div class="card my-3">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                   Thank you for your participation. Please either click on the button below or
+                    click on <a href="{{ session.config.prolific_redirect_url }}">this link</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <button class="  btn btn-danger">Return to Prolific</button>
+{% endblock %}
+
+

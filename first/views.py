@@ -16,7 +16,7 @@ class GetCurrentVignette(View):
         except Participant.DoesNotExist:
             resp = dict(error=True)
             return JsonResponse(resp)
-        p = participant.first_player.first() or participant.second_player.first()
+        p = participant.first_player.first() or participant.second_player.first() or participant.prol_player.first()
         if p:
             resp = p.vignette_json()
 

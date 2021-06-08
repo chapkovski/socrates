@@ -25,6 +25,17 @@ standard_app_seq = [
 ]
 SESSION_CONFIGS = [
     dict(
+        name='bare',
+        display_name="bare prolific q only",
+        num_demo_participants=1,
+        app_sequence=[
+            'prol'
+        ],
+        vignette='asdf',
+        prolific_redirect_url='www.lenta.ru',
+        **SOME_DEFAULTS
+    ),
+    dict(
         name='first',
         display_name="first",
         num_demo_participants=1,

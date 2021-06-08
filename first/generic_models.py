@@ -19,12 +19,14 @@ class VignetteSubsession(BaseSubsession):
     correct = models.BooleanField()
 
     def creating_session(self):
+        print("SHOTHT")
         from second.models import Vignette
         vignette_title = self.session.config.get('vignette')
         if not vignette_title:
             raise Exception('Vignette title is necessary')
         try:
             v = Vignette.objects.get(title=vignette_title)
+
         except Vignette.DoesNotExist:
             # THis is for debugging only!
             if vignette_title == 'asdf':

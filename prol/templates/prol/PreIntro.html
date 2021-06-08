@@ -1,0 +1,29 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Introduction
+{% endblock %}
+
+{% block content %}
+    <div class="card my-3">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    This study consists of two parts.
+                </li>
+                <li class="list-group-item">
+                    You will learn about the content of the first part as soon as you click 'Proceed to Part 1' button
+                    below.
+                </li>
+                <li class="list-group-item">
+                    The total duration of study will be about {{ session.vars.study_length }}.
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <button class="  btn btn-info">Proceed to Part 1</button>
+{% endblock %}
+
+
