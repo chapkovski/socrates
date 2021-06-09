@@ -19,7 +19,7 @@ SOME_DEFAULTS = dict(
     prolific_redirect_url='http://www.lenta.ru',
 )
 standard_app_seq = [
-    # 'starter',
+    'starter',
     'first',
     'second',
     'questionnaire',
@@ -31,7 +31,7 @@ SESSION_CONFIGS = [
         display_name="bare prolific q only",
         num_demo_participants=1,
         app_sequence=[
-            # 'starter',
+            'starter',
             'prol'
         ],
         vignette='asdf',

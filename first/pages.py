@@ -1,10 +1,13 @@
 from first.generic_pages import GeneralVignettePage
 from second.models import TimeTracker
 from ._builtin import Page
+import humanize
 
 
 class PreIntro(Page):
-    pass
+    def vars_for_template(self):
+        return dict(study_length=humanize.naturaldelta(self.session.config.get('study_length_min', 1) * 60))
+
 
 class Intro(Page):
     pass

@@ -37,12 +37,14 @@ class Timer(Page):
 
 class Consent(Page):
     form_model = 'player'
-    form_fields=['consent']
+    form_fields = ['consent']
+
     def vars_for_template(self):
         return dict(study_length=self.session.vars.get('study_length'))
 
+
 page_sequence = [
-    Timer,
-    # Consent,
+    # Timer,
+    Consent,
 
 ]
