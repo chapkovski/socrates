@@ -23,21 +23,21 @@
                             {{ subsession.time_to_start }}
                         {% endtimezone %} UK time.
                     </div>
-{#                    <div>#}
-{#                        {% timezone "US/Eastern" %}#}
-{#                            {{ subsession.time_to_start }}#}
-{#                        {% endtimezone %} Eastern time.#}
-{#                    </div>#}
-{#                    <div>#}
-{#                        {% timezone "US/Central" %}#}
-{#                            ({{ subsession.time_to_start }})#}
-{#                        {% endtimezone %} Central time.#}
-{#                    </div>#}
-{#                    <div>#}
-{#                        {% timezone "US/Pacific" %}#}
-{#                            ({{ subsession.time_to_start }})#}
-{#                        {% endtimezone %} Pacific time.#}
-{#                    </div>#}
+                    {#                    <div>#}
+                    {#                        {% timezone "US/Eastern" %}#}
+                    {#                            {{ subsession.time_to_start }}#}
+                    {#                        {% endtimezone %} Eastern time.#}
+                    {#                    </div>#}
+                    {#                    <div>#}
+                    {#                        {% timezone "US/Central" %}#}
+                    {#                            ({{ subsession.time_to_start }})#}
+                    {#                        {% endtimezone %} Central time.#}
+                    {#                    </div>#}
+                    {#                    <div>#}
+                    {#                        {% timezone "US/Pacific" %}#}
+                    {#                            ({{ subsession.time_to_start }})#}
+                    {#                        {% endtimezone %} Pacific time.#}
+                    {#                    </div>#}
                 </li>
                 <li class="list-group-item">
                     Time till the start of the study:
@@ -66,10 +66,12 @@
                         </div>
                     </li>
                 {% endif %}
-                 <li class="list-group-item" >
-                     The entire study will last for <b>{{ subsession.study_length }}</b>.
+                {% if not 'prol' in session.config.app_sequence %}
+                    <li class="list-group-item">
+                        The entire study will last for <b>{{ subsession.study_length }}</b>.
+                    </li>
+                {% endif %}
 
-                 </li>
             </ul>
 
         </div>
