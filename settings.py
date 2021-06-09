@@ -5,17 +5,16 @@ EXTENSION_APPS = ['second', 'first', 'cloudcapturer']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
-    sec_waiting_too_long=180,
-    seconds_allow_exit=10,
+    sec_waiting_too_long=300,
+    seconds_allow_exit=20,
     msg_till_allowed_exit='You can leave the chat in',
     seconds_forced_exit=3000,
     msg_forced_exit='The chat will end automatically in',
     time_to_start='2021-03-30 22:00 MSK',
-    sec_to_wait_on_wp=180,
     time_bonus=0.30,
     time_to_proceed=180,
-    fee_for_correct=2,
-    study_length_min=60,
+    fee_for_correct=1,
+    study_length_min=10,
     for_prolific=False,
     prolific_redirect_url='http://www.lenta.ru',
 )
