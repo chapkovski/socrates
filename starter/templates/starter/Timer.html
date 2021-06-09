@@ -23,21 +23,21 @@
                             {{ subsession.time_to_start }}
                         {% endtimezone %} UK time.
                     </div>
-                    {#                    <div>#}
-                    {#                        {% timezone "US/Eastern" %}#}
-                    {#                            {{ subsession.time_to_start }}#}
-                    {#                        {% endtimezone %} Eastern time.#}
-                    {#                    </div>#}
-                    {#                    <div>#}
-                    {#                        {% timezone "US/Central" %}#}
-                    {#                            ({{ subsession.time_to_start }})#}
-                    {#                        {% endtimezone %} Central time.#}
-                    {#                    </div>#}
-                    {#                    <div>#}
-                    {#                        {% timezone "US/Pacific" %}#}
-                    {#                            ({{ subsession.time_to_start }})#}
-                    {#                        {% endtimezone %} Pacific time.#}
-                    {#                    </div>#}
+                    <div>
+                        {% timezone "US/Eastern" %}
+                            {{ subsession.time_to_start }}
+                        {% endtimezone %} Eastern time.
+                    </div>
+                    <div>
+                        {% timezone "US/Central" %}
+                            ({{ subsession.time_to_start }})
+                        {% endtimezone %} Central time.
+                    </div>
+                    <div>
+                        {% timezone "US/Pacific" %}
+                            ({{ subsession.time_to_start }})
+                        {% endtimezone %} Pacific time.
+                                        </div>
                 </li>
                 <li class="list-group-item">
                     Time till the start of the study:
