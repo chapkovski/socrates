@@ -20,10 +20,10 @@ SOME_DEFAULTS = dict(
     prolific_redirect_url='http://www.lenta.ru',
 )
 standard_app_seq = [
-    # 'starter',
-    # 'first',
-    # 'second',
-    # 'questionnaire',
+    'starter',
+    'first',
+    'second',
+    'questionnaire',
     'last'
 ]
 SESSION_CONFIGS = [
@@ -116,7 +116,7 @@ LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = False
 
-ROOMS = []
+ROOMS = [dict(name='prolific', display_name='For Prolific users')]
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
