@@ -29,7 +29,9 @@ class Subsession(VignetteSubsession):
     def creating_session(self):
         super().creating_session()
         prolific_redirect_url = self.session.config.get('prolific_redirect_url')
-        URLValidator()(prolific_redirect_url)
+        if not self.session.is_demo:
+            URLValidator()(prolific_redirect_url)
+            assert 'https://app.prolific.co/submissions' in prolific_redirect_url
         for p in self.get_players():
             p.order = random.choice(Constants.bns)
 
