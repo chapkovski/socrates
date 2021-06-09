@@ -1,6 +1,7 @@
 from os import environ
 import os
-EXTENSION_APPS = ['second', 'first','cloudcapturer']
+
+EXTENSION_APPS = ['second', 'first', 'cloudcapturer']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
@@ -15,12 +16,14 @@ SOME_DEFAULTS = dict(
     time_to_proceed=180,
     fee_for_correct=2,
     study_length_min=60,
+    for_prolific=False,
+    prolific_redirect_url='http://www.lenta.ru',
 )
 standard_app_seq = [
-    'starter',
-    'first',
-    'second',
-    'questionnaire',
+    # 'starter',
+    # 'first',
+    # 'second',
+    # 'questionnaire',
     'last'
 ]
 SESSION_CONFIGS = [
@@ -33,7 +36,7 @@ SESSION_CONFIGS = [
             'prol'
         ],
         vignette='asdf',
-        prolific_redirect_url='http://www.lenta.ru',
+
         **SOME_DEFAULTS
     ),
     dict(

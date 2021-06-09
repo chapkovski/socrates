@@ -10,8 +10,9 @@ from otree.api import (
 )
 from otree.common import _CurrencyEncoder
 import json
+from django.core.validators import URLValidator
 
-author = 'Your name here'
+author = 'Philipp Chapkovski, HSE-Moscow'
 
 doc = """
 Your app description
@@ -25,15 +26,15 @@ class Constants(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    pass
+    def creating_session(self):
+        prolific_redirect_url = self.session.config.get('prolific_redirect_url')
+        if self.session.config.get('for_prolific'):
+            URLValidator()(prolific_redirect_url)
+            assert 'https://app.prolific.co/submissions' in prolific_redirect_url
 
 
 class Group(BaseGroup):
     pass
-
-
-
-
 
 
 class Player(BasePlayer):

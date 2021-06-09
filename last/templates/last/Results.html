@@ -11,19 +11,21 @@
 
     <div class="card">
         <div class="card-body">
-            <div class="lead text-center">Your code
-                <div class="text-center"><span class="font-weight-bold display-4">{{ participant.code }}</span>
+            {% if not session.config.for_prolific|default_if_none:True %}
+                <div class="lead text-center">Your code
+                    <div class="text-center"><span class="font-weight-bold display-4">{{ participant.code }}</span>
+                    </div>
                 </div>
-            </div>
-            <div class="lead my-3  ">
+                <div class="lead my-3  ">
 
-                In order for the task to be considered completed, please copy and paste it on the assignment page.
+                    In order for the task to be considered completed, please copy and paste it on the assignment page.
 
-            </div>
+                </div>
+            {% endif %}
+
             <div class="my-3  ">
 
                 <table class="table table-hover table-striped">
-
 
 
                     <tr>
@@ -51,17 +53,20 @@
                             </td>
                         </tr>
                     {% endif %}
-                  <tr>
+                    <tr>
                         <td>Participation fee for this study:</td>
                         <td><b>{{ session.config.participation_fee|default_if_none:'' }}</b>
                         </td>
                     </tr>
-                  <tr class="table-success my-5">
+                    <tr class="table-success my-5">
                         <td>Total payoff for this study:</td>
                         <td><b>{{ participant.payoff_plus_participation_fee }}</b>
                         </td>
                     </tr>
-                <tr><td></td><td></td></tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
                     <tr class="table-info">
                         <td colspan="2" class="lead text-center">You will get the participation fee for this study no
                             matter what your bonus is!
@@ -75,7 +80,10 @@
         </div>
     </div>
 
-    <button class="d-none">{% trans 'Next' %}</button>
+    <button class="d-none"> Next</button>
+    {% if  session.config.for_prolific|default_if_none:False %}
+        <button class="btn btn-lg btn-primary my-3">Get back to Prolific</button>
+    {% endif %}
 {% endblock %}
 
 
