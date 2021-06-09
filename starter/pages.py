@@ -43,6 +43,6 @@ class Consent(Page):
 
 page_sequence = [
     Timer,
-    Consent,
+    # Consent,
 
 ]

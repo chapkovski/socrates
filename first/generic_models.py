@@ -19,7 +19,6 @@ class VignetteSubsession(BaseSubsession):
     correct = models.BooleanField()
 
     def creating_session(self):
-        print("SHOTHT")
         from second.models import Vignette
         vignette_title = self.session.config.get('vignette')
         if not vignette_title:

@@ -11,7 +11,7 @@ SOME_DEFAULTS = dict(
     msg_forced_exit='The chat will end automatically in',
     time_to_start='2021-03-30 22:00 MSK',
     sec_to_wait_on_wp=180,
-    time_bonus=1,
+    time_bonus=0.30,
     time_to_proceed=180,
     fee_for_correct=2,
     study_length_min=60,
@@ -29,10 +29,11 @@ SESSION_CONFIGS = [
         display_name="bare prolific q only",
         num_demo_participants=1,
         app_sequence=[
+            'starter',
             'prol'
         ],
         vignette='asdf',
-        prolific_redirect_url='www.lenta.ru',
+        prolific_redirect_url='http://www.lenta.ru',
         **SOME_DEFAULTS
     ),
     dict(
