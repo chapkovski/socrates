@@ -14,4 +14,6 @@ __pycache__/
 gettierfront/node_modules/
 gettierfront/node_modules
 gettierfront/node_modules/*
+latest.dump
+*.dump
 
