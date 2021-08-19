@@ -66,7 +66,7 @@
       </v-container>
     </v-main>
     <v-footer app>
-      <v-col>
+      <v-col class="d-flex">
         <v-btn
           large
           color="blue"
@@ -77,26 +77,27 @@
           Show instructions
         </v-btn>
 
-        <v-tooltip top>
-          <template v-slot:activator="{ on, attrs }">
-            <transition
-              name="custom-classes-transition"
-              enter-active-class="animate__animated animate__backInDown"
-              leave-active-class="animate__animated animate__backOutDown"
-              appear
-            >
-              <v-btn
-                large
-                color="red"
-                @click="formSubmit"
-                v-bind="attrs"
-                v-on="on"
+        <v-tooltip right :value="chatExitAllowed" nudge-right="100" z-index="3">
+          <template v-slot:activator="{ attrs }">
+            <div>
+              <transition
+                name="custom-classes-transition"
+                enter-active-class="animate__animated animate__backInDown"
+                leave-active-class="animate__animated animate__backOutDown"
+                appear
               >
-                End chat
-              </v-btn>
-            </transition>
+                <v-btn
+                  large
+                  color="red"
+                  @click="formSubmit"
+                  v-if="chatExitAllowed"
+                >
+                  End chat
+                </v-btn>
+              </transition>
+            </div>
           </template>
-          <span>Left tooltip</span>
+          <span>Click on 'End chat' to enter final answer</span>
         </v-tooltip>
       </v-col>
     </v-footer>
