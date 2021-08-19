@@ -76,12 +76,25 @@
           <v-icon x-large>info</v-icon>
           Show instructions
         </v-btn>
+
         <v-tooltip top>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn large color="red" @click="formSubmit" v-bind="attrs"
-          v-on="on">
-              End chat
-            </v-btn>
+            <transition
+              name="custom-classes-transition"
+              enter-active-class="animate__animated animate__backInDown"
+              leave-active-class="animate__animated animate__backOutDown"
+              appear
+            >
+              <v-btn
+                large
+                color="red"
+                @click="formSubmit"
+                v-bind="attrs"
+                v-on="on"
+              >
+                End chat
+              </v-btn>
+            </transition>
           </template>
           <span>Left tooltip</span>
         </v-tooltip>
