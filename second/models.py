@@ -27,7 +27,7 @@ Second opinion collector + chat
 import random
 from first.models import Constants as FirstConstants
 from enum import IntEnum
-from csv import DictReader
+
 
 
 class Match(IntEnum):
@@ -77,8 +77,7 @@ class Constants(BaseConstants):
     sec_waiting_too_long = 15
     seconds_to_chat = 10  # TODO: do we need this? this limits them now to stay a min time on chat page.
     sec_to_wait_on_wp = 10  # this limits the time they stay on the wp without a partner before being redirected further
-    with open("data/cqs.csv") as csvfile:
-        cqs = list(DictReader(csvfile))
+
 
     matching_choices = [Match.NOT_YET, Match.NOT_MATCHED,
                         Match.MATCHED]  # -1 means is not matched yet, 0 - no partners found, 1 - means matched.
@@ -143,9 +142,7 @@ class Subsession(VignetteSubsession):
         super().creating_session()
         assert Constants.payoff_funs.get(self.session.config.get('param_name')), 'No payoff function found!'
         p = self.get_players()[0]
-        for i in Constants.cqs:
-            assert hasattr(p, f"{i.get('name')}_err_counter"), f'Player class doesnt have corresponding counter for comprehension ' \
-                                              f"question {i.get('name')}"
+
         path_to_instructions = 'data/instructions/'
         with os.scandir(path_to_instructions) as entries:
             for entry in entries:
@@ -269,13 +266,7 @@ class Player(VignettePlayer):
         self.payoff = response.get('payoff')
         self.participant.vars.update(response)
 
-    cq_err_counter = models.IntegerField(default=0, doc='Error counter for CQs')
-    cq_1_err_counter = models.IntegerField(default=0, doc='Error counter for CQ1s')
-    cq_2_err_counter = models.IntegerField(default=0, doc='Error counter for CQ2s')
-    cq_3_err_counter = models.IntegerField(default=0, doc='Error counter for CQ3s')
-    cq_4_err_counter = models.IntegerField(default=0, doc='Error counter for CQ4s')
-    cq_5_err_counter = models.IntegerField(default=0, doc='Error counter for CQ5s')
-    cq_6_err_counter = models.IntegerField(default=0, doc='Error counter for CQ6s')
+
     wp_entrance_time = djmodels.DateTimeField(null=True, blank=True)
     wp_exit_time = djmodels.DateTimeField(null=True, blank=True)
     wp_waiting_time = djmodels.DurationField(null=True, blank=True)

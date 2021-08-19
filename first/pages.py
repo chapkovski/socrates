@@ -1,7 +1,8 @@
 from first.generic_pages import GeneralVignettePage
-from second.models import TimeTracker
 from ._builtin import Page
 import humanize
+
+from first.forms import CQForm
 
 
 class PreIntro(Page):
@@ -23,8 +24,22 @@ class Opinion(GeneralVignettePage):
         self.participant.vars['position'] = self.player.answer
 
 
+class PreInstructions(Page):
+    pass
+
+
+class ComprehensionCheck(Page):
+    time_tracker_field = 'time_on_comprehension_check'
+
+    def get_form_class(self):
+        return CQForm
+
+
 page_sequence = [
     PreIntro,
     Intro,
-    Opinion
+    Opinion,
+    PreInstructions,
+    ComprehensionCheck,
+
 ]

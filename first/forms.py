@@ -11,7 +11,7 @@ class CQForm(forms.Form):
         self.player = view.player
         super().__init__(*args, **kwargs)
         cqs = Constants.cqs.copy()
-        random.shuffle(cqs)
+        # random.shuffle(cqs)
         for i in cqs:
             self.fields[i.get('name')] = forms.BooleanField(required=False,
                                                             label=i.get('label'),

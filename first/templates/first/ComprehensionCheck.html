@@ -19,7 +19,7 @@
         }
     </style>
     <div id="instructions" class="d-none">
-        {{ player.get_instructions }}
+       {% include 'first/includes/pre-instructions.html' %}
     </div>
     <script>
         window.instructions = $('#instructions').html()

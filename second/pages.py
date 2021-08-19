@@ -8,7 +8,7 @@ from otree.live import live_payload_function, _live_send_back
 from first.pages import Opinion
 from django.utils.html import escape
 
-from .forms import CQForm
+
 
 
 class FirstWP(WaitPage):
@@ -40,11 +40,7 @@ class Instructions(Page):
     pass
 
 
-class ComprehensionCheck(Page):
-    time_tracker_field = 'time_on_comprehension_check'
 
-    def get_form_class(self):
-        return CQForm
 
 class DiscussionAnnouncement(Page):
     # todo move this condition to some parents
@@ -143,7 +139,7 @@ class Results(Page):
 page_sequence = [
     FirstWP,
     Instructions,
-    ComprehensionCheck,
+
     DiscussionAnnouncement,
     BeforeDiscussionWP,
     DiscussionPage,
