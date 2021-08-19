@@ -19,7 +19,7 @@ SOME_DEFAULTS = dict(
     prolific_redirect_url='http://www.lenta.ru',
 )
 standard_app_seq = [
-    # 'starter',
+    'starter',
     'first',
     'second',
     'questionnaire',

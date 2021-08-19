@@ -36,10 +36,10 @@ class ComprehensionCheck(Page):
 
 
 page_sequence = [
-    # PreIntro,
-    # Intro,
+    PreIntro,
+    Intro,
     Opinion,
-    # PreInstructions,
-    # ComprehensionCheck,
+    PreInstructions,
+    ComprehensionCheck,
 
 ]
