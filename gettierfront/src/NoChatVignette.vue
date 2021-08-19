@@ -43,7 +43,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-btn x-large color="red" @click="validateAndSubmit"
-                  >Next</v-btn
+                  >Submit answer</v-btn
                 >
                 <input
                   type="hidden"

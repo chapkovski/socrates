@@ -138,9 +138,9 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    Instructions,
+    # Instructions,
 
-    DiscussionAnnouncement,
+    # DiscussionAnnouncement,
     BeforeDiscussionWP,
     DiscussionPage,
     EssayPage,

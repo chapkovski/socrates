@@ -10,7 +10,7 @@
         :secs-to-end="secsTillAllowedExit"
         what-to-do="allowExitPermission"
         :progress-message="''"
-        :show-progress='false'
+        :show-progress="false"
         timer-finish="You may leave the chat now or continue for as long as you like."
         color="blue"
       />
@@ -22,7 +22,7 @@
         color="red"
       />
     </v-system-bar>
-    <v-navigation-drawer fixed permanent right class="chatdrawer" width=400>
+    <v-navigation-drawer fixed permanent right class="chatdrawer" width="400">
       <h1>chat</h1>
       <chat></chat>
     </v-navigation-drawer>
@@ -82,9 +82,19 @@
           leave-active-class="animate__animated animate__backOutDown"
           appear
         >
-          <v-btn large color="red" @click="formSubmit" v-if="chatExitAllowed">
-            Leave chat
-          </v-btn>
+         
+           
+              <v-btn
+                large
+                color="red"
+                @click="formSubmit"
+                v-if="chatExitAllowed"
+              >
+                End chat
+              </v-btn>
+  
+       
+         
         </transition>
       </v-col>
     </v-footer>
