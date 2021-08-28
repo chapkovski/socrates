@@ -58,12 +58,11 @@ class Blocked(Page):
 
 
 page_sequence = [
-    BlockingWarning,
-    PreIntro,
-    Intro,
+    # BlockingWarning,
+    # PreIntro,
+    # Intro,
     Opinion,
-    PreInstructions,
-    ComprehensionCheck,
-    Blocked
-
+    # PreInstructions,
+    # ComprehensionCheck,
+    # Blocked
 ]
