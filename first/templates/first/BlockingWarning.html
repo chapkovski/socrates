@@ -1,0 +1,24 @@
+{% extends "global/Page.html" %}
+{% load otree humanize %}
+
+{% block title %}
+    Attention!
+{% endblock %}
+
+{% block content %}
+    <div class="card my-3">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    By clicking ‘I accept’ button below, you agree that you will be removed from this study—without
+                    compensation—if you fail the comprehension test at least <b>{{ session.config.blocking_attempts|apnumber }}</b> times.
+                </li>
+
+
+            </ul>
+        </div>
+    </div>
+    <button class="  btn btn-lg btn-danger">I accept</button>
+{% endblock %}
+
+

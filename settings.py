@@ -17,6 +17,8 @@ SOME_DEFAULTS = dict(
     study_length_min=10,
     for_prolific=False,
     prolific_redirect_url='http://www.lenta.ru',
+    blocking=True,
+    blocking_attempts=3,
 )
 standard_app_seq = [
     'starter',
@@ -138,7 +140,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_countries',
-    'cloudcapturer'
+    'cloudcapturer',
+    'django.contrib.humanize'
 ]
 
 WEBPACK_LOADER = {

@@ -23,6 +23,9 @@ class CQForm(forms.Form):
     def clean(self):
         cleaned_data = super().clean()
         all_correct = True
+        max_attempts = self.player.session.config.get('blocking_attempts', 3)
+        if self.player.cq_err_counter >= max_attempts:
+            return
         for i in Constants.cqs:
 
             if bool(int(i.get('correct'))) != cleaned_data.get(i.get('name')):
