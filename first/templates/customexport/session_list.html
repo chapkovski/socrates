@@ -1,0 +1,30 @@
+{% extends "otree/BaseAdmin.html" %}
+
+{% block title %}
+    Sessions with payoffs
+{% endblock %}
+
+{% block content %}
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Session code</th>
+            <th>treatment</th>
+            <th>csv with payoffs</th>
+
+        </tr>
+        </thead>
+<tbody>
+        {% for session in sessions %}
+        <tr>
+        <td>{{ session.code }}</td>
+        <td>{{ session.config.name }}</td>
+        <td><a href="{% url "export_payoffs" session_code=session.code %}">.csv</a></td>
+
+            </tr>
+        {% endfor %}
+</tbody>
+
+    </table>
+
+{% endblock %}
