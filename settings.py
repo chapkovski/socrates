@@ -21,7 +21,7 @@ SOME_DEFAULTS = dict(
     blocking_attempts=3,
 )
 standard_app_seq = [
-    # 'starter',
+    'starter',
     'first',
     'second',
     'questionnaire',

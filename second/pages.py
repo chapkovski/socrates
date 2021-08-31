@@ -138,13 +138,13 @@ class Results(Page):
 
 page_sequence = [
     FirstWP,
-    # Instructions,
-    # DiscussionAnnouncement,
-    # BeforeDiscussionWP,
-    # DiscussionPage,
-    # EssayPage,
-    # NoMatchingPage,
-    # BeforeSecondOpinion,
+    Instructions,
+    DiscussionAnnouncement,
+    BeforeDiscussionWP,
+    DiscussionPage,
+    EssayPage,
+    NoMatchingPage,
+    BeforeSecondOpinion,
     SecondOpinion,
     AfterDiscussionWP
 ]
