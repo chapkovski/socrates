@@ -35,7 +35,7 @@ class CustomSessionList(ListView):
     context_object_name = 'sessions'
 
     def get_queryset(self):
-        return self.model.objects.filter(participant__label__isnull=False)
+        return self.model.objects.filter(participant__label__isnull=False).distinct()
 
 
 class PandasExport(View):
