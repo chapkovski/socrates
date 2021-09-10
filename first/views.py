@@ -51,7 +51,7 @@ class PandasExport(View):
         participation_fee = session.config['participation_fee']
         df = pd.DataFrame(data=parts)
         if df is not None and not df.empty:
-            df.payoff = df.payoff + participation_fee
+            df.payoff = df.payoff
             df.payoff = df.payoff.astype('float')
             csv_data = df.to_csv(header=False, index=False)
             response = HttpResponse(csv_data, content_type=self.content_type)
