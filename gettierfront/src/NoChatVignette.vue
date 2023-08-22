@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <error-modal
-      error-text="Please check if you answer all the questions at this page"
+      error-text="Please check if you answered all the questions on this page."
     />
     <v-main>
       <v-container class="main-container h-100 d-flex fill-height" fluid>
