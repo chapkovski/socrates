@@ -30,24 +30,24 @@
 
                     <tr>
                         <td>Your second answer was:</td>
-                        <td><b>{{ participant.vars.ego_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
+                        <td><b>{{ participant.vars.ego_correct|default_if_none:''|yesno:'Best,Not best' }}</b>
                         </td>
                     </tr>
                     {% if participant.vars.alter_correct|default_if_none:None is not None %}
                         <tr>
                             <td>Your partner's second answer was:</td>
                             <td>
-                                <b>{{ participant.vars.alter_correct|default_if_none:''|yesno:'Correct,Not correct' }}</b>
+                                <b>{{ participant.vars.alter_correct|default_if_none:''|yesno:'Best,Not best' }}</b>
                             </td>
                         </tr>
                     {% endif %}
                     <tr>
-                        <td>Your bonus for the second part of the study:</td>
+                        <td>Your bonus for the second part of the study (if there was a bonus):</td>
                         <td><b>{{ participant.vars.payoff|default_if_none:'' }}</b></td>
                     </tr>
                     {% if participant.vars.bonus_time|default_if_none:True is not None %}
                         <tr>
-                            <td>Your bonus for being on time:</td>
+                            <td>Your bonus for being on time (if this session was scheduled):</td>
                             <td>
                                 <b>{{ participant.vars.bonus_time|default_if_none:'' }}</b>
                             </td>
@@ -68,8 +68,7 @@
                         <td></td>
                     </tr>
                     <tr class="table-info">
-                        <td colspan="2" class="lead text-center">You will get the participation fee for this study no
-                            matter what your bonus is!
+                        <td colspan="2" class="lead text-center">You will get the participation fee for this study regardless of your final answer!
                         </td>
 
                     </tr>
