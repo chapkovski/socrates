@@ -6,7 +6,7 @@
       <timer
         :secs-to-end="secsTillAllowedExit"
         what-to-do="allowExitPermission"
-        progress-message="You should wait before you can proceed further"
+        progress-message="You should continue reflecting before you proceed."
         color="blue"
         timer-finish="Click 'Next' when you are ready"
       />

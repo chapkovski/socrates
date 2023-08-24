@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <end-chat v-if="!chatExitForced" />
     <error-modal
-      error-text="Please check if you answer all the questions at this page"
+      error-text="Please check if you answered all the questions on this page."
     />
     <instructions-modal />
     <v-system-bar height="30" app>

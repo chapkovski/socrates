@@ -5,18 +5,18 @@ EXTENSION_APPS = ['second', 'first', 'cloudcapturer']
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SOME_DEFAULTS = dict(
-    sec_waiting_too_long=300,
-    seconds_allow_exit=3,
-    msg_till_allowed_exit='You can leave the chat in',
-    seconds_forced_exit=3000,
-    msg_forced_exit='The chat will end automatically in',
+    sec_waiting_too_long=150,
+    seconds_allow_exit=60,
+    msg_till_allowed_exit='Please reflect on this for at least',
+    seconds_forced_exit=1800,
+    msg_forced_exit='Your reflection about the best answer will end automatically in',
     time_to_start='2023-08-24 20:00 UTC',
-    time_bonus=0.30,
-    time_to_proceed=180,
-    fee_for_correct=1.0,
+    time_bonus=0.0,
+    time_to_proceed=0,
+    fee_for_correct=0.5,
     study_length_min=10,
     for_prolific=False,
-    prolific_redirect_url='http://www.lenta.ru',
+    prolific_redirect_url='http://www.WEBSITE.com',
     blocking=True,
     blocking_attempts=3,
 )
